@@ -55,19 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else if (!preg_match("/^\+[1-9]\d{0,2}$/", $phone_code) || !preg_match("/^\s?\d{1,14}$/", $phone_number)) {
       $errors['phoneErr'] = "Please enter a valid phone number with country code.";
     }
-    if (isset($_POST['Utype']) && !empty($_POST['Utype'])) {
-          $user_type = test_input($_POST['Utype']);
-          $_SESSION['user_role'] = $user_type;
-      } else {
-          $errors['userTypeRequired'] = "User type is required!";
-      }
       #for duplicated email & username 
       $stmt = $db->prepare("SELECT `Username`, `Email` FROM `user data` WHERE `Username` = ? OR `Email` = ?");
       $stmt->execute([$user, $email]);
       $result = $stmt->fetch();
 
       if ($result) {
-      if ($user === $result['username']) {
+      if ($user === $result['Username']) {
       $errors['duplicateUser'] = "Username already exists!";
       }
       if ($email === $result['Email']) {
@@ -75,23 +69,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }
       }
     
-if (count($errors) === 0) {
-try{
-    require('../Connection/db.php');
-    $hps=password_hash($password,PASSWORD_DEFAULT);
-    $sql = "insert into users value(id,'$user', '$hps', '$fname', '$lname', '$user_type', '$email', '$phone', '')";
-    $r=$db->exec($sql); 
-    if ($r==1) {
-    header('Location: login.php');
-    exit();
-    }else {
-        $errors['Err'] = "Something went wrong while inserting data";
+      if (count($errors) === 0) {
+        try {
+            require('../Connection/db.php');
+            $hps = password_hash($password, PASSWORD_DEFAULT);
+    
+            // Insert data into 'user data' table
+            $sql = $db->prepare("INSERT INTO `user data` (Username, Password, Type, Email) VALUES (?, ?, 'Customer', ?)");
+            $sql->execute([$user, $hps, $email]);
+            $user_data_id = $db->lastInsertId(); // Retrieve the generated ID
+    
+            // Insert data into 'customer data' table
+            $sql = $db->prepare("INSERT INTO `customer data` (CustomerID, UserID, FirstName, LastName, MobileNumber, Email) VALUES (?, ?, ?, ?, ?,?)");
+            $sql->execute([$customerId, $user_data_id, $fname, $lname, $phone, $email]);
+    
+            // Retrieve the generated customerId from the customer table
+            $customerId = $db->lastInsertId();
+    
+            if ($sql->rowCount() === 1) {
+                header('Location: ../Account/Login.php');
+                exit();
+            } else {
+                $errors['Err'] = "Something went wrong while inserting data";
+            }
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
     }
-   }
-   catch(PDOException $e){
-    die("Error: ".$e->getMessage());
-   }
-}
 
 }
 
@@ -148,21 +152,6 @@ try{
           <input type="text" class="form-control" id="phone_code" name="phc" placeholder="Enter country code" title="Enter country code" value="<?php echo $phone_code; ?>">
           <input type="text" class="form-control" id="phone_number" name="phn" placeholder="Enter phone number" title="Enter phone number" value="<?php echo $phone_number; ?>">
           </div>
-          <p>Select your user type:</p>
-      <label for="teacher" title="Enter an user type!">
-      <input type="radio" class="teacher" id="teacher" name="Utype" value="teacher" title="Enter an user type!">
-      Teacher
-    </label><br>
-    <label for="administrator" title="Enter an user type!">
-      <input type="radio" class="administrator" id="administrator" name="Utype" value="administrator" title="Enter an user type!">
-      Administrator
-    </label><br>
-    <label for="student" title="Enter an user type!"> <input type="radio" class="student" id="student" name="Utype" value="student" title="Enter an user type!">
-      Student
-    </label><br> 
-    <label for="teacher" title="Enter an user type!"> <input type="radio" class="teacher" id="teacher" name="Utype" value="teacher" title="Enter an user type!">
-      Teacher
-    </label><br>
           Already have an account?  <a href="login.php" style="text-decoration: underline;"> Log in </a> <br>
           <input type="submit" name="Signupbtn" value="Signup"/>
         </fieldset>
