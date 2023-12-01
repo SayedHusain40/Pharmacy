@@ -2,7 +2,7 @@
 session_start();
 include '../Connection/init.php';
 $errors = [];
-$fname = $lname = $user = $password = $Cpassword = $email = $phone_code = $phone_number= $user_type ='';
+$fname = $lname = $user = $password = $Cpassword = $email = $phone_code = $phone_number ='';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fname = test_input($_POST['fn']);

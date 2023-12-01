@@ -32,21 +32,21 @@ if ($prepare->rowCount() > 0)
          // User is logged in, check their role
     if ($_SESSION['user_role'] == 'Admin') {
       // User is authorized to access the quiz page, redirect to quiz.php
-      header('Location: ../HomePageAdmin.php');
+      header('Location: ../Interface/HomePageAdmin.php');
       exit();
   } else if($_SESSION['user_role'] == 'Staff'){
       // User is not authorized to access the quiz page, redirect to index.php
-         header('Location: ../HomePageStaff.php');
+         header('Location: ../Interface/HomePageStaff.php');
          exit();}
     else if($_SESSION['user_role'] == 'Supplier'){
       // User is not authorized to access the quiz page, redirect to index.php
-         header('Location: ../HomePageSupplier.php');
+         header('Location: ../Interface/HomePageSupplier.php');
          exit();}
          else if ($_SESSION['un'] == 'fat' && $_SESSION['ps'] == 'A87654321a') {  
-          header('Location: ../HomePageAdmin.php');
+          header('Location: ../Interface/HomePageAdmin.php');
           exit(); 
         } else {
-            header('Location: ../HomePageUser.php');
+            header('Location: ../Interface/HomePageUser.php');
          exit();
          }
     } else {
