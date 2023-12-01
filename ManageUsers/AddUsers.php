@@ -92,17 +92,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                  // Insert data into 'Staff data' table
                  $sql = $db->prepare("INSERT INTO `Staff data` (StaffID, UserID, FirstName, LastName, MobileNumber, Email) VALUES (?, ?, ?, ?, ?,?)");
                  $sql->execute([$staffId, $user_data_id, $fname, $lname, $phone, $email]);
-         
-                 // Retrieve the generated staffId from the staff table
-                 $staffId = $db->lastInsertId(); 
-            } 
+                  // Retrieve the generated staffId from the staff table
+                  $staffId = $db->lastInsertId(); 
+            }
             else if ($user_type == "Supplier") {
                 // Insert data into 'Supplier data' table
                 $sql = $db->prepare("INSERT INTO `Supplier data` (SupplierID, UserID, FirstName, LastName, MobileNumber, Email) VALUES (?, ?, ?, ?, ?,?)");
-                $sql->execute([$supplierId, $user_data_id, $fname, $lname, $phone, $email]);
-        
-                // Retrieve the generated supplierId from the staff table
-                $supplierId = $db->lastInsertId(); 
+                $sql->execute([$supplierId, $user_data_id, $fname, $lname, $phone, $email]);  
+                // Retrieve the generated supplierId from the supplier table
+               $supplierId = $db->lastInsertId();      
             }
            
     
