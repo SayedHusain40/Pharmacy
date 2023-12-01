@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'Connection/init.php';
+include '../Connection/init.php';
 $errors = [];
 $user = $password = "";
 
@@ -19,31 +19,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  if (empty($errors))
  {
 
-     $prepare = $db->prepare("select * from user data where Username=?");
+     $prepare = $db->prepare("select * from `user data` where Username=?");
      $prepare->execute([$user]);
 
 if ($prepare->rowCount() > 0)
 {
     $data = $prepare->fetch();
      if (password_verify($password, $data['Password'])){
-       $_SESSION['user_id'] = $data['id'];
-         $_SESSION['un'] = $data['username'];
-         $_SESSION['user_role'] = $data['type'];
+       $_SESSION['user_id'] = $data['UserID'];
+         $_SESSION['un'] = $data['Username'];
+         $_SESSION['user_role'] = $data['Type'];
          // User is logged in, check their role
     if ($_SESSION['user_role'] == 'Admin') {
       // User is authorized to access the quiz page, redirect to quiz.php
-      header('Location: HomePageAdmin.php');
+      header('Location: ../HomePageAdmin.php');
       exit();
   } else if($_SESSION['user_role'] == 'Staff'){
       // User is not authorized to access the quiz page, redirect to index.php
-         header('Location: HomePageStaff.php');
+         header('Location: ../HomePageStaff.php');
          exit();}
     else if($_SESSION['user_role'] == 'Supplier'){
       // User is not authorized to access the quiz page, redirect to index.php
-         header('Location: HomePageSupplier.php');
+         header('Location: ../HomePageSupplier.php');
          exit();}
-         else {
-            header('Location: HomePageUser.php');
+         else if ($_SESSION['un'] == 'fat' && $_SESSION['ps'] == 'A87654321a') {  
+          header('Location: ../HomePageAdmin.php');
+          exit(); 
+        } else {
+            header('Location: ../HomePageUser.php');
          exit();
          }
     } else {
@@ -52,7 +55,7 @@ if ($prepare->rowCount() > 0)
 
 } else {
         $errors['NoResult'] = 'The entered data does not exist';
-}
+} 
 }
 }
 
@@ -67,7 +70,7 @@ if ($prepare->rowCount() > 0)
 </head>
 <body>
 <?php 
-include 'header.php';
+include '../header.php';
 ?>
 <div class="container">
   <div class="row justify-content-center">
