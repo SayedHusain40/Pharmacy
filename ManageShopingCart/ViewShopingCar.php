@@ -94,17 +94,24 @@ try {
   </table>
 
   <div class="checkout">
-    <div>
-      <h2>Sub total</h2>
-      <h2><?php echo "$" . $TotalPrice ?></h2>
-    </div>
-    <hr>
-    <div calss="total">
-      <h2>Total</h2>
-      <h2><?php echo "$" . $TotalPrice ?></h2>
-    </div>
-    <form action="/Interface/PaymentPage.php">
-      <input type="hidden" value="8" <?php echo $TotalPrice ?>>
+    <h1 class="summary">Summary</h1>
+    <form action="../Interface/PaymentPage.php">
+      <h2>Shipping Method</h2>
+      <input type="radio" name="pick-up" value="order"> Pick Up
+      <br><br>
+      <input type="radio" name="pick-up" value="order"> Delivery(+1.5 BD)
+      <hr>
+      <div>
+        <h2>Sub total</h2>
+        <h2><?php echo "$" . $TotalPrice ?></h2>
+      </div>
+      <hr>
+      <div calss="total">
+        <h2>Total</h2>
+        <h2><?php echo "$" . $TotalPrice ?></h2>
+      </div>
+
+      <input type="hidden" name="price" value="8" <?php echo $TotalPrice ?>>
       <div class="submit-btn">
         <input type="submit" value="Checkout">
       </div>
