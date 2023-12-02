@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="stylesheet" href="/css/all.min.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/all.min.css" />
   </head>
 
   <body>
@@ -19,7 +19,7 @@
         <h3 class="Price">Total Price: <? $_POST["price"] ?></h3>
         <div class="credit-card">
           <h3>Credit Card</h3>
-          <img src="/images/pay_by_cards.webp" alt="" />
+          <img src="../images/pay_by_cards.webp" alt="" />
         </div>
 
         <form action="">
