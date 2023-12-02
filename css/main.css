@@ -37,6 +37,32 @@
 .table-cart .close-icon {
 	color: rgb(255, 0, 119);
 }
+
+.checkout {
+  background-color: #eee;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 50px;
+  padding: 15px;
+  border-radius: 16px;
+}
+.checkout > div {
+  display: flex;
+  justify-content: space-between;
+}
+.submit-btn {
+  width: 50%;
+  margin: 0 auto;
+}
+.checkout form input[type="submit"] {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  margin: 0 auto;
+  font-size: 20px;
+  border: 1px solid #488aec;
+  background-color: #488aec45;
+}
 /*======== Shoping Cart End========*/
 /* ======== Payment Star ======== */
 .payment-header {
