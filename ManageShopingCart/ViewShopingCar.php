@@ -65,7 +65,7 @@ try {
         // echo print_r($row);
       ?>
         <tr>
-          <td><img src="/images/<?php echo $row['Photo']; ?>" width="100px" /></td>
+          <td><img src="../images/<?php echo $row['Photo']; ?>" width="100px" /></td>
           <td><?php echo $row['Name']; ?></td>
           <td>$<?php echo $row['Price']; ?></td>
           <td><input type="number" name="quantity1" min="1" value="<?php echo $row['Qty']; ?>"></td>
