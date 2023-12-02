@@ -16,7 +16,7 @@
     <div class="payment-content">
       <div class="payment">
         <h1>Payment</h1>
-        <h3 class="Price">Total Price: $</h3>
+        <h3 class="Price">Total Price: <? $_POST["price"] ?></h3>
         <div class="credit-card">
           <h3>Credit Card</h3>
           <img src="/images/pay_by_cards.webp" alt="" />
