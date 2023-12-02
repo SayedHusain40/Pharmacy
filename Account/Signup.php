@@ -108,7 +108,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Document</title>
 </head>
 <body>
-    
+<?php 
+  # include '../header.php';
+  ?>
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-lg-6 col-md-8 col-sm-10">
