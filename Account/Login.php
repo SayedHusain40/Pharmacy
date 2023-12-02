@@ -69,6 +69,10 @@ if ($prepare->rowCount() > 0)
     <title>Document</title>
 </head>
 <body>
+  <?php 
+  # include '../header.php';
+  ?>
+  <br>
 <div class="container">
   <div class="row justify-content-center">
   <div class="col-lg-6 col-md-8 col-sm-10 col-12">
