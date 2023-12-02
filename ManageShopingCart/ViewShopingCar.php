@@ -3,7 +3,7 @@ try {
   require("../Connection/init.php");
 
   //Assume 
-  $userID = 000000001;
+  $userID = 000000002;
 
   //data for view orders
   $sql = "SELECT 
@@ -11,6 +11,7 @@ try {
     `product data`.Name,
     `product data`.Price,
     `view cart`.Qty,
+    `view cart`.cartID,
     (`product data`.Price * `view cart`.Qty) AS TotalPrice
     FROM 
         `user data`
@@ -24,7 +25,6 @@ try {
         `user data`.UserID = $userID";
 
   $data = $db->query($sql);
-
 
   $db = null;
 } catch (PDOException $e) {
@@ -40,8 +40,8 @@ try {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link rel="stylesheet" href="/css/main.css" />
-  <link rel="stylesheet" href="/css/all.min.css">
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/all.min.css" />
 </head>
 
 <body>
@@ -62,8 +62,8 @@ try {
       $TotalPrice = 0;
       while ($row = $data->fetch(PDO::FETCH_ASSOC)) {
         $TotalPrice += $row["TotalPrice"];
+        // echo print_r($row);
       ?>
-
         <tr>
           <td><img src="/images/<?php echo $row['Photo']; ?>" width="100px" /></td>
           <td><?php echo $row['Name']; ?></td>
@@ -72,7 +72,7 @@ try {
           <td>$<?php echo $row["TotalPrice"]; ?></td>
           <td>
             <a href=""><i class="heart-icon fa-regular fa-heart"></i></a>
-            <a href=""><i class="close-icon fa-regular fa-circle-xmark"></i></a>
+            <a href="/ManageShopingCart/ViewShopingCar.php?do=delete&cartID=<?php echo $row['cartID']; ?>"> <i class="close-icon fa-regular fa-circle-xmark"></i></a>
           </td>
         </tr>
 
@@ -83,7 +83,7 @@ try {
   <div class="checkout">
     <div>
       <h2>Sub total</h2>
-      <h2><?php echo"$". $TotalPrice ?></h2>
+      <h2><?php echo "$" . $TotalPrice ?></h2>
     </div>
     <hr>
     <div calss="total">
