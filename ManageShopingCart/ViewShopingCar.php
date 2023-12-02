@@ -97,9 +97,9 @@ try {
     <h1 class="summary">Summary</h1>
     <form action="../Interface/PaymentPage.php">
       <h2>Shipping Method</h2>
-      <input type="radio" name="pick-up" value="order"> Pick Up
+      <input type="radio" name="order" value="pick-up"> Pick Up
       <br><br>
-      <input type="radio" name="pick-up" value="order"> Delivery(+1.5 BD)
+      <input type="radio" name="order" value="delivery"> Delivery(+1.5 BD)
       <hr>
       <div>
         <h2>Sub total</h2>
