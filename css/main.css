@@ -1,7 +1,43 @@
 * {
   box-sizing: border-box;
 }
-
+/*======== Shoping Cart End========*/
+.titleSC {
+  text-align: center;
+}
+.table-cart {
+  max-width: 900%;
+  margin: 0 auto;
+  text-align: center;
+  border-spacing: 0px;
+}
+.table-cart th {
+  background-color: #162d3d;
+  padding: 15px 20px;
+  color: white;
+}
+.table-cart th,
+.table-cart td {
+  border: 1px solid #e8eaff;
+}
+.table-cart input[type="number"] {
+  width: 50px; 
+}
+.table-cart .heart-icon,
+.table-cart .close-icon {
+	font-size: 30px;
+	margin: 0 15px;
+	color: #488aec;
+}
+@media (max-width: 790px) {
+  .table-cart .heart-icon {
+    margin-bottom: 10px;
+  }
+}
+.table-cart .close-icon {
+	color: rgb(255, 0, 119);
+}
+/*======== Shoping Cart End========*/
 /* ======== Payment Star ======== */
 .payment-header {
   padding: 10px;
