@@ -23,11 +23,20 @@
 .table-cart input[type="number"] {
   width: 50px; 
 }
-.table-cart .heart-icon,
-.table-cart .close-icon {
-	font-size: 30px;
-	margin: 0 15px;
-	color: #488aec;
+.table-cart .favorite,
+.table-cart .delete {
+  margin: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  border: 0;
+  cursor: pointer;
+}
+.table-cart .favorite {
+  background-color: #488aec;
+}
+.table-cart .delete {
+  background-color: rgb(255, 0, 119);
 }
 @media (max-width: 790px) {
   .table-cart .heart-icon {

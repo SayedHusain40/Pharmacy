@@ -3,7 +3,7 @@ try {
   require("../Connection/init.php");
 
   //Assume 
-  $userID = 000000002;
+  $userID = 000000003;
 
   //data for view orders
   $sql = "SELECT 
@@ -25,6 +25,19 @@ try {
         `user data`.UserID = $userID";
 
   $data = $db->query($sql);
+
+
+  //delete
+  if (isset($_GET['cartID'])) {
+    $cardIDToDelete = $_GET['cartID'];
+
+    $deleteQuery = "DELETE FROM `view cart` WHERE cartID = $cardIDToDelete";
+    $stmt = $db->prepare($deleteQuery);
+    $stmt->execute();
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+  }
 
   $db = null;
 } catch (PDOException $e) {
@@ -62,7 +75,7 @@ try {
       $TotalPrice = 0;
       while ($row = $data->fetch(PDO::FETCH_ASSOC)) {
         $TotalPrice += $row["TotalPrice"];
-        // echo print_r($row);
+        $ID = $row["cartID"];
       ?>
         <tr>
           <td><img src="../images/<?php echo $row['Photo']; ?>" width="100px" /></td>
@@ -71,8 +84,8 @@ try {
           <td><input type="number" name="quantity1" min="1" value="<?php echo $row['Qty']; ?>"></td>
           <td>$<?php echo $row["TotalPrice"]; ?></td>
           <td>
-            <a href=""><i class="heart-icon fa-regular fa-heart"></i></a>
-            <a href="/ManageShopingCart/ViewShopingCar.php?do=delete&cartID=<?php echo $row['cartID']; ?>"> <i class="close-icon fa-regular fa-circle-xmark"></i></a>
+            <a href=""><button class="favorite">favorite</button></a>
+            <a href="?cartID=<?php echo $ID; ?>"><button class="delete">delete</button></a>
           </td>
         </tr>
 
