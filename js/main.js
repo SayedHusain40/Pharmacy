@@ -49,7 +49,11 @@ expirationDateInput.addEventListener('input', function () {
 });
 
 // For Validate submit
+function goToPreviousPage() {
+  window.location.href = "/ManageShopingCart/ViewShopingCar.php";
+}
 form.addEventListener('submit', function (event) {
+
   event.preventDefault();
 
   let errors = false;
