@@ -97,26 +97,67 @@ try {
     <h1 class="summary">Summary</h1>
     <form action="../Interface/PaymentPage.php">
       <h2>Shipping Method</h2>
-      <input type="radio" name="order" value="pick-up"> Pick Up
+      <input type="radio" name="order" value="pick-up" checked> Pick Up
       <br><br>
       <input type="radio" name="order" value="delivery"> Delivery(+1.5 BD)
       <hr>
       <div>
         <h2>Sub total</h2>
-        <h2><?php echo "$" . $TotalPrice ?></h2>
+        <h2><?php echo isset($TotalPrice) ? $TotalPrice : 0 ?> BHD</h2>
+      </div>
+      <div id="deliveryCost" style="display: none;">
+        <h2>Delivery</h2>
+        <h2>1.5 BHD</h2>
       </div>
       <hr>
-      <div calss="total">
+      <div class="total">
         <h2>Total</h2>
-        <h2><?php echo "$" . $TotalPrice ?></h2>
+        <h2 id="totalPrice">
+          <?php
+          if (isset($TotalPrice)) {
+            echo $TotalPrice . " BHD";
+          } else {
+            echo "0 BHD";
+          }
+          ?>
+        </h2>
       </div>
 
-      <input type="hidden" name="price" value="8" <?php echo $TotalPrice ?>>
+      <input type="hidden" id="hiddenTotalPrice" name="TotalPrice" value="<?php echo isset($TotalPrice) ? $TotalPrice : 0 ?>">
       <div class="submit-btn">
         <input type="submit" value="Checkout">
       </div>
     </form>
   </div>
+
+  <script>
+    const deliveryRadio = document.querySelector('input[type=radio][value=delivery]');
+    const pickUpRadio = document.querySelector('input[type=radio][value=pick-up]');
+    const deliveryCostElement = document.getElementById('deliveryCost');
+    const hiddenPrice = document.getElementById('hiddenTotalPrice');
+    const totalPriceElement = document.getElementById('totalPrice');
+    const deliveryCost = 1.5; 
+
+    deliveryRadio.addEventListener('change', function() {
+      if (this.checked) {
+        hiddenPrice.value = parseFloat(hiddenPrice.value) + deliveryCost;
+        totalPriceElement.textContent = hiddenPrice.value + " BHD";
+        deliveryCostElement.style.display = 'flex';
+      }
+    });
+
+    pickUpRadio.addEventListener('change', function() {
+      if (this.checked) {
+        hiddenPrice.value = parseFloat(hiddenPrice.value) - deliveryCost;
+        totalPriceElement.textContent = hiddenPrice.value + " BHD";
+        deliveryCostElement.style.display = 'none';
+      }
+    });
+  </script>
+
+
+
+
 </body>
 
 </html>
