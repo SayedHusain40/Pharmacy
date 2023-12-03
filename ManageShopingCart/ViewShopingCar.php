@@ -12,6 +12,7 @@ try {
     `product data`.Price,
     `view cart`.Qty,
     `view cart`.cartID,
+    `view cart`.orderID,
     (`product data`.Price * `view cart`.Qty) AS TotalPrice
     FROM 
         `user data`
@@ -28,12 +29,23 @@ try {
 
 
   //delete
-  if (isset($_GET['cartID'])) {
+  if (isset($_GET['cartID']) && isset($_GET['do']) && $_GET['do'] == "delete") {
     $cardIDToDelete = $_GET['cartID'];
 
     $deleteQuery = "DELETE FROM `view cart` WHERE cartID = $cardIDToDelete";
     $stmt = $db->prepare($deleteQuery);
     $stmt->execute();
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+  }
+
+  //Update
+  if (isset($_GET['update-qty']) && isset($_GET['newQTY']) && isset($_GET['cartID'])) {
+
+    $UpdateQTY = "UPDATE `view cart` SET `Qty` = ? WHERE `CartID` = ?";
+    $stmt = $db->prepare($UpdateQTY);
+    $stmt->execute([$_GET['newQTY'], $_GET['cartID']]);
 
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
@@ -75,17 +87,25 @@ try {
       $TotalPrice = 0;
       while ($row = $data->fetch(PDO::FETCH_ASSOC)) {
         $TotalPrice += $row["TotalPrice"];
-        $ID = $row["cartID"];
+        // echo "<pre>";
+        // echo print_r($row);
+        // echo "</pre>";
       ?>
         <tr>
           <td><img src="../images/<?php echo $row['Photo']; ?>" width="100px" /></td>
           <td><?php echo $row['Name']; ?></td>
           <td>$<?php echo $row['Price']; ?></td>
-          <td><input type="number" name="quantity1" min="1" value="<?php echo $row['Qty']; ?>"></td>
+          <td>
+            <form action="">
+              <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
+              <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>"><br> <br>
+              <input type="submit" name="update-qty" value="Update" class="update-btn">
+            </form>
+          </td>
           <td>$<?php echo $row["TotalPrice"]; ?></td>
           <td>
             <a href=""><button class="favorite">favorite</button></a>
-            <a href="?cartID=<?php echo $ID; ?>"><button class="delete">delete</button></a>
+            <a href="?do=delete$cartID=<?php echo $row["cartID"]; ?>"><button class="delete">delete</button></a>
           </td>
         </tr>
 
@@ -136,7 +156,7 @@ try {
     const DivDeliveryCost = document.getElementById('deliveryCost');
     const hiddenPrice = document.getElementById('hiddenTotalPrice');
     const totalPriceElement = document.getElementById('totalPrice');
-    const deliveryCost = 1.5; 
+    const deliveryCost = 1.5;
 
     deliveryRadio.addEventListener('change', function() {
       if (this.checked) {
