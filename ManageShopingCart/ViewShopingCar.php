@@ -5,9 +5,6 @@ try {
   //Assume 
   $userID = 000000003;
 
-
-
-
   //data for view orders
   $sql = "SELECT 
     `product data`.Photo,
@@ -18,9 +15,6 @@ try {
     (`product data`.Price * `view cart`.Qty) AS TotalPrice
     FROM 
         `view cart`
-    -- JOIN 
-    --     `order data` 
-    --     ON `view cart`.UserID = `order data`.UserID
     JOIN 
         `product data` 
         ON `view cart`.ProductID = `product data`.ProductID
@@ -33,27 +27,28 @@ try {
 
 
   //delete
-  // if (isset($_GET['cartID']) && isset($_GET['do']) && $_GET['do'] == "delete") {
-  //   $cardIDToDelete = $_GET['cartID'];
+  if (isset($_GET['cartID']) && $_GET['do'] == "delete") {
 
-  //   $deleteQuery = "DELETE FROM `view cart` WHERE cartID = $cardIDToDelete";
-  //   $stmt = $db->prepare($deleteQuery);
-  //   $stmt->execute();
+    $cartID = $_GET['cartID'];
 
-  //   header("Location: " . $_SERVER['PHP_SELF']);
-  //   exit();
-  // }
+    $deleteQuery = "DELETE FROM `view cart` WHERE CartID = ?";
+    $stmt = $db->prepare($deleteQuery);
+    $stmt->execute([$cartID]);
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+  }
 
   //Update
-  // if (isset($_GET['update-qty']) && isset($_GET['newQTY']) && isset($_GET['cartID'])) {
+  if (isset($_GET['update-qty']) && isset($_GET['newQTY']) && isset($_GET['cartID'])) {
 
-  //   $UpdateQTY = "UPDATE `view cart` SET `Qty` = ? WHERE `CartID` = ?";
-  //   $stmt = $db->prepare($UpdateQTY);
-  //   $stmt->execute([$_GET['newQTY'], $_GET['cartID']]);
+    $UpdateQTY = "UPDATE `view cart` SET `Qty` = ? WHERE `CartID` = ?";
+    $stmt = $db->prepare($UpdateQTY);
+    $stmt->execute([$_GET['newQTY'], $_GET['cartID']]);
 
-  //   header("Location: " . $_SERVER['PHP_SELF']);
-  //   exit();
-  // }
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+  }
 
   $db = null;
 } catch (PDOException $e) {
@@ -109,7 +104,7 @@ try {
           <td>$<?php echo $row["TotalPrice"]; ?></td>
           <td>
             <a href=""><button class="favorite">favorite</button></a>
-            <a href="?do=delete$cartID=<?php echo $row["cartID"]; ?>"><button class="delete">delete</button></a>
+            <a href="?do=delete&cartID=<?php echo $row["cartID"]; ?>"><button class="delete">delete</button></a>
           </td>
         </tr>
 

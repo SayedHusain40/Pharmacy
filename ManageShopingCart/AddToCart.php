@@ -3,9 +3,9 @@ try {
   require("../Connection/init.php");
 
   //assume
-  $userID = 000000003;
-  $productID = 000000002;
-  $QTY = 5;
+  $userID = 000000004;
+  $productID = 000000001;
+  $QTY = 3;
 
   $sql = $db->prepare("SELECT Price FROM `product data` WHERE ProductID = ?");
   $sql->execute([$productID]);
