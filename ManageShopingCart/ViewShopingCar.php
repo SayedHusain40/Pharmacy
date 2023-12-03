@@ -133,7 +133,7 @@ try {
   <script>
     const deliveryRadio = document.querySelector('input[type=radio][value=delivery]');
     const pickUpRadio = document.querySelector('input[type=radio][value=pick-up]');
-    const deliveryCostElement = document.getElementById('deliveryCost');
+    const DivDeliveryCost = document.getElementById('deliveryCost');
     const hiddenPrice = document.getElementById('hiddenTotalPrice');
     const totalPriceElement = document.getElementById('totalPrice');
     const deliveryCost = 1.5; 
@@ -142,7 +142,7 @@ try {
       if (this.checked) {
         hiddenPrice.value = parseFloat(hiddenPrice.value) + deliveryCost;
         totalPriceElement.textContent = hiddenPrice.value + " BHD";
-        deliveryCostElement.style.display = 'flex';
+        DivDeliveryCost.style.display = 'flex';
       }
     });
 
@@ -150,13 +150,10 @@ try {
       if (this.checked) {
         hiddenPrice.value = parseFloat(hiddenPrice.value) - deliveryCost;
         totalPriceElement.textContent = hiddenPrice.value + " BHD";
-        deliveryCostElement.style.display = 'none';
+        DivDeliveryCost.style.display = 'none';
       }
     });
   </script>
-
-
-
 
 </body>
 
