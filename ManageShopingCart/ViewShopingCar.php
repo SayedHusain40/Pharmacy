@@ -4,6 +4,9 @@ try {
 
   //Assume 
   $userID = 000000003;
+  
+
+
 
   //data for view orders
   $sql = "SELECT 

@@ -2,30 +2,26 @@
 try {
   require("../Connection/init.php");
 
-  $userID = 000000001; 
-  $productID = 000000001; 
-  $QTY = 3; 
+  //assume
+  $userID = 000000004;
+  $productID = 000000002;
+  $QTY = 5;
 
-  $result = $db->query("SELECT * FROM `product data` WHERE ProductID = $productID");
-  $row = $result->fetch();
+  $sql = $db->prepare("SELECT Price FROM `product data` WHERE ProductID = ?");
+  $sql->execute([$productID]);
 
-  if ($row) {
-    $total = $QTY * $row["Price"];
+  $ProductPrice = $sql->fetch();
 
-    date_default_timezone_set('Asia/Bahrain');
-    $AddedDate = date('Y-m-d');
+  $total = $QTY * $ProductPrice["Price"];
 
-    echo $total . "<br>";
-    echo $AddedDate . "<br>";
+  date_default_timezone_set('Asia/Bahrain');
+  $AddedDate = date('Y-m-d');
 
-    $insertInViewCart = "INSERT INTO `view cart` (ProductID, Qty, Total, AddedDate) 
-                            VALUES ($productID, $QTY, $total, '$AddedDate')";
-    $db->exec($$insertInViewCart);
+  $sql = $db->prepare("INSERT INTO `view cart` (ProductID, Qty, Total, AddedDate) VALUES (?, ?, ?, ?)");
+  $sql->execute([$productID, $QTY, $total, $AddedDate]);
 
-    $db = null;
-  } else {
-    echo "Product not found";
-  }
+  
+  $db = null;
 } catch (PDOException $e) {
   echo "Error: " . $e->getMessage();
 }
