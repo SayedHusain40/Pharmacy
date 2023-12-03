@@ -1,7 +1,88 @@
 * {
   box-sizing: border-box;
 }
+/*======== Shoping Cart End========*/
+.titleSC {
+  text-align: center;
+}
+.table-cart {
+  max-width: 900%;
+  margin: 0 auto;
+  text-align: center;
+  border-spacing: 0px;
+}
+.table-cart th {
+  background-color: #162d3d;
+  padding: 15px 20px;
+  color: white;
+}
+.table-cart th,
+.table-cart td {
+  border: 1px solid #e8eaff;
+}
+.table-cart input[type="number"] {
+  width: 50px; 
+}
+.table-cart .favorite,
+.table-cart .delete {
+  margin: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  border: 0;
+  cursor: pointer;
+}
+.table-cart .favorite {
+  background-color: #488aec;
+}
+.table-cart .delete {
+  background-color: rgb(255, 0, 119);
+}
+@media (max-width: 790px) {
+  .table-cart .heart-icon {
+    margin-bottom: 10px;
+  }
+}
+.table-cart .close-icon {
+	color: rgb(255, 0, 119);
+}
 
+.checkout {
+  background-color: #eee;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 50px;
+  padding: 15px;
+  border-radius: 16px;
+}
+.checkout h1 {
+  text-align: center;
+  margin: 0;
+}
+.checkout form > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.submit-btn {
+  width: 50%;
+  margin: 0 auto;
+}
+.checkout form input[type="submit"] {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  margin: 0 auto;
+  font-size: 20px;
+  border: 1px solid #488aec;
+  background-color: #488aec45;
+  cursor: pointer;
+}
+.checkout form input[type="submit"]:hover {
+  background-color: #488aec;
+  color: white;
+}
+/*======== Shoping Cart End========*/
 /* ======== Payment Star ======== */
 .payment-header {
   padding: 10px;
