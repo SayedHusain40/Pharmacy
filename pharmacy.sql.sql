@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2023 at 08:36 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 03, 2023 at 09:05 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `pharmacy`
 --
+CREATE DATABASE IF NOT EXISTS `pharmacy` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `pharmacy`;
 
 -- --------------------------------------------------------
 
@@ -27,8 +29,9 @@ SET time_zone = "+00:00";
 -- Table structure for table `customer data`
 --
 
-CREATE TABLE `customer data` (
-  `CustomerID` int(9) UNSIGNED ZEROFILL NOT NULL,
+DROP TABLE IF EXISTS `customer data`;
+CREATE TABLE IF NOT EXISTS `customer data` (
+  `CustomerID` int(9) NOT NULL AUTO_INCREMENT,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `MobileNumber` varchar(15) NOT NULL,
@@ -43,23 +46,25 @@ CREATE TABLE `customer data` (
   `AccBalance` int(20) NOT NULL,
   `MembershipPoints` int(10) NOT NULL,
   `ProfilePic` text DEFAULT NULL,
-  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL,
+  PRIMARY KEY (`CustomerID`),
+  KEY `UserID` (`UserID`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `customer data`
 --
 
 INSERT INTO `customer data` (`CustomerID`, `FirstName`, `LastName`, `MobileNumber`, `Email`, `Area`, `House`, `Street`, `Block`, `DOB`, `CreditCardInfo`, `ShippingInfo`, `AccBalance`, `MembershipPoints`, `ProfilePic`, `UserID`) VALUES
-(000000001, 'faisal', 'name', '+97323456783', '', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000003),
-(000000002, 'at', 'table', '+9734567890', '', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000006),
-(000000007, 'at', 'table', '+973456789876', '', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000007),
-(000000008, 'Walaa', 'Salman', '+97336735550', 'walaa.e@icloud.com', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000008),
-(000000010, 'gdjehgfjkeh', 'jhgjjh', '+86723456789', '201908@stu.uob.edu.bh', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000010),
-(000000012, 'dfghjk', 'ry', '+973456789', '2023068@stu.uob.edu.bh', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000012),
-(000000013, 'gfhjk', 'fghjkl', '+945234567890', 'fabh2001@hotmail.com', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000013),
-(000000014, 'hdkjfj', 'dekiho', '+9453254566789', 'faqbh2001@hotmail.com', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000015),
-(000000015, 'goird', 'sdjhgtf', '+7843543543', 'fndjdgdid@stu.com', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000022);
+(1, 'faisal', 'name', '+97323456783', '', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000003),
+(2, 'at', 'table', '+9734567890', '', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000006),
+(7, 'at', 'table', '+973456789876', '', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000007),
+(8, 'Walaa', 'Salman', '+97336735550', 'walaa.e@icloud.com', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000008),
+(10, 'gdjehgfjkeh', 'jhgjjh', '+86723456789', '201908@stu.uob.edu.bh', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000010),
+(12, 'dfghjk', 'ry', '+973456789', '2023068@stu.uob.edu.bh', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000012),
+(13, 'gfhjk', 'fghjkl', '+945234567890', 'fabh2001@hotmail.com', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000013),
+(14, 'hdkjfj', 'dekiho', '+9453254566789', 'faqbh2001@hotmail.com', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000015),
+(15, 'goird', 'sdjhgtf', '+7843543543', 'fndjdgdid@stu.com', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000022);
 
 -- --------------------------------------------------------
 
@@ -67,14 +72,17 @@ INSERT INTO `customer data` (`CustomerID`, `FirstName`, `LastName`, `MobileNumbe
 -- Table structure for table `offers data`
 --
 
-CREATE TABLE `offers data` (
-  `OfferID` int(9) UNSIGNED ZEROFILL NOT NULL,
-  `ProductID` int(9) UNSIGNED ZEROFILL DEFAULT NULL,
+DROP TABLE IF EXISTS `offers data`;
+CREATE TABLE IF NOT EXISTS `offers data` (
+  `OfferID` int(9) NOT NULL AUTO_INCREMENT,
+  `ProductID` int(9) DEFAULT NULL,
   `OfferCode` int(9) DEFAULT NULL,
   `StartDate` date NOT NULL,
   `EndDate` date NOT NULL,
   `DiscountedPrice` double DEFAULT NULL,
-  `OriginalPrice` double DEFAULT NULL
+  `OriginalPrice` double DEFAULT NULL,
+  PRIMARY KEY (`OfferID`),
+  KEY `ProductID` (`ProductID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -83,10 +91,11 @@ CREATE TABLE `offers data` (
 -- Table structure for table `order data`
 --
 
-CREATE TABLE `order data` (
-  `OrderID` int(9) UNSIGNED ZEROFILL NOT NULL,
-  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL,
-  `ProductID` int(9) UNSIGNED ZEROFILL DEFAULT NULL,
+DROP TABLE IF EXISTS `order data`;
+CREATE TABLE IF NOT EXISTS `order data` (
+  `OrderID` int(9) NOT NULL AUTO_INCREMENT,
+  `UserID` int(9) DEFAULT NULL,
+  `ProductID` int(9) DEFAULT NULL,
   `TotalPrice` double DEFAULT NULL,
   `PaymentMethod` varchar(20) DEFAULT NULL,
   `Status` varchar(20) DEFAULT NULL,
@@ -94,15 +103,19 @@ CREATE TABLE `order data` (
   `CreditCardInfo` varchar(255) DEFAULT NULL,
   `AccBalance` int(20) DEFAULT NULL,
   `MembershipPoints` int(10) DEFAULT NULL,
-  `PaymentID` int(9) UNSIGNED ZEROFILL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `PaymentID` int(9) DEFAULT NULL,
+  PRIMARY KEY (`OrderID`),
+  KEY `UserID` (`UserID`),
+  KEY `ProductID` (`ProductID`),
+  KEY `PaymentID` (`PaymentID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order data`
 --
 
 INSERT INTO `order data` (`OrderID`, `UserID`, `ProductID`, `TotalPrice`, `PaymentMethod`, `Status`, `OrderDate`, `CreditCardInfo`, `AccBalance`, `MembershipPoints`, `PaymentID`) VALUES
-(000000000, 000000003, 000000000, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(0, 3, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -110,11 +123,14 @@ INSERT INTO `order data` (`OrderID`, `UserID`, `ProductID`, `TotalPrice`, `Payme
 -- Table structure for table `ordered item`
 --
 
-CREATE TABLE `ordered item` (
-  `OrderID` int(9) UNSIGNED ZEROFILL NOT NULL,
-  `ProductID` int(9) UNSIGNED ZEROFILL NOT NULL,
+DROP TABLE IF EXISTS `ordered item`;
+CREATE TABLE IF NOT EXISTS `ordered item` (
+  `OrderID` int(9) NOT NULL,
+  `ProductID` int(9) NOT NULL,
   `Qty` int(10) DEFAULT NULL,
-  `Total` double DEFAULT NULL
+  `Total` double DEFAULT NULL,
+  PRIMARY KEY (`OrderID`,`ProductID`),
+  KEY `ProductID` (`ProductID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -123,8 +139,9 @@ CREATE TABLE `ordered item` (
 -- Table structure for table `payment database`
 --
 
-CREATE TABLE `payment database` (
-  `PaymentID` int(9) UNSIGNED ZEROFILL NOT NULL,
+DROP TABLE IF EXISTS `payment database`;
+CREATE TABLE IF NOT EXISTS `payment database` (
+  `PaymentID` int(9) NOT NULL AUTO_INCREMENT,
   `PayDate` date NOT NULL,
   `Total` decimal(4,3) NOT NULL,
   `ShippingInfo` varchar(255) NOT NULL,
@@ -133,7 +150,9 @@ CREATE TABLE `payment database` (
   `CreditCardInfo` varchar(255) DEFAULT NULL,
   `AccBalance` int(20) DEFAULT NULL,
   `PaymentStatus` varchar(20) DEFAULT NULL,
-  `UserID` int(10) UNSIGNED ZEROFILL DEFAULT NULL
+  `UserID` int(10) UNSIGNED ZEROFILL DEFAULT NULL,
+  PRIMARY KEY (`PaymentID`),
+  KEY `UserID` (`UserID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -142,8 +161,9 @@ CREATE TABLE `payment database` (
 -- Table structure for table `product data`
 --
 
-CREATE TABLE `product data` (
-  `ProductID` int(9) UNSIGNED ZEROFILL NOT NULL,
+DROP TABLE IF EXISTS `product data`;
+CREATE TABLE IF NOT EXISTS `product data` (
+  `ProductID` int(9) NOT NULL AUTO_INCREMENT,
   `Name` varchar(255) NOT NULL,
   `Type` varchar(30) NOT NULL,
   `RequiresPrescription` tinyint(1) NOT NULL,
@@ -154,17 +174,18 @@ CREATE TABLE `product data` (
   `Price` double NOT NULL,
   `Brand` varchar(50) DEFAULT NULL,
   `Photo` varchar(500) DEFAULT NULL,
-  `Alternate` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Alternate` varchar(255) NOT NULL,
+  PRIMARY KEY (`ProductID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product data`
 --
 
 INSERT INTO `product data` (`ProductID`, `Name`, `Type`, `RequiresPrescription`, `Description`, `ExpireDate`, `Quantity`, `Availability`, `Price`, `Brand`, `Photo`, `Alternate`) VALUES
-(000000001, 'Product 1', '', 0, '', '0000-00-00', 0, 5, 100, NULL, 'Product1.jpeg', ''),
-(000000002, 'Product 2', '', 0, '', '0000-00-00', 60, 0, 10, NULL, 'Product1.jpeg', ''),
-(000000003, 'Product 3', '', 0, '', '0000-00-00', 50, 0, 20, NULL, 'Product1.jpeg', '');
+(1, 'Product 1', '', 0, '', '0000-00-00', 0, 5, 100, NULL, 'Product1.jpeg', ''),
+(2, 'Product 2', '', 0, '', '0000-00-00', 60, 0, 10, NULL, 'Product1.jpeg', ''),
+(3, 'Product 3', '', 0, '', '0000-00-00', 50, 0, 20, NULL, 'Product1.jpeg', '');
 
 -- --------------------------------------------------------
 
@@ -172,9 +193,10 @@ INSERT INTO `product data` (`ProductID`, `Name`, `Type`, `RequiresPrescription`,
 -- Table structure for table `staff data`
 --
 
-CREATE TABLE `staff data` (
-  `StaffID` int(9) UNSIGNED ZEROFILL NOT NULL,
-  `CPR` int(9) UNSIGNED ZEROFILL NOT NULL,
+DROP TABLE IF EXISTS `staff data`;
+CREATE TABLE IF NOT EXISTS `staff data` (
+  `StaffID` int(9) NOT NULL AUTO_INCREMENT,
+  `CPR` int(9) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `Gender` varchar(6) NOT NULL,
@@ -185,15 +207,17 @@ CREATE TABLE `staff data` (
   `Address` varchar(255) NOT NULL,
   `ProfilePic` text DEFAULT NULL,
   `EmployeePosition` varchar(255) NOT NULL,
-  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL,
+  PRIMARY KEY (`StaffID`),
+  KEY `UserID` (`UserID`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `staff data`
 --
 
 INSERT INTO `staff data` (`StaffID`, `CPR`, `FirstName`, `LastName`, `Gender`, `DOB`, `AcademicDegree`, `MobileNumber`, `Email`, `Address`, `ProfilePic`, `EmployeePosition`, `UserID`) VALUES
-(000000026, 000000000, 'kjj', 'hkj', '', '0000-00-00', '', '+783456789', 'jhgfudyd@xc.dx', '', NULL, '', 000000027);
+(26, 0, 'kjj', 'hkj', '', '0000-00-00', '', '+783456789', 'jhgfudyd@xc.dx', '', NULL, '', 000000027);
 
 -- --------------------------------------------------------
 
@@ -201,15 +225,18 @@ INSERT INTO `staff data` (`StaffID`, `CPR`, `FirstName`, `LastName`, `Gender`, `
 -- Table structure for table `supplier data`
 --
 
-CREATE TABLE `supplier data` (
-  `SupplierID` int(10) NOT NULL,
+DROP TABLE IF EXISTS `supplier data`;
+CREATE TABLE IF NOT EXISTS `supplier data` (
+  `SupplierID` int(10) NOT NULL AUTO_INCREMENT,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `MobileNumber` int(15) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `ProfilePic` text DEFAULT NULL,
-  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL,
+  PRIMARY KEY (`SupplierID`),
+  KEY `UserID` (`UserID`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `supplier data`
@@ -224,13 +251,15 @@ INSERT INTO `supplier data` (`SupplierID`, `FirstName`, `LastName`, `MobileNumbe
 -- Table structure for table `user data`
 --
 
-CREATE TABLE `user data` (
-  `UserID` int(9) UNSIGNED ZEROFILL NOT NULL,
+DROP TABLE IF EXISTS `user data`;
+CREATE TABLE IF NOT EXISTS `user data` (
+  `UserID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
   `Username` varchar(50) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
-  `Type` enum('Admin','Customer','Staff','Supplier') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Type` enum('Admin','Customer','Staff','Supplier') NOT NULL,
+  PRIMARY KEY (`UserID`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user data`
@@ -272,22 +301,17 @@ INSERT INTO `user data` (`UserID`, `Username`, `Email`, `Password`, `Type`) VALU
 -- Table structure for table `view cart`
 --
 
-CREATE TABLE `view cart` (
-  `CartID` int(9) UNSIGNED ZEROFILL NOT NULL,
-  `OrderID` int(9) UNSIGNED ZEROFILL NOT NULL,
-  `ProductID` int(9) UNSIGNED ZEROFILL NOT NULL,
+DROP TABLE IF EXISTS `view cart`;
+CREATE TABLE IF NOT EXISTS `view cart` (
+  `CartID` int(9) NOT NULL AUTO_INCREMENT,
+  `UserID` int(11) NOT NULL,
+  `ProductID` int(9) NOT NULL,
   `Qty` int(10) DEFAULT NULL,
   `Total` double DEFAULT NULL,
-  `AddedDate` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `view cart`
---
-
-INSERT INTO `view cart` (`CartID`, `OrderID`, `ProductID`, `Qty`, `Total`, `AddedDate`) VALUES
-(000000006, 000000000, 000000001, 3, 300, '2023-12-03'),
-(000000007, 000000000, 000000002, 5, 50, '2023-12-03');
+  `AddedDate` date DEFAULT NULL,
+  PRIMARY KEY (`CartID`,`ProductID`,`UserID`) USING BTREE,
+  KEY `ProductID` (`ProductID`,`UserID`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -295,158 +319,15 @@ INSERT INTO `view cart` (`CartID`, `OrderID`, `ProductID`, `Qty`, `Total`, `Adde
 -- Table structure for table `wish list data`
 --
 
-CREATE TABLE `wish list data` (
-  `WID` int(9) UNSIGNED ZEROFILL NOT NULL,
-  `ProductID` int(9) UNSIGNED ZEROFILL DEFAULT NULL,
-  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL
+DROP TABLE IF EXISTS `wish list data`;
+CREATE TABLE IF NOT EXISTS `wish list data` (
+  `WID` int(9) NOT NULL AUTO_INCREMENT,
+  `ProductID` int(9) DEFAULT NULL,
+  `UserID` int(9) DEFAULT NULL,
+  PRIMARY KEY (`WID`),
+  KEY `ProductID` (`ProductID`),
+  KEY `UserID` (`UserID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `customer data`
---
-ALTER TABLE `customer data`
-  ADD PRIMARY KEY (`CustomerID`),
-  ADD KEY `UserID` (`UserID`);
-
---
--- Indexes for table `offers data`
---
-ALTER TABLE `offers data`
-  ADD PRIMARY KEY (`OfferID`),
-  ADD KEY `ProductID` (`ProductID`);
-
---
--- Indexes for table `order data`
---
-ALTER TABLE `order data`
-  ADD PRIMARY KEY (`OrderID`),
-  ADD KEY `UserID` (`UserID`),
-  ADD KEY `ProductID` (`ProductID`),
-  ADD KEY `PaymentID` (`PaymentID`);
-
---
--- Indexes for table `ordered item`
---
-ALTER TABLE `ordered item`
-  ADD PRIMARY KEY (`OrderID`,`ProductID`),
-  ADD KEY `ProductID` (`ProductID`);
-
---
--- Indexes for table `payment database`
---
-ALTER TABLE `payment database`
-  ADD PRIMARY KEY (`PaymentID`),
-  ADD KEY `UserID` (`UserID`);
-
---
--- Indexes for table `product data`
---
-ALTER TABLE `product data`
-  ADD PRIMARY KEY (`ProductID`);
-
---
--- Indexes for table `staff data`
---
-ALTER TABLE `staff data`
-  ADD PRIMARY KEY (`StaffID`),
-  ADD KEY `UserID` (`UserID`);
-
---
--- Indexes for table `supplier data`
---
-ALTER TABLE `supplier data`
-  ADD PRIMARY KEY (`SupplierID`),
-  ADD KEY `UserID` (`UserID`);
-
---
--- Indexes for table `user data`
---
-ALTER TABLE `user data`
-  ADD PRIMARY KEY (`UserID`);
-
---
--- Indexes for table `view cart`
---
-ALTER TABLE `view cart`
-  ADD PRIMARY KEY (`CartID`,`OrderID`,`ProductID`),
-  ADD KEY `OrderID` (`OrderID`),
-  ADD KEY `ProductID` (`ProductID`);
-
---
--- Indexes for table `wish list data`
---
-ALTER TABLE `wish list data`
-  ADD PRIMARY KEY (`WID`),
-  ADD KEY `ProductID` (`ProductID`),
-  ADD KEY `UserID` (`UserID`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `customer data`
---
-ALTER TABLE `customer data`
-  MODIFY `CustomerID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `offers data`
---
-ALTER TABLE `offers data`
-  MODIFY `OfferID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `order data`
---
-ALTER TABLE `order data`
-  MODIFY `OrderID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `payment database`
---
-ALTER TABLE `payment database`
-  MODIFY `PaymentID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `product data`
---
-ALTER TABLE `product data`
-  MODIFY `ProductID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `staff data`
---
-ALTER TABLE `staff data`
-  MODIFY `StaffID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-
---
--- AUTO_INCREMENT for table `supplier data`
---
-ALTER TABLE `supplier data`
-  MODIFY `SupplierID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `user data`
---
-ALTER TABLE `user data`
-  MODIFY `UserID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
-
---
--- AUTO_INCREMENT for table `view cart`
---
-ALTER TABLE `view cart`
-  MODIFY `CartID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `wish list data`
---
-ALTER TABLE `wish list data`
-  MODIFY `WID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
