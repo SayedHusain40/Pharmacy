@@ -4,7 +4,7 @@ try {
 
   //Assume 
   $userID = 000000003;
-  
+
 
 
 
@@ -15,44 +15,45 @@ try {
     `product data`.Price,
     `view cart`.Qty,
     `view cart`.cartID,
-    `view cart`.orderID,
     (`product data`.Price * `view cart`.Qty) AS TotalPrice
     FROM 
-        `user data`
+        `view cart`
+    -- JOIN 
+    --     `order data` 
+    --     ON `view cart`.UserID = `order data`.UserID
     JOIN 
-        `order data` ON `user data`.UserID = `order data`.UserID
-    JOIN 
-        `view cart` ON `order data`.OrderID = `view cart`.OrderID
-    JOIN 
-        `product data` ON `view cart`.ProductID = `product data`.ProductID
+        `product data` 
+        ON `view cart`.ProductID = `product data`.ProductID
     WHERE 
-        `user data`.UserID = $userID";
+        `view cart`.UserID = ?";
 
-  $data = $db->query($sql);
+
+  $data = $db->prepare($sql);
+  $data->execute([$userID]);
 
 
   //delete
-  if (isset($_GET['cartID']) && isset($_GET['do']) && $_GET['do'] == "delete") {
-    $cardIDToDelete = $_GET['cartID'];
+  // if (isset($_GET['cartID']) && isset($_GET['do']) && $_GET['do'] == "delete") {
+  //   $cardIDToDelete = $_GET['cartID'];
 
-    $deleteQuery = "DELETE FROM `view cart` WHERE cartID = $cardIDToDelete";
-    $stmt = $db->prepare($deleteQuery);
-    $stmt->execute();
+  //   $deleteQuery = "DELETE FROM `view cart` WHERE cartID = $cardIDToDelete";
+  //   $stmt = $db->prepare($deleteQuery);
+  //   $stmt->execute();
 
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
-  }
+  //   header("Location: " . $_SERVER['PHP_SELF']);
+  //   exit();
+  // }
 
   //Update
-  if (isset($_GET['update-qty']) && isset($_GET['newQTY']) && isset($_GET['cartID'])) {
+  // if (isset($_GET['update-qty']) && isset($_GET['newQTY']) && isset($_GET['cartID'])) {
 
-    $UpdateQTY = "UPDATE `view cart` SET `Qty` = ? WHERE `CartID` = ?";
-    $stmt = $db->prepare($UpdateQTY);
-    $stmt->execute([$_GET['newQTY'], $_GET['cartID']]);
+  //   $UpdateQTY = "UPDATE `view cart` SET `Qty` = ? WHERE `CartID` = ?";
+  //   $stmt = $db->prepare($UpdateQTY);
+  //   $stmt->execute([$_GET['newQTY'], $_GET['cartID']]);
 
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
-  }
+  //   header("Location: " . $_SERVER['PHP_SELF']);
+  //   exit();
+  // }
 
   $db = null;
 } catch (PDOException $e) {
@@ -148,7 +149,7 @@ try {
 
       <input type="hidden" id="hiddenTotalPrice" name="TotalPrice" value="<?php echo isset($TotalPrice) ? $TotalPrice : 0 ?>">
       <div class="submit-btn">
-        <input type="submit" value="Checkout">
+        <input type="submit" name="checkout-submit" value="Checkout">
       </div>
     </form>
   </div>

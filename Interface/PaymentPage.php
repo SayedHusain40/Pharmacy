@@ -1,3 +1,61 @@
+<?php
+try {
+  require("../Connection/init.php");
+  //Assume 
+  $userID = 000000003;
+
+  // GO to AddAddresses.php when select delivery
+  if (isset($_GET["checkout-submit"]) && $_GET["order"] == "delivery") {
+
+    header("location: ../ManageShopingCart/AddAddresses.php");
+    exit;
+  }
+
+
+  //delete order
+  if (isset($_GET["paymentOption"]) && $_GET["paymentOption"] == "Cancel") {
+
+
+    $sql = "DELETE FROM `order data` WHERE UserID = ?";
+
+    $data = $db->prepare($sql);
+    $data->execute([$userID]);
+
+    header("location: ../ManageShopingCart/ViewShopingCar.php");
+    exit;
+  }
+
+
+    //Insert order
+  if (isset($_GET["checkout-submit"]) && $_GET["checkout-submit"] == "Checkout") {
+
+    $sql = "SELECT * FROM `order data` WHERE UserID = ?";
+
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$userID]);
+
+    $count = $stmt->rowCount();
+
+    //check if UserID Exit Or no
+
+    if($count == 0) {
+      $sql = "INSERT INTO `order data` (UserID) VALUES (?)";
+      $data = $db->prepare($sql);
+      $data->execute([$userID]);
+    }
+  }
+
+    $db = null;
+} catch (PDOException $e) {
+  echo "Error: " . $e->getMessage();
+}
+
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +75,7 @@
   <div class="payment-content">
     <div class="payment">
       <h1>Payment</h1>
-      <h3 class="Price">Total Price: <? $_POST["price"] ?></h3>
+      <h3 class="Price">Total Price: <?php echo $_GET["TotalPrice"] ?> BHD</h3>
       <div class="credit-card">
         <h3>Credit Card</h3>
         <img src="../images/pay_by_cards.webp" alt="" />
@@ -53,8 +111,10 @@
           </div>
         </div>
         <div class="pay-cancel">
-          <input type="submit" value="Pay" />
-          <input type="submit" value="Cancel" onclick="goToPreviousPage()" />
+          <form action="">
+            <input type="submit" name="paymentOption" value="Pay" />
+            <input type="submit" name="paymentOption" value="Cancel" onclick="goToPreviousPage()" />
+          </form>
         </div>
       </form>
     </div>
