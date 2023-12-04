@@ -1,12 +1,16 @@
 * {
   box-sizing: border-box;
 }
-/*======== Shoping Cart End========*/
-.titleSC {
+
+
+/*======== Shopping Cart End========*/
+.titleSC,
+.cartEmpty {
   text-align: center;
+  color: #162d3d;
 }
 .table-cart {
-  max-width: 900%;
+  max-width: 90%;
   margin: 0 auto;
   text-align: center;
   border-spacing: 0px;
@@ -46,7 +50,6 @@
 .table-cart .close-icon {
 	color: rgb(255, 0, 119);
 }
-
 .checkout {
   background-color: #eee;
   max-width: 600px;
@@ -82,7 +85,25 @@
   background-color: #488aec;
   color: white;
 }
-/*======== Shoping Cart End========*/
+.cart-image {
+  margin-top: 90px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+.start-shopping {
+  text-align: center;
+}
+.start-shopping button{
+  text-align: center;
+  width: 300px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 20px;
+  border: 1px solid #488aec;
+  background-color: #488aec45;
+  cursor: pointer;
+}
+/*======== Shopping Cart End========*/
 /* ======== Payment Star ======== */
 .payment-header {
   padding: 10px;
