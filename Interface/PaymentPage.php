@@ -56,15 +56,8 @@ try {
     }
 
 
-    /// solve problem
-    //delete order when click on cancel
+    //when click on cancel return user to previous page
     if (isset($_GET["paymentOption"]) && $_GET["paymentOption"] == "Cancel") {
-
-
-      // $sql = "DELETE FROM `order data` WHERE UserID = ?";
-
-      // $data = $db->prepare($sql);
-      // $data->execute([$userID]);
 
       header("location: ../ManageShopingCart/ViewShopingCar.php");
       exit;
@@ -90,7 +83,6 @@ try {
         $data->execute([$totalPrice, $paymentMethod, $OrderDate]);
       }
     }
-    /// solve problem
 
     ?>
     <!DOCTYPE html>
