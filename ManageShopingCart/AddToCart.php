@@ -5,7 +5,7 @@ try {
   //assume
   $userID = 000000004;
   $productID = 000000001;
-  $QTY = 3;
+  $QTY = 1;
 
   $sql = $db->prepare("SELECT Price FROM `product data` WHERE ProductID = ?");
   $sql->execute([$productID]);

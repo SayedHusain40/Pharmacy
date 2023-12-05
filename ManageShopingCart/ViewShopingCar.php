@@ -12,6 +12,7 @@ try {
     `product data`.Price,
     `view cart`.Qty,
     `view cart`.cartID,
+    `view cart`.ProductID,
     (`product data`.Price * `view cart`.Qty) AS TotalPrice
     FROM 
         `view cart`
@@ -40,12 +41,19 @@ try {
     exit();
   }
 
-  //Update Qty
+  //Update Qty and Price if he click on update QTY
   if (isset($_GET['update-qty']) && isset($_GET['newQTY']) && isset($_GET['cartID'])) {
 
-    $UpdateQTY = "UPDATE `view cart` SET `Qty` = ? WHERE `CartID` = ?";
+    $productID = $_GET["productID"];
+    $sql = $db->prepare("SELECT Price FROM `product data` WHERE ProductID = ?");
+    $sql->execute([$productID]);
+
+    $ProductPrice = $sql->fetch();
+    $total = $_GET['newQTY'] * $ProductPrice["Price"];
+
+    $UpdateQTY = "UPDATE `view cart` SET Qty = ?, Total = ? WHERE `CartID` = ?";
     $stmt = $db->prepare($UpdateQTY);
-    $stmt->execute([$_GET['newQTY'], $_GET['cartID']]);
+    $stmt->execute([$_GET['newQTY'], $total, $_GET['cartID']]);
 
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
@@ -98,6 +106,7 @@ try {
               <form action="">
                 <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
                 <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>"><br> <br>
+                <input type="hidden" name="productID" value="<?php echo $row["ProductID"] ?>">
                 <input type="submit" name="update-qty" value="Update" class="update-btn">
               </form>
             </td>
