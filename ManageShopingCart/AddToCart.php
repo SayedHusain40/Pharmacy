@@ -3,7 +3,7 @@ try {
   require("../Connection/init.php");
 
   //assume
-  $userID = 000000004;
+  $userID = 000000005;
   $productID = 000000002;
   $QTY = 1;
 

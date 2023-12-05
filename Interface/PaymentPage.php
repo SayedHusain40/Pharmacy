@@ -4,7 +4,7 @@ try {
   //Assume 
   $userID = 000000005;
 
-  // when click on pay
+  // when click on pay 
   if (isset($_GET["paymentOption"]) && $_GET["paymentOption"] == "Pay") 
   {
 
@@ -48,21 +48,12 @@ try {
     date_default_timezone_set('Asia/Bahrain');
     $OrderDate = date('Y-m-d');
 
-    // GO to AddAddresses.php when select delivery
-    if (isset($_GET["checkout-submit"]) && $_GET["order"] == "delivery") {
-
-      header("location: ../ManageShopingCart/AddAddresses.php?TotalPrice=$totalPrice");
-      exit;
-    }
-
-
     //when click on cancel return user to previous page
     if (isset($_GET["paymentOption"]) && $_GET["paymentOption"] == "Cancel") {
 
       header("location: ../ManageShopingCart/ViewShopingCar.php");
       exit;
     }
-
 
     //Insert order in to order data table
     if (isset($_GET["checkout-submit"]) && $_GET["checkout-submit"] == "Checkout") {
@@ -81,6 +72,13 @@ try {
         $sql = "UPDATE `order data` SET TotalPrice = ?, PaymentMethod = ?, OrderDate = ?";
         $data = $db->prepare($sql);
         $data->execute([$totalPrice, $paymentMethod, $OrderDate]);
+      }
+
+      // when select delivery user will go to AddAddresses.php page
+      if (isset($_GET["checkout-submit"]) && $_GET["order"] == "delivery") {
+
+        header("location: ../ManageShopingCart/AddAddresses.php?TotalPrice=$totalPrice&paymentMethod=$paymentMethod");
+        exit;
       }
     }
 
