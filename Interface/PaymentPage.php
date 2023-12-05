@@ -1,18 +1,30 @@
 <?php
+if(isset($_POST["paymentOption"]) && $_POST["paymentOption"] == "Pay") {
+  echo "hijwiefjwf";
+  exit();
+} 
+else {
+
+
 try {
   require("../Connection/init.php");
   //Assume 
   $userID = 000000003;
 
+  $totalPrice = $_GET["TotalPrice"];
+  $paymentMethod = $_GET["paymentMethod"];
+  date_default_timezone_set('Asia/Bahrain');
+  $OrderDate = date('Y-m-d');
+
   // GO to AddAddresses.php when select delivery
   if (isset($_GET["checkout-submit"]) && $_GET["order"] == "delivery") {
 
-    header("location: ../ManageShopingCart/AddAddresses.php");
+    header("location: ../ManageShopingCart/AddAddresses.php?TotalPrice=$totalPrice");
     exit;
   }
 
 
-  //delete order
+  //delete order when click on cancel
   if (isset($_GET["paymentOption"]) && $_GET["paymentOption"] == "Cancel") {
 
 
@@ -26,7 +38,7 @@ try {
   }
 
 
-    //Insert order
+  //Insert order in to order data table
   if (isset($_GET["checkout-submit"]) && $_GET["checkout-submit"] == "Checkout") {
 
     $sql = "SELECT * FROM `order data` WHERE UserID = ?";
@@ -36,16 +48,19 @@ try {
 
     $count = $stmt->rowCount();
 
-    //check if UserID Exit Or no
-
-    if($count == 0) {
-      $sql = "INSERT INTO `order data` (UserID) VALUES (?)";
+    //check if Order Exit Or no
+    if ($count == 0) {
+      $sql = "INSERT INTO `order data` (UserID, TotalPrice, PaymentMethod, OrderDate) VALUES (?, ?, ?, ?)";
       $data = $db->prepare($sql);
-      $data->execute([$userID]);
+      $data->execute([$userID, $totalPrice, $paymentMethod, $OrderDate]);
+    } else {
+      $sql = "UPDATE `order data` SET TotalPrice = ?, PaymentMethod = ?, OrderDate = ?";
+      $data = $db->prepare($sql);
+      $data->execute([$totalPrice, $paymentMethod, $OrderDate]);
     }
   }
 
-    $db = null;
+  $db = null;
 } catch (PDOException $e) {
   echo "Error: " . $e->getMessage();
 }
@@ -74,9 +89,16 @@ try {
   <div class="payment-content">
     <div class="payment">
       <h1>Payment</h1>
-      <h3 class="Price">Total Price: <?php echo $_GET["TotalPrice"] ?> BHD</h3>
+      <h3 class="Price">Total Price: <?php echo $totalPrice ?> BHD</h3>
       <div class="credit-card">
-        <h3>Credit Card</h3>
+        <h3>
+          <?php
+          if ($_GET["paymentMethod"] == "Debit Card")
+            echo "Debit Card";
+          else
+            echo "Credit Card";
+          ?>
+        </h3>
         <img src="../images/pay_by_cards.webp" alt="" />
       </div>
 
@@ -110,7 +132,7 @@ try {
           </div>
         </div>
         <div class="pay-cancel">
-          <form action="">
+          <form action="" method="post">
             <input type="submit" name="paymentOption" value="Pay" />
             <input type="submit" name="paymentOption" value="Cancel" onclick="goToPreviousPage()" />
           </form>
@@ -124,3 +146,7 @@ try {
 </body>
 
 </html>
+
+<?php
+}
+?>

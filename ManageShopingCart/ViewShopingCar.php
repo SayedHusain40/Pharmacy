@@ -115,22 +115,26 @@ try {
     <div class="checkout">
       <h1 class="summary">Summary</h1>
       <form action="../Interface/PaymentPage.php">
-        <h2>Shipping Method</h2>
+        <h2>Select a payment Method:</h2>
+        <input type="radio" name="paymentMethod" value="Credit Card" checked><label>Credit Card</label>
+        <input type="radio" name="paymentMethod" value="Debit Card"><label>Debit Card</label>
+
+        <h2>Shipping Method:</h2>
         <input type="radio" name="order" value="pick-up" checked> Pick Up
         <br><br>
         <input type="radio" name="order" value="delivery"> Delivery(+1.5 BD)
         <hr>
         <div>
-          <h2>Sub total</h2>
+          <h2>Sub total:</h2>
           <h2><?php echo isset($TotalPrice) ? $TotalPrice : 0 ?> BHD</h2>
         </div>
         <div id="deliveryCost" style="display: none;">
-          <h2>Delivery</h2>
+          <h2>Delivery:</h2>
           <h2>1.5 BHD</h2>
         </div>
         <hr>
         <div class="total">
-          <h2>Total</h2>
+          <h2>Total:</h2>
           <h2 id="totalPrice">
             <?php
             if (isset($TotalPrice)) {
@@ -175,8 +179,7 @@ try {
     </script>
 
   <?php
-  } 
-  else { ?>
+  } else { ?>
     <h1 class='cartEmpty'>Your Shopping Cart is Empty</h1>
     <div class="cart-image">
       <img src="../images/cart.jpeg" alt="">

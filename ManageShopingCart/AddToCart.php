@@ -17,6 +17,7 @@ try {
   date_default_timezone_set('Asia/Bahrain');
   $AddedDate = date('Y-m-d');
 
+  // insert into view cart
   $sql = $db->prepare("INSERT INTO `view cart` (UserID, ProductID, Qty, Total, AddedDate) VALUES (?, ?, ?, ?, ?)");
   $sql->execute([$userID, $productID, $QTY, $total, $AddedDate]);
 
