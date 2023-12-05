@@ -32,7 +32,7 @@ try {
     // Get the last inserted PaymentID
     $PaymentID = $db->lastInsertId();
 
-    // Update the order data table with PaymentID where OrderID matches
+    // Update the order data table with PaymentID
     $updatePaymentID = $db->prepare("UPDATE `order data` SET PaymentID = ? WHERE OrderID = ?");
     $updatePaymentID->execute([$PaymentID, $OrderID]);
 
