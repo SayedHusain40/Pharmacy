@@ -2,23 +2,42 @@
 try {
   require("../Connection/init.php");
   //Assume 
-  $userID = 000000004;
+  $userID = 000000005;
 
-  //if click on pay
+  // when click on pay
   if (isset($_GET["paymentOption"]) && $_GET["paymentOption"] == "Pay") 
   {
 
-    $data = $db->prepare("SELECT OrderID,TotalPrice, FROM `order data` WHERE UserID = ?");
+    //get OrderID
+    $data = $db->prepare("SELECT OrderID, TotalPrice FROM `order data` WHERE UserID = ? AND PaymentID IS NULL");
     $data->execute([$userID]);
-
     $result = $data->fetch();
+    $OrderID = $result["OrderID"];
 
 
-    //insert order in ordered item table when click on pay
-    $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, Qty, Total) VALUES (?)");
-    $stmt->execute([$result["OrderID"]]);
+    //Get items that user ordered from (view cart table)
+    $ItemsOrdered = $db->prepare("SELECT * FROM `view cart` WHERE UserID = ?");
+    $ItemsOrdered->execute([$userID]);
 
-    $stmtResult = $data->fetch();
+    //insert ordered Items in (ordered item table)
+    while ($row = $ItemsOrdered->fetch()) {
+      $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, Total) VALUES (?,?,?,?)");
+      $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"],]);
+    }
+
+    // Insert Payment into the payment database table
+    $stmtPayment = $db->prepare("INSERT INTO `payment database` (UserID) VALUES (?)");
+    $stmtPayment->execute([$userID]);
+
+    // Get the last inserted PaymentID
+    $PaymentID = $db->lastInsertId();
+
+    // Update the order data table with PaymentID where OrderID matches
+    $updatePaymentID = $db->prepare("UPDATE `order data` SET PaymentID = ? WHERE OrderID = ?");
+    $updatePaymentID->execute([$PaymentID, $OrderID]);
+
+    echo "Thank You for Your Purchase";
+
     exit;
   } 
   else 
@@ -37,14 +56,15 @@ try {
     }
 
 
+    /// solve problem
     //delete order when click on cancel
     if (isset($_GET["paymentOption"]) && $_GET["paymentOption"] == "Cancel") {
 
 
-      $sql = "DELETE FROM `order data` WHERE UserID = ?";
+      // $sql = "DELETE FROM `order data` WHERE UserID = ?";
 
-      $data = $db->prepare($sql);
-      $data->execute([$userID]);
+      // $data = $db->prepare($sql);
+      // $data->execute([$userID]);
 
       header("location: ../ManageShopingCart/ViewShopingCar.php");
       exit;
@@ -54,14 +74,12 @@ try {
     //Insert order in to order data table
     if (isset($_GET["checkout-submit"]) && $_GET["checkout-submit"] == "Checkout") {
 
-      $sql = "SELECT * FROM `order data` WHERE UserID = ?";
-
-      $stmt = $db->prepare($sql);
+      $stmt = $db->prepare("SELECT * FROM `order data` WHERE UserID = ? AND PaymentID IS NULL");
       $stmt->execute([$userID]);
 
       $count = $stmt->rowCount();
 
-      //check if Order Exit Or no
+      //check if Order Exit Or no if not insert order else means there is order but not pay so will update it
       if ($count == 0) {
         $sql = "INSERT INTO `order data` (UserID, TotalPrice, PaymentMethod, OrderDate) VALUES (?, ?, ?, ?)";
         $data = $db->prepare($sql);
@@ -72,7 +90,7 @@ try {
         $data->execute([$totalPrice, $paymentMethod, $OrderDate]);
       }
     }
-
+    /// solve problem
 
     ?>
     <!DOCTYPE html>
