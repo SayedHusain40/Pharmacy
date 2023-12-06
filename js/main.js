@@ -1,5 +1,5 @@
 /*======== Payment Start ========*/
-const form = document.querySelector('form');
+const paymentForm = document.querySelector('.paymentForm');
 const cardholderNameInput = document.getElementById('cardholder-name');
 const cardNumberInput = document.getElementById('card-number');
 const expirationDateInput = document.getElementById('expiration-date');
@@ -48,11 +48,8 @@ expirationDateInput.addEventListener('input', function () {
   this.value = date;
 });
 
-// For Validate submit
-function goToPreviousPage() {
-  window.location.href = "/ManageShopingCart/ViewShopingCar.php";
-}
-form.addEventListener('submit', function (event) {
+//For Validate submit
+paymentForm.addEventListener('submit', function (event) {
 
   event.preventDefault();
 

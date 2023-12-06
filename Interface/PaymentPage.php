@@ -29,7 +29,7 @@ try {
       $productQtyQuery->execute([$row["ProductID"]]);
 
       $productQtyResult = $productQtyQuery->fetch();
-      $productQty = $productQtyResult['Quantity']; 
+      $productQty = $productQtyResult['Quantity'];
 
       $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, Total) VALUES (?,?,?,?)");
       $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"]]);
@@ -59,13 +59,6 @@ try {
     $paymentMethod = $_REQUEST["paymentMethod"];
     date_default_timezone_set('Asia/Bahrain');
     $OrderDate = date('Y-m-d');
-
-    //when click on cancel return user to previous page
-    if (isset($_POST["paymentOption"]) && $_POST["paymentOption"] == "Cancel") {
-
-      header("location: ../ManageShopingCart/ViewShopingCar.php");
-      exit;
-    }
 
     // This if statement for when user click on checkout 
     if (isset($_POST["checkout-submit"]) && $_POST["checkout-submit"] == "Checkout") {
@@ -156,16 +149,16 @@ try {
             </div>
           </div>
           <div class="pay-cancel">
-            <form action="" method="post">
+            <form class="paymentForm" action="" method="post">
               <input type="submit" name="paymentOption" value="Pay" />
-              <input type="submit" name="paymentOption" value="Cancel" onclick="goToPreviousPage()" />
             </form>
+            <a href="../ManageShopingCart/ViewShopingCar.php"> <button>Cancel</button> </a>
           </div>
           <!-- </form> -->
         </div>
       </div>
 
-      <script src="/js/main.js"></script>
+      <script src="../js/main.js"></script>
     </body>
 
     </html>

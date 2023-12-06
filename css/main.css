@@ -107,7 +107,7 @@
 /* ======== Payment Star ======== */
 .payment-header {
   padding: 10px;
-  background-color: #e8eaff;
+  background-color: red;
   min-height: 180px;
   text-align: center;
   color: #162d3d;
@@ -171,6 +171,8 @@
 .payment .pay-cancel {
   text-align: center;
   margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
 }
 .payment input[type="submit"],
 .payment button {
