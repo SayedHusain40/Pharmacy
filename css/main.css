@@ -7,7 +7,7 @@
 .titleSC,
 .cartEmpty {
   text-align: center;
-  color: red;
+  color: #162d3d;
 }
 .table-cart {
   max-width: 90%;
