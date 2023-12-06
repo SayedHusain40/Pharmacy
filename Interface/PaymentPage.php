@@ -7,7 +7,7 @@ try {
   require("../Connection/init.php");
 
   //Assume 
-  $userID = 29; //$_SESSION["user_id"]
+  $userID = 3; //$_SESSION["user_id"]
 
   // This if statement for when user click on pay 
   if (isset($_POST["paymentOption"]) && $_POST["paymentOption"] == "Pay") {
@@ -52,7 +52,7 @@ try {
 
     echo "Thank You for Your Purchase";
 
-    exit;
+    exit();
   } else {
 
     $totalPrice = $_REQUEST["TotalPrice"];
@@ -119,42 +119,41 @@ try {
             <img src="../images/pay_by_cards.webp" alt="" />
           </div>
 
-          <!-- <form action=""> -->
-          <label>Cardholder Name (exactly as shown on card)</label>
-          <input type="text" placeholder="Enter Your Full Name" id="cardholder-name" />
-          <p class="name-error payError"><i class="fa-solid fa-circle-exclamation"></i><span>Cardholder Name cannot be empty</span></p>
+          <form class="paymentForm" method="post">
+            <label>Cardholder Name (exactly as shown on card)</label>
+            <input type="text" placeholder="Enter Your Full Name" id="cardholder-name" />
+            <p class="name-error payError"><i class="fa-solid fa-circle-exclamation"></i><span>Cardholder Name cannot be empty</span></p>
 
-          <br /> <br>
+            <br /> <br>
 
-          <label>Card number</label>
-          <input type="text" placeholder="0000 0000 0000 0000" id="card-number" />
-          <p class="card-error payError"><i class="fa-solid fa-circle-exclamation"></i><span>Card number cannot be empty</span></p>
+            <label>Card number</label>
+            <input type="text" placeholder="0000 0000 0000 0000" id="card-number" />
+            <p class="card-error payError"><i class="fa-solid fa-circle-exclamation"></i><span>Card number cannot be empty</span></p>
 
-          <br /><br>
+            <br /><br>
 
-          <div class="expCvv">
-            <div>
-              <label>Expiration date</label><br />
-              <input type="text" placeholder="MM/YY" class="ExpDate" id="expiration-date" />
-              <p class="expiration-error payError">
-                <i class="fa-solid fa-circle-exclamation"></i><span>Expiration date cannot be empty</span>
-              </p>
+            <div class="expCvv">
+              <div>
+                <label>Expiration date</label><br />
+                <input type="text" placeholder="MM/YY" class="ExpDate" id="expiration-date" />
+                <p class="expiration-error payError">
+                  <i class="fa-solid fa-circle-exclamation"></i><span>Expiration date cannot be empty</span>
+                </p>
+              </div>
+              <div>
+                <label>CVV</label><br />
+                <input type="text" placeholder="CVV" id="cvv" />
+                <p class="cvv-error payError">
+                  <i class="fa-solid fa-circle-exclamation"></i><span>CVV cannot be empty</span>
+                </p>
+              </div>
             </div>
-            <div>
-              <label>CVV</label><br />
-              <input type="text" placeholder="CVV" id="cvv" />
-              <p class="cvv-error payError">
-                <i class="fa-solid fa-circle-exclamation"></i><span>CVV cannot be empty</span>
-              </p>
+            <div class="pay-cancel">
+              <input type="hidden" name="paymentOption" value="Pay">
+              <input type="submit" name="paymentOption" value="Pay" id="inputPaymentOption" />
+              <a href="../ManageShopingCart/ViewShopingCar.php"> <button>Cancel</button> </a>
             </div>
-          </div>
-          <div class="pay-cancel">
-            <form class="paymentForm" action="" method="post">
-              <input type="submit" name="paymentOption" value="Pay" />
-            </form>
-            <a href="../ManageShopingCart/ViewShopingCar.php"> <button>Cancel</button> </a>
-          </div>
-          <!-- </form> -->
+          </form>
         </div>
       </div>
 

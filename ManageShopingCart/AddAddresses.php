@@ -6,7 +6,7 @@
 try {
 
   //Assume 
-  $userID = 29; //$_SESSION["user_id"]
+  $userID = 3; //$_SESSION["user_id"]
 
   require("../Connection/init.php");
 
