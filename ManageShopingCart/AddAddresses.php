@@ -15,7 +15,27 @@ try {
   $stmt->execute([$userID]);
   $rs = $stmt->fetch();
 
-?>
+  //update new values in (customer data)
+  if (isset($_POST['update-address-btn'])) {
+    $mobileNumber = $_POST['MobileNumber'];
+    $email = $_POST['Email'];
+    $area = $_POST['Area'];
+    $house = $_POST['House'];
+    $street = $_POST['Street'];
+    $block = $_POST['Block'];
+
+    $stmt = $db->prepare("UPDATE `customer data` SET MobileNumber = ?, Email = ?, Area = ?, House = ?, Street = ?, Block = ? WHERE UserID = ?");
+    $stmt->execute([$mobileNumber, $email, $area, $house, $street, $block, $userID]);
+
+    $totalPrice = $_GET['TotalPrice'];
+    $paymentMethod = $_GET['paymentMethod'];
+
+    header("Location: {$_SERVER['PHP_SELF']}?TotalPrice=$totalPrice&paymentMethod=$paymentMethod");
+    exit(); 
+
+  }
+
+  ?>
 
   <h1>Confirm your delivery address</h1>
   <form action="" method="post">
@@ -31,11 +51,8 @@ try {
   <?php
   $TotalPrice = $_GET["TotalPrice"];
   $paymentMethod = $_GET["paymentMethod"];
-  echo $TotalPrice . "<br>";
-  echo $paymentMethod . "<br>";
   ?>
-
-  <a href="../Interface/PaymentPage.php?TotalPrice=<?php echo $TotalPrice ?>&paymentMethod=<?php echo $paymentMethod?>"><button>Continue Payment</button></a>
+  <a href="../Interface/PaymentPage.php?TotalPrice=<?php echo $TotalPrice ?>&paymentMethod=<?php echo $paymentMethod ?>"><button>Continue Payment</button></a>
 
 <?php
   $db = null;
