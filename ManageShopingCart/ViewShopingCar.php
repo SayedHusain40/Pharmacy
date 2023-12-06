@@ -14,6 +14,7 @@ try {
     `product data`.Photo,
     `product data`.Name,
     `product data`.Price,
+    `product data`.Quantity,
     `view cart`.Qty,
     `view cart`.cartID,
     `view cart`.ProductID,
@@ -76,7 +77,7 @@ try {
             <td>
               <form action="./EditCart.php" method="post">
                 <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
-                <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>"><br> <br>
+                <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>" max="<?php echo $row["Quantity"]?>"><br> <br>
                 <input type="hidden" name="productID" value="<?php echo $row["ProductID"] ?>">
                 <input type="submit" name="update-qty" value="Update" class="update-btn">
               </form>

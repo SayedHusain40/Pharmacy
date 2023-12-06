@@ -23,10 +23,22 @@ try {
     $ItemsOrdered = $db->prepare("SELECT * FROM `view cart` WHERE UserID = ?");
     $ItemsOrdered->execute([$userID]);
 
-    //insert order Items in (ordered item table)
+    //insert order Items in (ordered item table) and reduce Qty in (product data table)
     while ($row = $ItemsOrdered->fetch()) {
+      $productQtyQuery = $db->prepare("SELECT Quantity FROM `product data` WHERE ProductID = ?");
+      $productQtyQuery->execute([$row["ProductID"]]);
+
+      // Fetch the quantity
+      $productQtyResult = $productQtyQuery->fetch();
+      $productQty = $productQtyResult['Quantity']; // Assuming Quantity is the column name
+
       $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, Total) VALUES (?,?,?,?)");
-      $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"],]);
+      $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"]]);
+
+      // Perform calculation and update quantity
+      $newQty = $productQty - $row["Qty"];
+      $updateQty = $db->prepare("UPDATE `product data` SET Quantity = ? WHERE ProductID = ?");
+      $updateQty->execute([$newQty, $row["ProductID"]]);
     }
 
     // Insert Payment into the (payment database table)
