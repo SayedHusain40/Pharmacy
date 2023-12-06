@@ -12,43 +12,43 @@ try {
   // This if statement for when user click on pay 
   if (isset($_POST["paymentOption"]) && $_POST["paymentOption"] == "Pay") {
 
-    //get OrderID from (order data) that not pay
-    $data = $db->prepare("SELECT OrderID, TotalPrice FROM `order data` WHERE UserID = ? AND PaymentID IS NULL");
-    $data->execute([$userID]);
-    $result = $data->fetch();
-    $OrderID = $result["OrderID"];
+    // //get OrderID from (order data) that not pay
+    // $data = $db->prepare("SELECT OrderID, TotalPrice FROM `order data` WHERE UserID = ? AND PaymentID IS NULL");
+    // $data->execute([$userID]);
+    // $result = $data->fetch();
+    // $OrderID = $result["OrderID"];
 
 
-    //Get items that user order from (view cart table)
-    $ItemsOrdered = $db->prepare("SELECT * FROM `view cart` WHERE UserID = ?");
-    $ItemsOrdered->execute([$userID]);
+    // //Get items that user order from (view cart table)
+    // $ItemsOrdered = $db->prepare("SELECT * FROM `view cart` WHERE UserID = ?");
+    // $ItemsOrdered->execute([$userID]);
 
-    //insert order Items in (ordered item table) and reduce Qty in (product data table)
-    while ($row = $ItemsOrdered->fetch()) {
-      $productQtyQuery = $db->prepare("SELECT Quantity FROM `product data` WHERE ProductID = ?");
-      $productQtyQuery->execute([$row["ProductID"]]);
+    // //insert order Items in (ordered item table) and reduce Qty in (product data table)
+    // while ($row = $ItemsOrdered->fetch()) {
+    //   $productQtyQuery = $db->prepare("SELECT Quantity FROM `product data` WHERE ProductID = ?");
+    //   $productQtyQuery->execute([$row["ProductID"]]);
 
-      $productQtyResult = $productQtyQuery->fetch();
-      $productQty = $productQtyResult['Quantity'];
+    //   $productQtyResult = $productQtyQuery->fetch();
+    //   $productQty = $productQtyResult['Quantity'];
 
-      $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, Total) VALUES (?,?,?,?)");
-      $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"]]);
+    //   $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, Total) VALUES (?,?,?,?)");
+    //   $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"]]);
 
-      $newQty = $productQty - $row["Qty"];
-      $updateQty = $db->prepare("UPDATE `product data` SET Quantity = ? WHERE ProductID = ?");
-      $updateQty->execute([$newQty, $row["ProductID"]]);
-    }
+    //   $newQty = $productQty - $row["Qty"];
+    //   $updateQty = $db->prepare("UPDATE `product data` SET Quantity = ? WHERE ProductID = ?");
+    //   $updateQty->execute([$newQty, $row["ProductID"]]);
+    // }
 
-    // Insert Payment into the (payment database table)
-    $stmtPayment = $db->prepare("INSERT INTO `payment database` (UserID) VALUES (?)");
-    $stmtPayment->execute([$userID]);
+    // // Insert Payment into the (payment database table)
+    // $stmtPayment = $db->prepare("INSERT INTO `payment database` (UserID) VALUES (?)");
+    // $stmtPayment->execute([$userID]);
 
-    // Get the last inserted PaymentID
-    $PaymentID = $db->lastInsertId();
+    // // Get the last inserted PaymentID
+    // $PaymentID = $db->lastInsertId();
 
-    // Update PaymentID in (order data table)
-    $updatePaymentID = $db->prepare("UPDATE `order data` SET PaymentID = ? WHERE OrderID = ?");
-    $updatePaymentID->execute([$PaymentID, $OrderID]);
+    // // Update PaymentID in (order data table)
+    // $updatePaymentID = $db->prepare("UPDATE `order data` SET PaymentID = ? WHERE OrderID = ?");
+    // $updatePaymentID->execute([$PaymentID, $OrderID]);
 
     echo "Thank You for Your Purchase";
 
@@ -151,7 +151,7 @@ try {
             <div class="pay-cancel">
               <input type="hidden" name="paymentOption" value="Pay">
               <input type="submit" name="paymentOption" value="Pay" id="inputPaymentOption" />
-              <a href="../ManageShopingCart/ViewShopingCar.php"> <button>Cancel</button> </a>
+              <button onclick="goToPreviousPage()">Cancel</button>
             </div>
           </form>
         </div>
