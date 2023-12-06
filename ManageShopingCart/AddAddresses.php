@@ -1,7 +1,12 @@
 <?php
+/*
+  include ""; 
+*/
+
 try {
-  //assume
-  $userID = 000000005;
+
+  //Assume 
+  $userID = 29; //$_SESSION["user_id"]
 
   require("../Connection/init.php");
 
@@ -13,7 +18,7 @@ try {
 ?>
 
   <h1>Confirm your delivery address</h1>
-  <form action="" method="get">
+  <form action="" method="post">
     <input type="tel" name="MobileNumber" placeholder="Mobile Number" value="<?php echo $rs["MobileNumber"] ?>" required><br>
     <input type="email" name="Email" placeholder="Email" value="<?php echo $rs["Email"] ?>" required><br>
     <input type=" text" name="Area" placeholder="Area" value="<?php echo $rs["Area"] ?>" required><br>
@@ -26,6 +31,8 @@ try {
   <?php
   $TotalPrice = $_GET["TotalPrice"];
   $paymentMethod = $_GET["paymentMethod"];
+  echo $TotalPrice . "<br>";
+  echo $paymentMethod . "<br>";
   ?>
 
   <a href="../Interface/PaymentPage.php?TotalPrice=<?php echo $TotalPrice ?>&paymentMethod=<?php echo $paymentMethod?>"><button>Continue Payment</button></a>

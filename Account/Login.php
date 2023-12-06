@@ -46,7 +46,7 @@ if ($prepare->rowCount() > 0)
           header('Location: ../Interface/HomePageAdmin.php');
           exit(); 
         } else {
-            header('Location: ../Interface/HomePageUser.php');
+            header('Location: ../Interface/HomePageCustomer.php');
          exit();
          }
     } else {

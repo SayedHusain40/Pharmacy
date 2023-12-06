@@ -1,9 +1,13 @@
 <?php
+/*
+  include ""; 
+*/
+
 try {
   require("../Connection/init.php");
 
   //Assume 
-  $userID = 000000005;
+  $userID = 29; //$_SESSION["user_id"]
 
   //query for view orders
   $sql = "SELECT 
@@ -22,42 +26,9 @@ try {
     WHERE 
         `view cart`.UserID = ?";
 
-
   $data = $db->prepare($sql);
   $data->execute([$userID]);
-
   $count = $data->rowCount();
-
-  //delete 
-  if (isset($_GET['cartID']) && $_GET['do'] == "delete") {
-
-    $cartID = $_GET['cartID'];
-
-    $deleteQuery = "DELETE FROM `view cart` WHERE CartID = ?";
-    $stmt = $db->prepare($deleteQuery);
-    $stmt->execute([$cartID]);
-
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
-  }
-
-  //Update Qty and Price if he click on update QTY
-  if (isset($_GET['update-qty']) && isset($_GET['newQTY']) && isset($_GET['cartID'])) {
-
-    $productID = $_GET["productID"];
-    $sql = $db->prepare("SELECT Price FROM `product data` WHERE ProductID = ?");
-    $sql->execute([$productID]);
-
-    $ProductPrice = $sql->fetch();
-    $total = $_GET['newQTY'] * $ProductPrice["Price"];
-
-    $UpdateQTY = "UPDATE `view cart` SET Qty = ?, Total = ? WHERE `CartID` = ?";
-    $stmt = $db->prepare($UpdateQTY);
-    $stmt->execute([$_GET['newQTY'], $total, $_GET['cartID']]);
-
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
-  }
 
   $db = null;
 } catch (PDOException $e) {
@@ -95,7 +66,7 @@ try {
       <tbody>
         <?php
         $TotalPrice = 0;
-        while ($row = $data->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $data->fetch()) {
           $TotalPrice += $row["TotalPrice"];
         ?>
           <tr>
@@ -103,7 +74,7 @@ try {
             <td><?php echo $row['Name']; ?></td>
             <td>$<?php echo $row['Price']; ?></td>
             <td>
-              <form action="">
+              <form action="./EditCart.php" method="post">
                 <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
                 <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>"><br> <br>
                 <input type="hidden" name="productID" value="<?php echo $row["ProductID"] ?>">
@@ -113,7 +84,10 @@ try {
             <td>$<?php echo $row["TotalPrice"]; ?></td>
             <td>
               <a href=""><button class="favorite">favorite</button></a>
-              <a href="?do=delete&cartID=<?php echo $row["cartID"]; ?>"><button class="delete">delete</button></a>
+              <form action="./EditCart.php" method="post">
+                <input type="hidden" name="cartID" value="<?php echo $row["cartID"]; ?>">
+                <button type="submit" name="delete" class="delete">delete</button>
+              </form>
             </td>
           </tr>
 
@@ -123,7 +97,7 @@ try {
 
     <div class="checkout">
       <h1 class="summary">Summary</h1>
-      <form action="../Interface/PaymentPage.php">
+      <form action="../Interface/PaymentPage.php" method="post">
         <h2>Select a payment Method:</h2>
         <input type="radio" name="paymentMethod" value="Credit Card" checked><label>Credit Card</label>
         <input type="radio" name="paymentMethod" value="Debit Card"><label>Debit Card</label>
