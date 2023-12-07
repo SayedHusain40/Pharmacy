@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 07, 2023 at 01:05 PM
+-- Generation Time: Dec 07, 2023 at 01:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS `account` (
 --
 
 INSERT INTO `account` (`id`, `task_name`, `member_id`, `task_status`) VALUES
-(1, 'Profile.php\r\n', 3, 'NotDone'),
-(2, 'EditProfile.php\r\n', 2, 'NotDone'),
+(1, 'Profile.php\r\n', 4, 'NotDone'),
+(2, 'EditProfile.php\r\n', 4, 'NotDone'),
 (3, 'Signup.php\r\n', 1, 'Done'),
 (4, 'Login.php\r\n', 1, 'Done'),
 (5, 'Logout.php', 1, 'Done');
@@ -71,12 +71,12 @@ CREATE TABLE IF NOT EXISTS `function` (
 --
 
 INSERT INTO `function` (`id`, `task_name`, `member_id`, `task_status`) VALUES
-(1, 'PayForOrder.php', 1, 'NotDone'),
-(2, 'SearchItems', 3, 'NotDone'),
-(3, 'Trackorder.php', 1, 'NotDone'),
-(4, 'Rating.php', 1, 'NotDone'),
-(5, 'Sorting.php', 1, 'NotDone'),
-(6, 'PriceFilter.php', 3, 'NotDone');
+(1, 'PayForOrder.php', 4, 'NotDone'),
+(2, 'SearchItems', 4, 'NotDone'),
+(3, 'Trackorder.php', 4, 'NotDone'),
+(4, 'Rating.php', 5, 'NotDone'),
+(5, 'Sorting.php', 5, 'NotDone'),
+(6, 'PriceFilter.php', 5, 'NotDone');
 
 -- --------------------------------------------------------
 
@@ -99,24 +99,24 @@ CREATE TABLE IF NOT EXISTS `interface` (
 --
 
 INSERT INTO `interface` (`id`, `task_name`, `member_id`, `task_status`) VALUES
-(1, 'Header.php', 4, 'NotDone'),
-(2, 'Footer.php', 4, 'NotDone'),
-(3, 'HomePage.php', 4, 'NotDone'),
-(4, 'HomePageCustomer.php', 4, 'NotDone'),
-(5, 'HomePageStaff.php', 4, 'NotDone'),
-(6, 'HomePageAdmin.php', 4, 'NotDone'),
-(7, 'HomePageSupplier.php', 1, 'NotDone'),
-(8, 'ShopByCategories.php', 1, 'NotDone'),
-(9, 'ShopByBrand.php', 1, 'NotDone'),
-(10, 'ShoppingCart.php', 1, 'NotDone'),
-(11, 'AddToCart&Favourite.php', 1, 'NotDone'),
-(12, 'ViewCart.php', 1, 'NotDone'),
-(13, 'WishListPage.php', 1, 'NotDone'),
-(14, 'PaymentPage.php', 1, 'NotDone'),
-(15, 'Checkout.php', 1, 'NotDone'),
-(16, 'AboutUs.php', 1, 'NotDone'),
-(17, 'ContactUs.php', 1, 'NotDone'),
-(18, 'FAQs.php', 1, 'NotDone');
+(1, 'Header.php', 2, 'NotDone'),
+(2, 'Footer.php', 2, 'NotDone'),
+(3, 'HomePage.php', 2, 'NotDone'),
+(4, 'HomePageCustomer.php', 2, 'NotDone'),
+(5, 'HomePageStaff.php', 2, 'NotDone'),
+(6, 'HomePageAdmin.php', 2, 'NotDone'),
+(7, 'HomePageSupplier.php', 2, 'NotDone'),
+(8, 'ShopByCategories.php', 2, 'NotDone'),
+(9, 'ShopByBrand.php', 4, 'NotDone'),
+(10, 'ShoppingCart.php', 3, 'NotDone'),
+(11, 'AddToCart&Favourite.php', 3, 'NotDone'),
+(12, 'ViewCart.php', 3, 'NotDone'),
+(13, 'WishListPage.php', 3, 'NotDone'),
+(14, 'PaymentPage.php', 3, 'NotDone'),
+(15, 'Checkout.php', 3, 'NotDone'),
+(16, 'AboutUs.php', 2, 'NotDone'),
+(17, 'ContactUs.php', 2, 'NotDone'),
+(18, 'FAQs.php', 2, 'NotDone');
 
 -- --------------------------------------------------------
 
@@ -139,9 +139,9 @@ CREATE TABLE IF NOT EXISTS `manageoffers` (
 --
 
 INSERT INTO `manageoffers` (`id`, `task_name`, `member_id`, `task_status`) VALUES
-(1, 'AddOffer.php', 3, 'NotDone'),
-(2, 'EditOffer.php', 3, 'NotDone'),
-(3, 'ViewOffer.php', 3, 'NotDone');
+(1, 'AddOffer.php', 1, 'NotDone'),
+(2, 'EditOffer.php', 1, 'NotDone'),
+(3, 'ViewOffer.php', 1, 'NotDone');
 
 -- --------------------------------------------------------
 
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS `manageproducts` (
 INSERT INTO `manageproducts` (`id`, `task_name`, `member_id`, `task_status`) VALUES
 (1, 'AddProduct.php', 1, 'NotDone'),
 (2, 'EditProduct.php', 1, 'NotDone'),
-(3, 'ViewProductList.php', 1, 'NotDone'),
+(3, 'ViewProductList.php', 4, 'NotDone'),
 (4, 'ProductDetails.php', 1, 'NotDone');
 
 -- --------------------------------------------------------
@@ -234,9 +234,9 @@ INSERT INTO `manageusers` (`id`, `task_name`, `member_id`, `task_status`) VALUES
 DROP TABLE IF EXISTS `member`;
 CREATE TABLE IF NOT EXISTS `member` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` enum('Fatema','Elias','Sayed Hussian','Karrar') DEFAULT NULL,
+  `name` enum('Fatema','Elias','Sayed Hussian','Karrar','None') DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `member`
@@ -246,7 +246,8 @@ INSERT INTO `member` (`Id`, `name`) VALUES
 (1, 'Fatema'),
 (2, 'Elias'),
 (3, 'Sayed Hussian'),
-(4, 'Karrar');
+(4, 'Karrar'),
+(5, 'None');
 
 -- --------------------------------------------------------
 
@@ -269,16 +270,16 @@ CREATE TABLE IF NOT EXISTS `reports` (
 --
 
 INSERT INTO `reports` (`id`, `task_name`, `member_id`, `task_status`) VALUES
-(1, 'CurrentInventoryReport.php', 1, 'NotDone'),
-(2, 'MedicineReport.php', 1, 'NotDone'),
-(3, 'UsersReport.php', 1, 'NotDone'),
-(4, 'CustomerInformationReport.php', 1, 'NotDone'),
-(5, 'StaffInformationReport.php', 1, 'NotDone'),
-(6, 'CustomerOrderDetailsReport.php', 1, 'NotDone'),
-(7, 'TopSellingMedicinesReport.php', 1, 'NotDone'),
-(8, 'SupplierReport.php', 1, 'NotDone'),
+(1, 'CurrentInventoryReport.php', 2, 'NotDone'),
+(2, 'MedicineReport.php', 2, 'NotDone'),
+(3, 'UsersReport.php', 2, 'NotDone'),
+(4, 'CustomerInformationReport.php', 2, 'NotDone'),
+(5, 'StaffInformationReport.php', 2, 'NotDone'),
+(6, 'CustomerOrderDetailsReport.php', 2, 'NotDone'),
+(7, 'TopSellingMedicinesReport.php', 2, 'NotDone'),
+(8, 'SupplierReport.php', 2, 'NotDone'),
 (9, 'OrderReport.php', 2, 'NotDone'),
-(10, 'OfferReport.php', 1, 'NotDone');
+(10, 'OfferReport.php', 2, 'NotDone');
 
 --
 -- Constraints for dumped tables
