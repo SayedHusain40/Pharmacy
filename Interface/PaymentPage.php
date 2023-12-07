@@ -12,43 +12,43 @@ try {
   // This if statement for when user click on pay 
   if (isset($_POST["paymentOption"]) && $_POST["paymentOption"] == "Pay") {
 
-    // //get OrderID from (order data) that not pay
-    // $data = $db->prepare("SELECT OrderID, TotalPrice FROM `order data` WHERE UserID = ? AND PaymentID IS NULL");
-    // $data->execute([$userID]);
-    // $result = $data->fetch();
-    // $OrderID = $result["OrderID"];
+    //get OrderID from (order data) that not pay
+    $data = $db->prepare("SELECT OrderID, TotalPrice FROM `order data` WHERE UserID = ? AND PaymentID IS NULL");
+    $data->execute([$userID]);
+    $result = $data->fetch();
+    $OrderID = $result["OrderID"];
 
 
-    // //Get items that user order from (view cart table)
-    // $ItemsOrdered = $db->prepare("SELECT * FROM `view cart` WHERE UserID = ?");
-    // $ItemsOrdered->execute([$userID]);
+    //Get items that user order from (view cart table)
+    $ItemsOrdered = $db->prepare("SELECT * FROM `view cart` WHERE UserID = ?");
+    $ItemsOrdered->execute([$userID]);
 
-    // //insert order Items in (ordered item table) and reduce Qty in (product data table)
-    // while ($row = $ItemsOrdered->fetch()) {
-    //   $productQtyQuery = $db->prepare("SELECT Quantity FROM `product data` WHERE ProductID = ?");
-    //   $productQtyQuery->execute([$row["ProductID"]]);
+    //insert order Items in (ordered item table) and reduce Qty in (product data table)
+    while ($row = $ItemsOrdered->fetch()) {
+      $productQtyQuery = $db->prepare("SELECT Quantity FROM `product data` WHERE ProductID = ?");
+      $productQtyQuery->execute([$row["ProductID"]]);
 
-    //   $productQtyResult = $productQtyQuery->fetch();
-    //   $productQty = $productQtyResult['Quantity'];
+      $productQtyResult = $productQtyQuery->fetch();
+      $productQty = $productQtyResult['Quantity'];
 
-    //   $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, Total) VALUES (?,?,?,?)");
-    //   $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"]]);
+      $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, Total) VALUES (?,?,?,?)");
+      $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"]]);
 
-    //   $newQty = $productQty - $row["Qty"];
-    //   $updateQty = $db->prepare("UPDATE `product data` SET Quantity = ? WHERE ProductID = ?");
-    //   $updateQty->execute([$newQty, $row["ProductID"]]);
-    // }
+      $newQty = $productQty - $row["Qty"];
+      $updateQty = $db->prepare("UPDATE `product data` SET Quantity = ? WHERE ProductID = ?");
+      $updateQty->execute([$newQty, $row["ProductID"]]);
+    }
 
-    // // Insert Payment into the (payment database table)
-    // $stmtPayment = $db->prepare("INSERT INTO `payment database` (UserID) VALUES (?)");
-    // $stmtPayment->execute([$userID]);
+    // Insert Payment into the (payment database table)
+    $stmtPayment = $db->prepare("INSERT INTO `payment database` (UserID) VALUES (?)");
+    $stmtPayment->execute([$userID]);
 
-    // // Get the last inserted PaymentID
-    // $PaymentID = $db->lastInsertId();
+    // Get the last inserted PaymentID
+    $PaymentID = $db->lastInsertId();
 
-    // // Update PaymentID in (order data table)
-    // $updatePaymentID = $db->prepare("UPDATE `order data` SET PaymentID = ? WHERE OrderID = ?");
-    // $updatePaymentID->execute([$PaymentID, $OrderID]);
+    // Update PaymentID in (order data table)
+    $updatePaymentID = $db->prepare("UPDATE `order data` SET PaymentID = ? WHERE OrderID = ?");
+    $updatePaymentID->execute([$PaymentID, $OrderID]);
 
     echo "Thank You for Your Purchase";
 
@@ -99,12 +99,12 @@ try {
     </head>
 
     <body>
-      <div class="payment-header">
+      <div class="payment MainHeader ">
         <h1>Complete Your Purchase</h1>
       </div>
 
       <div class="payment-content">
-        <div class="payment">
+        <div class="payment MainContent">
           <h1>Payment</h1>
           <h3 class="Price">Total Price: <?php echo $totalPrice ?> BHD</h3>
           <div class="credit-card">
@@ -122,36 +122,36 @@ try {
           <form class="paymentForm" method="post">
             <label>Cardholder Name (exactly as shown on card)</label>
             <input type="text" placeholder="Enter Your Full Name" id="cardholder-name" />
-            <p class="name-error payError"><i class="fa-solid fa-circle-exclamation"></i><span>Cardholder Name cannot be empty</span></p>
+            <p class="name-error MainError"><i class="fa-solid fa-circle-exclamation"></i><span>Cardholder Name cannot be empty</span></p>
 
             <br /> <br>
 
             <label>Card number</label>
             <input type="text" placeholder="0000 0000 0000 0000" id="card-number" />
-            <p class="card-error payError"><i class="fa-solid fa-circle-exclamation"></i><span>Card number cannot be empty</span></p>
+            <p class="card-error MainError"><i class="fa-solid fa-circle-exclamation"></i><span>Card number cannot be empty</span></p>
 
             <br /><br>
 
-            <div class="expCvv">
+            <div class="parentDiv">
               <div>
                 <label>Expiration date</label><br />
                 <input type="text" placeholder="MM/YY" class="ExpDate" id="expiration-date" />
-                <p class="expiration-error payError">
+                <p class="expiration-error MainError">
                   <i class="fa-solid fa-circle-exclamation"></i><span>Expiration date cannot be empty</span>
                 </p>
               </div>
               <div>
                 <label>CVV</label><br />
                 <input type="text" placeholder="CVV" id="cvv" />
-                <p class="cvv-error payError">
+                <p class="cvv-error MainError">
                   <i class="fa-solid fa-circle-exclamation"></i><span>CVV cannot be empty</span>
                 </p>
               </div>
             </div>
-            <div class="pay-cancel">
+            <div class="MainSubmit">
               <input type="hidden" name="paymentOption" value="Pay">
-              <input type="submit" name="paymentOption" value="Pay" id="inputPaymentOption" />
               <button onclick="goToPreviousPage()">Cancel</button>
+              <input type="submit" name="paymentOption" value="Pay" id="inputPaymentOption" />
             </div>
           </form>
         </div>

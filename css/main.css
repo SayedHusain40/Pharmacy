@@ -104,8 +104,8 @@
   cursor: pointer;
 }
 /*======== Shopping Cart End========*/
-/* ======== Payment Star ======== */
-.payment-header {
+/* ======== Payment page Star And Addresses page ======== */
+.MainHeader {
   padding: 10px;
   background-color: #e8eaff;
   min-height: 180px;
@@ -113,7 +113,7 @@
   color: #162d3d;
   font-weight: bold;
 }
-.payment {
+.MainContent {
   color: #162d3d;
   font-weight: bold;
   background-color: white;
@@ -124,7 +124,7 @@
   margin-top: -50px;
   box-shadow: 0px 0px 6px 2px #e8eaff;
 }
-.payment input[type="text"] {
+.MainContent input {
   width: 100%;
   padding: 15px;
   border-radius: 6px;
@@ -132,7 +132,7 @@
   border: 1px solid #e8eaff;
   font-size: 16px;
 }
-.payment h1 {
+.MainContent h1 {
   margin-top: 0;
   text-align: center;
 }
@@ -150,32 +150,32 @@
     margin-bottom: 10px;
   }
 }
-.payment label {
+.MainContent label {
   color: #333;
 }
-.payment input:hover {
+.MainContent input:hover {
   background-color: #e8eaff;
 }
-.payment .expCvv {
+.MainContent .parentDiv {
   justify-content: space-between;
   display: flex;
 }
-.payment .expCvv div {
+.MainContent .parentDiv div {
   width: 45%;
 }
-.payment label::after {
+.MainContent label::after {
   content: "*";
   color: red;
   margin-left: 5px;
 }
-.payment .pay-cancel {
+.MainContent .MainSubmit {
   text-align: center;
   margin-top: 20px;
   display: flex;
   justify-content: space-around;
 }
-.payment input[type="submit"],
-.payment button {
+.MainContent input[type="submit"],
+.MainContent button, .mainLink {
   width: 200px;
   padding: 10px 15px;
   border-radius: 20px;
@@ -184,9 +184,13 @@
   border: 1px solid #488aec;
   background-color: #488aec45;
   cursor: pointer;
+  color: #162d3d;
+  text-decoration: none;
+
 }
-.payment input[type="submit"]:hover,
-.payment button:hover {
+.MainContent input[type="submit"]:hover,
+.MainContent button:hover,
+.mainLink:hover {
   background-color: #488aec;
   color: white;
 }
@@ -195,15 +199,20 @@
     margin-bottom: 10px;
   }
 }
-.payError {
+.MainError{
   color: red;
   margin: 0;
   padding: 0;
   display: none;
 }
-.payError i {
+.MainErrorSAddresses {
+  color: red;
+  margin: 0;
+  padding: 0;
+}
+.MainError i {
   margin-right: 10px;
 }
 
 
-/* ======== Payment End ======== */
+/* ======== Payment page Star And Addresses page End ======== */

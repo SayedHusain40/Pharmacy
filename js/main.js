@@ -109,7 +109,6 @@ paymentForm.addEventListener('submit', function (event) {
       }
     }
   }
-
   if (cvvInput.value === '') {
     document.querySelector('.cvv-error').style.display = 'block';
     errors = true;

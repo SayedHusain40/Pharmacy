@@ -3,6 +3,8 @@
   include ""; 
 */
 
+
+
 try {
 
   //Assume 
@@ -84,62 +86,87 @@ try {
   </head>
 
   <body>
-    <h1>Confirm your delivery address</h1>
-    <form action="" method="post">
-      <label>Your Mobile Number</label>
-      <input type="tel" name="MobileNumber" placeholder="Mobile Number" value="<?php echo $result["MobileNumber"] ?>"><br>
-      <?php if (isset($errors['mobileNumberRequired'])) : ?>
-        <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['mobileNumberRequired']; ?></span></p>
-      <?php elseif (isset($errors['mobileNumberErr'])) : ?>
-        <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['mobileNumberErr']; ?></span></p>
-      <?php endif; ?>
+    <div class="MainHeader">
+      <h1>Confirm your delivery address</h1>
+    </div>
+    <div class="MainContent">
+      <form action="" method="post">
+        <label>Your Mobile Number</label>
+        <input type="tel" name="MobileNumber" placeholder="Mobile Number" value="<?php echo $result["MobileNumber"] ?>"><br>
+        <?php if (isset($errors['mobileNumberRequired'])) : ?>
+          <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['mobileNumberRequired']; ?></span></p>
+        <?php elseif (isset($errors['mobileNumberErr'])) : ?>
+          <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['mobileNumberErr']; ?></span></p>
+        <?php endif; ?>
 
-      <label>Your Email</label>
-      <input type="email" name="Email" placeholder="Email" value="<?php echo $result["Email"] ?>"><br>
-      <?php if (isset($errors['emailRequired'])) : ?>
-        <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['emailRequired']; ?></span></p>
-      <?php elseif (isset($errors['emailErr'])) : ?>
-        <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['emailErr']; ?></span></p>
-      <?php endif; ?>
+        <br>
 
-      <label>Area</label>
-      <input type="text" name="Area" placeholder="Area" value="<?php echo $result["Area"] ?>"><br>
-      <?php if (isset($errors['areaRequired'])) : ?>
-        <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['areaRequired']; ?></span></p>
-      <?php endif; ?>
+        <label>Your Email</label>
+        <input type="email" name="Email" placeholder="Email" value="<?php echo $result["Email"] ?>"><br>
+        <?php if (isset($errors['emailRequired'])) : ?>
+          <p class="MainErrorSAddresses"><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['emailRequired']; ?></span></p>
+        <?php elseif (isset($errors['emailErr'])) : ?>
+          <p class="MainErrorSAddresses"><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['emailErr']; ?></span></p>
+        <?php endif; ?>
 
-      <label>House</label>
-      <input type="text" name="House" placeholder="House" value="<?php echo $result["House"] ?>"><br>
-      <?php if (isset($errors['houseRequired'])) : ?>
-        <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['houseRequired']; ?></span></p>
-      <?php endif; ?>
+        <br>
 
-      <label>Street</label>
-      <input type="text" name="Street" placeholder="Street" value="<?php echo $result["Street"] ?>"><br>
-      <?php if (isset($errors['streetRequired'])) : ?>
-        <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['streetRequired']; ?></span></p>
-      <?php endif; ?>
+        <div class="parentDiv">
+          <div>
+            <label>Area</label>
+            <input type="text" name="Area" placeholder="Area" value="<?php echo $result["Area"] ?>">
+            <?php if (isset($errors['areaRequired'])) : ?>
+              <p class="MainErrorSAddresses"><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['areaRequired']; ?></span></p>
+            <?php endif; ?>
+          </div>
 
-      <label>Block</label>
-      <input type="text" name="Block" placeholder="Block" value="<?php echo $result["Block"] ?>"><br>
-      <?php if (isset($errors['blockRequired'])) : ?>
-        <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['blockRequired']; ?></span></p>
-      <?php endif; ?>
+          <div>
+            <label>House</label>
+            <input type="text" name="House" placeholder="House" value="<?php echo $result["House"] ?>">
+            <?php if (isset($errors['houseRequired'])) : ?>
+              <p class="MainErrorSAddresses"><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['houseRequired']; ?></span></p>
+            <?php endif; ?>
+          </div>
+        </div>
 
-      <input type="submit" name="update-address-btn" value="Update">
-    </form>
+        <br>
+
+        <div class="parentDiv">
+          <div>
+            <label>Street</label>
+            <input type="text" name="Street" placeholder="Street" value="<?php echo $result["Street"] ?>"><br>
+            <?php if (isset($errors['streetRequired'])) : ?>
+              <p class="MainErrorSAddresses">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span><?php echo $errors['streetRequired']; ?></span>
+              </p>
+            <?php endif; ?>
+
+          </div>
+          <div>
+            <label>Block</label>
+            <input type="text" name="Block" placeholder="Block" value="<?php echo $result["Block"] ?>">
+            <?php if (isset($errors['blockRequired'])) : ?>
+              <p class="MainErrorSAddresses"><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['blockRequired']; ?></span></p>
+            <?php endif; ?>
+          </div>
+        </div>
+        <br>
+        <div class="MainSubmit">
+          <input type="submit" name="update-address-btn" value="Update">
+            <?php
+            $TotalPrice = $_GET["TotalPrice"];
+            $paymentMethod = $_GET["paymentMethod"];
+            ?>
+            <a class="mainLink" href="../Interface/PaymentPage.php?TotalPrice=<?php echo $TotalPrice ?>&paymentMethod=<?php echo $paymentMethod ?>">
+              Continue Payment
+            </a>
+        </div>
+      </form>
+    </div>
   </body>
 
   </html>
-
-
-
-  <?php
-  $TotalPrice = $_GET["TotalPrice"];
-  $paymentMethod = $_GET["paymentMethod"];
-  ?>
-  <a href="../Interface/PaymentPage.php?TotalPrice=<?php echo $TotalPrice ?>&paymentMethod=<?php echo $paymentMethod ?>"><button>Continue Payment</button></a>
-
 <?php
   $db = null;
 } catch (PDOException $e) {
