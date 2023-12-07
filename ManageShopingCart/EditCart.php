@@ -6,7 +6,7 @@
 try {
   require("../Connection/init.php");
 
-  //delete Items from cart
+  //delete Items from cart when click on delete
   if (isset($_POST['cartID']) && isset($_POST['delete'])) {
 
     $cartID = $_POST['cartID'];
@@ -20,7 +20,7 @@ try {
   }
 
 
-  //Update Qty and Price if he click on update QTY
+  //Update Qty and Price When click on update QTY
   if (isset($_POST['update-qty']) && isset($_POST['newQTY']) && isset($_POST['cartID'])) {
 
     $productID = $_POST["productID"];

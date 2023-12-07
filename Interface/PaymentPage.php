@@ -1,4 +1,5 @@
 <?php
+session_start();
 /*
   include ""; 
 */
@@ -6,8 +7,13 @@
 try {
   require("../Connection/init.php");
 
+  if (isset($_REQUEST["TotalPrice"]) && isset($_REQUEST["paymentMethod"])) {
+    $_SESSION['TotalPrice'] = $_REQUEST["TotalPrice"];
+    $_SESSION['paymentMethod'] = $_REQUEST["paymentMethod"];
+  }
+
   //Assume 
-  $userID = 3; //$_SESSION["user_id"]
+  $userID = 6; //$_SESSION["user_id"]
 
   // This if statement for when user click on pay 
   if (isset($_POST["paymentOption"]) && $_POST["paymentOption"] == "Pay") {
@@ -40,8 +46,11 @@ try {
     }
 
     // Insert Payment into the (payment database table)
-    $stmtPayment = $db->prepare("INSERT INTO `payment database` (UserID) VALUES (?)");
-    $stmtPayment->execute([$userID]);
+    date_default_timezone_set('Asia/Bahrain');
+    $PayDate = date('Y-m-d'); 
+    $totalPrice = $_SESSION['TotalPrice'];
+    $stmtPayment = $db->prepare("INSERT INTO `payment database` (PayDate, Total, Details, UserID) VALUES (?, ?, ?, ?)");
+    $stmtPayment->execute([$PayDate, $totalPrice, $totalPrice, $userID]);
 
     // Get the last inserted PaymentID
     $PaymentID = $db->lastInsertId();
@@ -55,8 +64,10 @@ try {
     exit();
   } else {
 
-    $totalPrice = $_REQUEST["TotalPrice"];
-    $paymentMethod = $_REQUEST["paymentMethod"];
+
+    $totalPrice = $_SESSION['TotalPrice'];
+    $paymentMethod = $_SESSION['paymentMethod'];
+
     date_default_timezone_set('Asia/Bahrain');
     $OrderDate = date('Y-m-d');
 

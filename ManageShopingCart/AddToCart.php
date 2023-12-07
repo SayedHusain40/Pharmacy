@@ -7,8 +7,8 @@ try {
   require("../Connection/init.php");
 
   //assume
-  $userID = 3; //$_SESSION["user_id"]
-  $productID = 3; //GET by js
+  $userID = 6; //$_SESSION["user_id"]
+  $productID = 1; //GET by js
   $QTY = 1; //GET by js
 
   // Get product Price

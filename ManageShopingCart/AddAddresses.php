@@ -3,12 +3,10 @@
   include ""; 
 */
 
-
-
 try {
 
   //Assume 
-  $userID = 3; //$_SESSION["user_id"]
+  $userID = 6; //$_SESSION["user_id"]
 
   $errors = [];
   $mobileNumber = $email = $area = $house = $street = $block = '';
