@@ -1,230 +1,184 @@
 <?php
+session_start(); // Add session_start() to start the session
+
 try {
+    function test_input($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
     $db = new PDO('mysql:host=localhost;dbname=groupwork;charset=utf8', 'root', '');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+
     $tables = array('Account', 'Interface', 'ManageOffers', 'ManageOrders', 'ManageProducts', 'ManageUsers', 'Reports', 'Function');
-    
+
+    // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         foreach ($tables as $table) {
-            $taskId = $_POST[$table]; // Get the selected member ID from the form data
-            $stmt = $db->prepare("UPDATE $table SET member_id = :member_id WHERE task_name = :task_name");
-            $stmt->bindParam(':member_id', $taskId);
-            $stmt->bindParam(':task_name', $table);
-            $stmt->execute();
+            if (isset($_POST[$table])) { // Check if the form field for $table exists in $_POST
+                $memberIds = $_POST[$table]; // Get the array of selected member IDs from the form data
+
+                $stmt = $db->prepare("UPDATE $table SET member_id = :member_id, task_status = :task_status WHERE task_name = :task_name");
+                $stmt->bindParam(':member_id', $memberId);
+                $stmt->bindParam(':task_status', $taskStatus);
+                $stmt->bindParam(':task_name', $taskName);
+
+                foreach ($memberIds as $taskName => $selectedMemberIds) {
+                    foreach ($selectedMemberIds as $memberId) {
+                        $taskStatus = isset($_POST["{$table}_status"][$taskName][$memberId]) ? 'Done' : 'NotDone'; // Set task_status to 'Done' if checkbox is checked, 'NotDone' otherwise
+                        $stmt->execute();
+                    }
+                }
+            }
         }
     }
-    
+
+    echo "<style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        /* Styling checkboxes */
+
+/* Hide the default checkbox */
+input[type='checkbox'] {
+  display: display;
+}
+
+/* Create a custom checkbox */
+.custom-checkbox {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #4CAF;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+/* Style the checked state of the checkbox */
+.custom-checkbox.checked {
+  background-color: #4CAF;
+}
+
+/* Styling select elements */
+
+/* Customize the appearance of the select box */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+/* Style the select element when it's open */
+select:focus {
+  outline: none;
+  border-color: #2196F3;
+  box-shadow: 0 0 0 1px #2196F3;
+}
+        
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #4CAF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        
+        button a:hover {
+            text-decoration: none;
+        }
+    </style>";
+
+    echo "<div class='container'>";
     echo "<form method='POST'>";
     echo "<table>";
-    echo "<tr><th>Table Name</th><th>Task Name</th><th>Member</th></tr>";
-    
+    echo "<tr><th>Table Name</th><th>Task Name</th><th>Member ID</th><th>Task Status</th></tr>";
+
     foreach ($tables as $table) {
-        $stmt = $db->prepare("SELECT task_name, member_id FROM $table");
+        $stmt = $db->prepare("SELECT task_name, member_id, task_status FROM $table");
         $stmt->execute();
         $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        echo "<tr><td rowspan='" . count($tasks) . "'>$table</td>";
-        
-        $firstRow = true;
-        foreach ($tasks as $task) {
-            if (!$firstRow) {
-                echo "<tr>";
-            }
-            
-            $taskId = $task['member_id'];
+
+        foreach ($tasks as $index => $task) {
             $taskName = $task['task_name'];
-            
+            $memberId = $task['member_id'];
+            $taskStatus = $task['task_status'];
+
+            echo "<tr>";
+            if ($index === 0) {
+                echo "<td rowspan='" . count($tasks) . "'>$table</td>";
+            }
             echo "<td>$taskName</td>";
             echo "<td>";
-            echo "<select name='$table'>";
-            
-            $stmt = $db->prepare("SELECT id, name FROM member");
+
+            $stmt = $db->prepare("SELECT Id, name FROM member");
             $stmt->execute();
             $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
+            echo "<select name='{$table}[$taskName][]' multiple>"; // Enclose the array notation in curly braces to avoid parsing issues
             foreach ($members as $member) {
-              $memberId = $member['id'];
-              $memberName = $member['name'];
-              $selected = ($memberId == $taskId) ? 'selected' : '';
-              echo "<option value='$memberId' $selected>$memberName</option>";
-          }
+                $id = $member['Id'];
+                $name = $member['name'];
+                $selected = ($id == $memberId) ? 'selected' : '';
+                echo "<option value='$id' $selected>$name</option>";
+            }
             echo "</select>";
+
+            echo "</td>";
+            echo "<td>";
+
+            echo "<input type='checkbox' name='{$table}_status[$taskName][$memberId]' value='Done' ";
+            if ($taskStatus === 'Done'){
+                echo "checked";
+            }
+            echo ">";
+
             echo "</td>";
             echo "</tr>";
-            
-            $firstRow = false;
         }
     }
-    
+
     echo "</table>";
-    echo "<button type='submit'>Save Changes</button>";
+    echo "<button type='submit'>Update</button> <hr>"; 
+    echo "<button> <a href='../Pharmacy/g.php'> Track ! </a> </button>";
     echo "</form>";
-} catch(PDOException $e) {
+    echo "</div>";
+
+} catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="">
-    <h2>Account:</h2>
-<ol>
-  <li>
-    Profile.php
-    <select name="name" onchange="displayTask(this.value)">
-      <option value="">Select a name</option>
-      <option value="Fatima">Fatima</option>
-      <option value="Karrar">Karrar</option>
-      <option value="Elias">Elias</option>
-      <option value="Sayed Hussain">Sayed Hussain</option>
-    </select>
-    <span id="taskDisplay"></span>
-  </li>
-  <li>
-    EditProfile.php
-    <select name="name" onchange="displayTask(this.value)">
-      <option value="">Select a name</option>
-      <option value="Fatima">Fatima</option>
-      <option value="Karrar">Karrar</option>
-      <option value="Elias">Elias</option>
-      <option value="Sayed Hussain">Sayed Hussain</option>
-    </select>
-    <span id="taskDisplay"></span>
-  </li>
-  <li>
-    Signup.php
-    <select name="name" onchange="displayTask(this.value)">
-      <option value="">Select a name</option>
-      <option value="Fatima">Fatima</option>
-      <option value="Karrar">Karrar</option>
-      <option value="Elias">Elias</option>
-      <option value="Sayed Hussain">Sayed Hussain</option>
-    </select>
-    <span id="taskDisplay"></span>
-  </li>
-  <li>
-    Login.php
-    <select name="name" onchange="displayTask(this.value)">
-      <option value="">Select a name</option>
-      <option value="Fatima">Fatima</option>
-      <option value="Karrar">Karrar</option>
-      <option value="Elias">Elias</option>
-      <option value="Sayed Hussain">Sayed Hussain</option>
-    </select>
-    <span id="taskDisplay"></span>
-  </li>
-  <li>
-    Logout.php
-    <select name="name" onchange="displayTask(this.value)">
-      <option value="">Select a name</option>
-      <option value="Fatima">Fatima</option>
-      <option value="Karrar">Karrar</option>
-      <option value="Elias">Elias</option>
-      <option value="Sayed Hussain">Sayed Hussain</option>
-    </select>
-    <span id="taskDisplay"></span>
-  </li>
-</ol>
-
-<h2>Interface:</h2>
-<ol>
-  <li>HomePage.php</li>
-  <li>HomePageCustomer.php</li>
-  <li>HomePageStaff.php</li>
-  <li>HomePageAdmin.php</li>
-  <li>HomePageSupplier.php</li>
-  <li>ShopByCategories.php</li>
-  <li>ShopByBrand.php</li>
-  <li>ShoppingCart.php</li>
-  <li>AddToCart&Favourite.php</li>
-  <li>ViewCart.php</li>
-  <li>WishListPage.php</li>
-  <li>PaymentPage.php</li>
-  <li>Checkout.php</li>
-  <li>AboutUs.php</li>
-  <li>ContactUs.php</li>
-  <li>FAQs.php</li>
-</ol>
-
-<h2>ManageOffers:</h2>
-<ol>
-  <li>AddOffer.php</li>
-  <li>EditOffer.php</li>
-  <li>ViewOffer.php</li>
-</ol>
-
-<h2>ManageOrders:</h2>
-<ol>
-  <li>AddOrder.php</li>
-  <li>EditOrder.php</li>
-  <li>ViewOrderList.php</li>
-</ol>
-
-<h2>ManageProduct:</h2>
-<ol>
-  <li>AddProduct.php</li>
-  <li>EditProduct.php</li>
-  <li>ViewProductList.php</li>
-  <li>ProductDetails.php</li>
-</ol>
-
-<h2>ManageUsers:</h2>
-<ol>
-  <li>AddUsers.php</li>
-  <li>EditUsers.php</li>
-  <li>ViewUsers.php</li>
-  <li>AddCustomer.php</li>
-  <li>EditCustomer.php</li>
-  <li>AddStaff.php</li>
-  <li>EditStaff.php</li>
-  <li>AddSupplier.php</li>
-  <li>EditSupplier.php</li>
-</ol>
-
-<h2>Reports:</h2>
-<ol>
-  <li>CurrentInventoryReport.php</li>
-  <li>MedicineReport.php</li>
-  <li>UsersReport.php</li>
-  <li>CustomerInformationReport.php</li>
-  <li>StaffInformationReport.php</li>
-  <li>CustomerOrderDetailsReport.php</li>
-  <li>TopSellingMedicinesReport.php</li>
-  <li>SupplierReport.php</li>
-  <li>OrderReport.php</li>
-  <li>OfferReport.php</li>
-</ol>
-
-<h2>Function:</h2>
-<ol>
-  <li>PayForOrder.php</li>
-  <li>SearchItems</li>
-  <li>Trackorder.php</li>
-  <li>Rating.php</li>
-  <li>Sorting.php</li>
-  <li>PriceFilter.php</li>
-</ol>
-    </form>
-
-
-    <script>
-  function displayTask(name) {
-    const taskDisplay = document.getElementById("taskDisplay");
-    if (name === "Fatima") {
-      taskDisplay.textContent = "Task for Fatima: ..."; // Replace ... with the actual task
-    } else if (name === "Elias") {
-      taskDisplay.textContent = "Task for Elias: ..."; // Replace ... with the actual task
-    } else {
-      taskDisplay.textContent = ""; // Clear task display if no name is selected
-    }
-  }
-</script>
-</body>
-</html>
