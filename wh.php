@@ -3,21 +3,6 @@ session_start();
 
 include '../Pharmacy/Connection/init.php';
 
-$stmt = $db->prepare("
-    SELECT DISTINCT ud.UserID, ud.Username, cd.FirstName, cd.LastName
-    FROM `user data` ud
-    LEFT JOIN `Customer data` cd ON ud.UserID = cd.UserID
-    UNION
-    SELECT DISTINCT ud.UserID, ud.Username, sd.FirstName, sd.LastName
-    FROM `user data` ud
-    LEFT JOIN `Staff data` sd ON ud.UserID = sd.UserID
-    UNION
-    SELECT DISTINCT ud.UserID, ud.Username, sd.FirstName, sd.LastName
-    FROM `user data` ud
-    LEFT JOIN `Supplier data` sd ON ud.UserID = sd.UserID
-");
-$stmt->execute();
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $stmt = $db->prepare("SELECT * FROM `product data`");
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,14 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $db->beginTransaction();
-        if (isset($_POST['users'])) {  //هالسطرين بس لصفحة الادمن و الستاف
-            $selectedUserId = $_POST['users']; //هالسطرين بس لصفحة الادمن و الستاف
-             
-            //اذا بنشيل السطرين الي فوق بصير عندنا ايرور يمكن بسبب الكيرلي براكت فبسوي عليه ملاحظه 
 
         // Insert the order into the order data table
         $stmt = $db->prepare("INSERT INTO `order data` (`UserID`, `TotalPrice`, `Status`, `OrderDate`, `AccBalance`, `MembershipPoints`) VALUES (:userId, :totalPrice, 'Pending', CURDATE(), NULL, :totalPoints)");
-        $stmt->bindParam(':userId', $selectedUserId); // for user page it will be  $_SESSION['user_id'] instead of $selectedUserId
+        $stmt->bindParam(':userId', $_SESSION['user_id']);
         $stmt->bindParam(':totalPrice', $totalPrices);
         $stmt->bindParam(':totalPoints', $totalPoints);
         $stmt->execute();
@@ -85,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Order placed successfully!";
         echo "Total Price: $totalPrices";
         echo "<p id='total-points'>Total Points: $totalPoints</p>";
-    } // دا الي كنت اقصده فوق 
+
     } catch (PDOException $e) {
         $db->rollBack();
         echo "Error: " . $e->getMessage();
@@ -107,13 +88,6 @@ echo "<style>
 </style>";
 
 echo "<form method='POST' id='order-form'>";
-echo '<select name="users">';
-foreach ($users as $user) {
-  echo '<option value="' . $user['UserID'] . '">';
-  echo $user['UserID'] . ' - ' . $user['Username'] . ' - ' . $user['FirstName'] . ' ' . $user['LastName'];
-  echo '</option>';
-}
-echo '</select>';
 echo "<table>";
 echo "<tr>";
 echo "<th>Product ID</th>";
