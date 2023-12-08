@@ -38,7 +38,7 @@ html{
     color: #FFB700;
 }
 h1{
-  color: #00BFD6;
+  color: white;
   margin: 0px 30px -25px 30px;
 }
 .form-button-wrapper input[type=submit] {
@@ -65,7 +65,7 @@ h1{
 label{
   padding-right: 10px;
   margin-left: 60px;
-  color: #F8F8F8;
+  color: white;
 }
   .G.form-group {
     margin-left: 60px;
@@ -111,7 +111,7 @@ form{
   padding: 50px 5px;
   border: 2px solid grey;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(128, 128, 128, 0.5);
   width: 1024px;
 }
 header{
@@ -152,10 +152,10 @@ footer{
 .signup-container {
       text-align: center;
       margin-top: 20px;
-      color: grey;
+      color: white;
     }
     .login-container {
         margin-left: 60px;
         margin-top: 20px;
-        color: grey;
+        color: white;
       }
