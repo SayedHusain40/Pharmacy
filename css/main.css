@@ -32,7 +32,7 @@
   align-items: center;
   margin-right: 20px;
   margin-left: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   position: relative;
   color: #162d3d;
   font-size: 17px;
@@ -116,6 +116,7 @@
   padding: 15px;
   border-radius: 16px;
   height: fit-content;
+  color: #162d3d;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 .cartContainer .checkout h1 {
