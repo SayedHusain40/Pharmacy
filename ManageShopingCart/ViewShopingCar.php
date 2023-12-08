@@ -44,7 +44,7 @@ try {
   </head>
 
   <body>
-    <?php
+    <?php 
     if ($count > 0) {
     ?>
       <h1 class="titleSC">Your Shopping Cart</h1>
