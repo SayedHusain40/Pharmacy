@@ -8,8 +8,8 @@ try {
 
   //assume
   $userID = 6; //$_SESSION["user_id"]
-  $productID = 1; //GET by js
-  $QTY = 1; //GET by js
+  $productID = 2; //GET by js
+  $QTY = 2; //GET by js
 
   // Get product Price
   $stmt = $db->prepare("SELECT Price FROM `product data` WHERE ProductID = ?");

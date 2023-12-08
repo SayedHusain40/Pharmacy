@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2023 at 12:13 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Dec 08, 2023 at 01:11 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -51,7 +51,7 @@ CREATE TABLE `customer data` (
 --
 
 INSERT INTO `customer data` (`CustomerID`, `FirstName`, `LastName`, `MobileNumber`, `Email`, `Area`, `House`, `Street`, `Block`, `DOB`, `CreditCardInfo`, `ShippingInfo`, `AccBalance`, `MembershipPoints`, `ProfilePic`, `UserID`) VALUES
-(1, 'faisal', 'name', '+97323456783', '', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000003),
+(1, 'faisal', 'name', '+97311111111', '1213sada2@hotmail.com', 'TEst1', 'TEst2', 'TEst23', 6514, NULL, '', '', 0, 0, NULL, 000000003),
 (2, 'at', 'table', '+9734567890', '', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000006),
 (7, 'at', 'table', '+973456789876', '', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000007),
 (8, 'Walaa', 'Salman', '+97336735550', 'walaa.e@icloud.com', '', '', '', 0, NULL, '', '', 0, 0, NULL, 000000008),
@@ -97,6 +97,13 @@ CREATE TABLE `order data` (
   `PaymentID` int(9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `order data`
+--
+
+INSERT INTO `order data` (`OrderID`, `UserID`, `ProductID`, `TotalPrice`, `PaymentMethod`, `Status`, `OrderDate`, `CreditCardInfo`, `AccBalance`, `MembershipPoints`, `PaymentID`) VALUES
+(61, 6, NULL, 220, 'Credit Card', 'Payment Confirmed', '2023-12-08', '{\"cardholderName\":\"fsefsf\",\"encryptedCardNumber\":\"ouC5SUkKffEzzQltRhpwJfvbN4CxKnwiUd8qKFVZ3jA=\",\"expirationDate\":\"12\\/55\",\"cvv\":\"3111\"}', NULL, NULL, 35);
+
 -- --------------------------------------------------------
 
 --
@@ -110,6 +117,14 @@ CREATE TABLE `ordered item` (
   `Total` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `ordered item`
+--
+
+INSERT INTO `ordered item` (`OrderID`, `ProductID`, `Qty`, `Total`) VALUES
+(61, 1, 2, 200),
+(61, 2, 2, 20);
+
 -- --------------------------------------------------------
 
 --
@@ -119,7 +134,7 @@ CREATE TABLE `ordered item` (
 CREATE TABLE `payment database` (
   `PaymentID` int(9) NOT NULL,
   `PayDate` date NOT NULL,
-  `Total` decimal(4,3) NOT NULL,
+  `Total` double(4,3) NOT NULL,
   `ShippingInfo` varchar(255) NOT NULL,
   `Details` varchar(255) DEFAULT NULL,
   `MembershipPoints` int(10) DEFAULT NULL,
@@ -128,6 +143,13 @@ CREATE TABLE `payment database` (
   `PaymentStatus` varchar(20) DEFAULT NULL,
   `UserID` int(10) UNSIGNED ZEROFILL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment database`
+--
+
+INSERT INTO `payment database` (`PaymentID`, `PayDate`, `Total`, `ShippingInfo`, `Details`, `MembershipPoints`, `CreditCardInfo`, `AccBalance`, `PaymentStatus`, `UserID`) VALUES
+(35, '2023-12-08', 9.999, '{\"RecipientName\":\"at table\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+9734567890\",\"Email\":\"\"}}', NULL, NULL, '{\"cardholderName\":\"fsefsf\",\"encryptedCardNumber\":\"ouC5SUkKffEzzQltRhpwJfvbN4CxKnwiUd8qKFVZ3jA=\",\"expirationDate\":\"12\\/55\",\"cvv\":\"3111\"}', NULL, 'paid', 0000000006);
 
 -- --------------------------------------------------------
 
@@ -155,9 +177,9 @@ CREATE TABLE `product data` (
 --
 
 INSERT INTO `product data` (`ProductID`, `Name`, `Type`, `RequiresPrescription`, `Description`, `ExpireDate`, `Quantity`, `Availability`, `Price`, `Brand`, `Photo`, `Alternate`) VALUES
-(1, 'Product 1', '', 0, '', '0000-00-00', 0, 5, 100, NULL, 'Product1.jpeg', ''),
-(2, 'Product 2', '', 0, '', '0000-00-00', 60, 0, 10, NULL, 'Product1.jpeg', ''),
-(3, 'Product 3', '', 0, '', '0000-00-00', 50, 0, 20, NULL, 'Product1.jpeg', '');
+(1, 'Product 1', '', 0, '', '0000-00-00', 366, 5, 100, NULL, 'Product1.jpeg', ''),
+(2, 'Product 2', '', 0, '', '0000-00-00', 55, 0, 10, NULL, 'Product1.jpeg', ''),
+(3, 'Product 3', '', 0, '', '0000-00-00', 55, 0, 20, NULL, 'Product1.jpeg', '');
 
 -- --------------------------------------------------------
 
@@ -279,10 +301,10 @@ CREATE TABLE `view cart` (
 --
 
 INSERT INTO `view cart` (`CartID`, `UserID`, `ProductID`, `Qty`, `Total`, `AddedDate`) VALUES
-(10, 3, 1, 10, 500, '2023-12-03'),
-(13, 3, 2, 5, 50, '2023-12-04'),
-(14, 3, 1, 10, 1000, '2023-12-04'),
-(15, 4, 1, 3, 300, '2023-12-04');
+(17, 3, 3, 1, 20, '2023-12-06'),
+(18, 3, 2, 2, 20, '2023-12-07'),
+(19, 6, 1, 2, 200, '2023-12-07'),
+(21, 6, 2, 2, 20, '2023-12-08');
 
 -- --------------------------------------------------------
 
@@ -398,13 +420,13 @@ ALTER TABLE `offers data`
 -- AUTO_INCREMENT for table `order data`
 --
 ALTER TABLE `order data`
-  MODIFY `OrderID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `OrderID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `payment database`
 --
 ALTER TABLE `payment database`
-  MODIFY `PaymentID` int(9) NOT NULL AUTO_INCREMENT;
+  MODIFY `PaymentID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `product data`
@@ -434,7 +456,7 @@ ALTER TABLE `user data`
 -- AUTO_INCREMENT for table `view cart`
 --
 ALTER TABLE `view cart`
-  MODIFY `CartID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `CartID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `wish list data`
