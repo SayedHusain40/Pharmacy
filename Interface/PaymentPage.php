@@ -30,21 +30,25 @@ try {
     $ItemsOrdered->execute([$userID]);
 
     //insert order Items in (ordered item table) and reduce Qty in (product data table)
+    $TotalMembershipPoints = 0;
     while ($row = $ItemsOrdered->fetch()) {
-      $productQtyQuery = $db->prepare("SELECT Quantity FROM `product data` WHERE ProductID = ?");
+      $productQtyQuery = $db->prepare("SELECT Quantity, Points FROM `product data` WHERE ProductID = ?");
       $productQtyQuery->execute([$row["ProductID"]]);
 
       $productQtyResult = $productQtyQuery->fetch();
       $productQty = $productQtyResult['Quantity'];
+      $productPoint = $productQtyResult['Points'];
 
-      $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, Total) VALUES (?,?,?,?)");
-      $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"]]);
+      $MembershipPoints = $productPoint * $row["Qty"];
+      $TotalMembershipPoints = $TotalMembershipPoints + $MembershipPoints;
+
+      $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, TotalPrice, TotalPoints) VALUES (?,?,?,?,?)");
+      $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"], $MembershipPoints]);
 
       $newQty = $productQty - $row["Qty"];
       $updateQty = $db->prepare("UPDATE `product data` SET Quantity = ? WHERE ProductID = ?");
       $updateQty->execute([$newQty, $row["ProductID"]]);
     }
-
 
     //Get CreditCardInfo to store them in database
     $cardholderName = $_POST['cardholder-name'];
@@ -78,6 +82,7 @@ try {
     $stmt = $db->prepare("SELECT * FROM `customer data` WHERE UserID = ?");
     $stmt->execute([$userID]);
     $result = $stmt->fetch();
+    $currentMembershipPoints = $result["MembershipPoints"];
 
     $shippingInfo = [
       'RecipientName' => $result['FirstName'] . ' ' . $result['LastName'],
@@ -96,8 +101,8 @@ try {
     $shippingInfoArray = json_encode($shippingInfo);
 
 
-    $stmtPayment = $db->prepare("INSERT INTO `payment database` (PayDate, Total, ShippingInfo, CreditCardInfo, PaymentStatus, UserID) VALUES (?,?, ?, ?, ?, ?)");
-    $stmtPayment->execute([$PayDate, $totalPrice, $shippingInfoArray, $CardInfoArray, $PaymentStatus, $userID]);
+    $stmtPayment = $db->prepare("INSERT INTO `payment database` (PayDate, Total, ShippingInfo, MembershipPoints, CreditCardInfo, PaymentStatus, UserID) VALUES (?,?, ?, ?, ?, ?, ?)");
+    $stmtPayment->execute([$PayDate, $totalPrice, $shippingInfoArray, $TotalMembershipPoints, $CardInfoArray, $PaymentStatus, $userID]);
 
     // Get the last inserted PaymentID
     $PaymentID = $db->lastInsertId();
@@ -105,9 +110,14 @@ try {
 
     // Update (order data table)
     $Status = "Payment Confirmed";
-    $update = $db->prepare("UPDATE `order data` SET PaymentID = ?, Status = ?, CreditCardInfo = ? WHERE OrderID = ?");
-    $update->execute([$PaymentID, $Status, $CardInfoArray, $OrderID]);
+    $update = $db->prepare("UPDATE `order data` SET PaymentID = ?, Status = ?, CreditCardInfo = ?, MembershipPoints = ? WHERE OrderID = ?");
+    $update->execute([$PaymentID, $Status, $CardInfoArray, $TotalMembershipPoints, $OrderID]);
 
+
+    // Update MembershipPoints for customer in (customer data table)
+    $newMembershipPoints = $currentMembershipPoints + $TotalMembershipPoints;
+    $update = $db->prepare("UPDATE `customer data` SET MembershipPoints = ? WHERE UserID = ?");
+    $update->execute([$newMembershipPoints, $userID]);
 
     echo "Thank You for Your Purchase";
     exit();

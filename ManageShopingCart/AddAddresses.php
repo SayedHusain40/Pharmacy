@@ -4,6 +4,7 @@
 */
 
 try {
+  session_start();
 
   //Assume 
   $userID = 6; //$_SESSION["user_id"]
