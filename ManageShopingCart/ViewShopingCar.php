@@ -64,14 +64,14 @@ try {
                 </div>
                 <div>Quantity: <?php echo $row['Qty']; ?></div>
                 <div>Price: <?php echo $row['Price']; ?> BHD</div>
-                <div>Total Price: <?php echo $row['Price'] . " x " . $row['Qty'] . " = " . $row["TotalPrice"]; ?> BHD</div>
+                <div>Total Price: <?php echo $row["TotalPrice"]; ?> BHD</div>
                 <div><?php echo $row['Qty'] . " x " . $row['Points'] . " = " . $row['Qty'] * $row['Points'] . " Points"; ?></div>
                 <div>
                   <form action="./EditCart.php" method="post">
                     <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
                     Update Quantity: <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>" max="<?php echo $row["Quantity"] ?>">
                     <input type="hidden" name="productID" value="<?php echo $row["ProductID"] ?>">
-                    <input type="submit" name="update-qty" value="Update" class="update-btn">
+                    <input class="update" type="submit" name="update-qty" value="Update" class="update-btn">
                   </form>
                 </div>
               </div>

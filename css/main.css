@@ -94,6 +94,21 @@
 .cartContainer .itemsBox i {
   font-size: 25px;
 }
+.cartContainer .itemsBox .update {
+  background-color: #488aec;
+  outline: none;
+  border: 0;
+  border-radius: 3px;
+  padding: 5px 15px;
+  margin-left: 9px;
+  color: #162d3d;
+  cursor: pointer;
+}
+@media (max-width: 400px) {
+  .cartContainer .itemsBox .update {
+    margin-top: 10px;
+  }
+}
 
 .cartContainer .checkout {
   background-color: #fcfcfc;
