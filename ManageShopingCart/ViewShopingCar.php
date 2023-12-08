@@ -15,6 +15,7 @@ try {
     `product data`.Name,
     `product data`.Price,
     `product data`.Quantity,
+    `product data`.Points,
     `view cart`.Qty,
     `view cart`.cartID,
     `view cart`.ProductID,
@@ -44,92 +45,86 @@ try {
   </head>
 
   <body>
-    <?php 
+    <?php
     if ($count > 0) {
     ?>
-      <h1 class="titleSC">Your Shopping Cart</h1>
-      <table class="table-cart">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Item Name</th>
-            <th>Item Price</th>
-            <th>Items Quantity</th>
-            <th>Total Price</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+      <h1 class="title">Your Shopping Cart</h1>
+      <div class="cartContainer">
+        <div>
           <?php
           $TotalPrice = 0;
           while ($row = $data->fetch()) {
-            $TotalPrice += $row["TotalPrice"];
+            $TotalPrice = $TotalPrice + $row["TotalPrice"];
           ?>
-            <tr>
-              <td><img src="../images/<?php echo $row['Photo']; ?>" width="100px" /></td>
-              <td><?php echo $row['Name']; ?></td>
-              <td>$<?php echo $row['Price']; ?></td>
-              <td>
-                <form action="./EditCart.php" method="post">
-                  <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
-                  <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>" max="<?php echo $row["Quantity"] ?>"><br> <br>
-                  <input type="hidden" name="productID" value="<?php echo $row["ProductID"] ?>">
-                  <input type="submit" name="update-qty" value="Update" class="update-btn">
-                </form>
-              </td>
-              <td>$<?php echo $row["TotalPrice"]; ?></td>
-              <td>
-                <a href=""><button class="favorite">favorite</button></a>
-                <form action="./EditCart.php" method="post">
-                  <input type="hidden" name="cartID" value="<?php echo $row["cartID"]; ?>">
-                  <button type="submit" name="delete" class="delete">delete</button>
-                </form>
-              </td>
-            </tr>
-
+            <div class="itemsBox">
+              <div> <img src="../images/<?php echo $row['Photo']; ?>" width="100px" /></div>
+              <div class="itemsBoxContent">
+                <div>
+                  <h3>Name: <?php echo $row['Name']; ?></h3>
+                </div>
+                <div>Quantity: <?php echo $row['Qty']; ?></div>
+                <div>Price: <?php echo $row['Price']; ?> BHD</div>
+                <div>Total Price: <?php echo $row['Price'] . " x " . $row['Qty'] . " = " . $row["TotalPrice"]; ?> BHD</div>
+                <div><?php echo $row['Qty'] . " x " . $row['Points'] . " = " . $row['Qty'] * $row['Points'] . " Points"; ?></div>
+                <div>
+                  <form action="./EditCart.php" method="post">
+                    <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
+                    Update Quantity: <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>" max="<?php echo $row["Quantity"] ?>">
+                    <input type="hidden" name="productID" value="<?php echo $row["ProductID"] ?>">
+                    <input type="submit" name="update-qty" value="Update" class="update-btn">
+                  </form>
+                </div>
+              </div>
+              <span class="deleteItemsCart">
+                <a href="./EditCart.php?delete&cartID=<?php echo $row["cartID"]; ?>"> <i class="fa-solid fa-circle-xmark"></i> </a>
+              </span>
+              <span class="favorite">
+                <i class="fa-regular fa-heart"></i>
+              </span>
+            </div>
           <?php } ?>
-        </tbody>
-      </table>
+        </div>
 
-      <div class="checkout">
-        <h1 class="summary">Summary</h1>
-        <form action="../Interface/PaymentPage.php" method="post">
-          <h2>Select a payment Method:</h2>
-          <input type="radio" name="paymentMethod" value="Credit Card" checked><label>Credit Card</label>
-          <input type="radio" name="paymentMethod" value="Debit Card"><label>Debit Card</label>
+        <div class="checkout">
+          <h1 class="summary">Summary</h1>
+          <form action="../Interface/PaymentPage.php" method="post">
+            <h4>Select a payment Method:</h4>
+            <input type="radio" name="paymentMethod" value="Credit Card" checked><label>Credit Card</label>
+            <input type="radio" name="paymentMethod" value="Debit Card"><label>Debit Card</label>
 
-          <h2>Shipping Method:</h2>
-          <input type="radio" name="order" value="pick-up" checked> Pick Up
-          <br><br>
-          <input type="radio" name="order" value="delivery"> Delivery(+1.5 BD)
-          <hr>
-          <div>
-            <h2>Sub total:</h2>
-            <h2><?php echo isset($TotalPrice) ? $TotalPrice : 0 ?> BHD</h2>
-          </div>
-          <div id="deliveryCost" style="display: none;">
-            <h2>Delivery:</h2>
-            <h2>1.5 BHD</h2>
-          </div>
-          <hr>
-          <div class="total">
-            <h2>Total:</h2>
-            <h2 id="totalPrice">
-              <?php
-              if (isset($TotalPrice)) {
-                echo $TotalPrice . " BHD";
-              } else {
-                echo "0 BHD";
-              }
-              ?>
-            </h2>
-          </div>
+            <h4>Shipping Method:</h4>
+            <input type="radio" name="order" value="pick-up" checked> Pick Up
 
-          <input type="hidden" id="hiddenTotalPrice" name="TotalPrice" value="<?php echo isset($TotalPrice) ? $TotalPrice : 0 ?>">
-          <div class="submit-btn">
-            <input type="submit" name="checkout-submit" value="Checkout">
-          </div>
-        </form>
+            <input type="radio" name="order" value="delivery"> Delivery (+1.5 BD)
+            <hr>
+            <div>
+              <p>Sub total</p>
+              <p><?php echo isset($TotalPrice) ? $TotalPrice : 0 ?> BHD</p>
+            </div>
+            <div id="deliveryCost" style="display: none;">
+              <p>Delivery</p>
+              <p>1.5 BHD</p>
+            </div>
+            <hr>
+            <div class="total">
+              <h3>Total</h3>
+              <h3 id="totalPrice">
+                <?php
+                if (isset($TotalPrice)) {
+                  echo $TotalPrice . " BHD";
+                } else {
+                  echo "0 BHD";
+                }
+                ?>
+              </h3>
+            </div>
+
+            <input type="hidden" id="hiddenTotalPrice" name="TotalPrice" value="<?php echo isset($TotalPrice) ? $TotalPrice : 0 ?>">
+            <div class="submit-btn">
+              <input type="submit" name="checkout-submit" value="Checkout">
+            </div>
+          </form>
+        </div>
       </div>
 
       <script>
@@ -158,7 +153,8 @@ try {
       </script>
 
     <?php
-    } else { ?>
+    } else {
+    ?>
       <h1 class='cartEmpty'>Your Shopping Cart is Empty</h1>
       <div class="cart-image">
         <img src="../images/cart.jpeg" alt="">

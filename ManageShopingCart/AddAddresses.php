@@ -4,7 +4,6 @@
 */
 
 try {
-  session_start();
 
   //Assume 
   $userID = 6; //$_SESSION["user_id"]
@@ -58,13 +57,10 @@ try {
       $errors['blockRequired'] = "Block is required!";
     }
 
-    // Check for errors before database operations
+    // Check for errors i f not errors update address value for customer
     if (count($errors) === 0) {
       $stmt = $db->prepare("UPDATE `customer data` SET MobileNumber = ?, Email = ?, Area = ?, House = ?, Street = ?, Block = ? WHERE UserID = ?");
       $stmt->execute([$mobileNumber, $email, $area, $house, $street, $block, $userID]);
-
-      $totalPrice = $_GET['TotalPrice'];
-      $paymentMethod = $_GET['paymentMethod'];
 
       header("Location: {$_SERVER['PHP_SELF']}?TotalPrice=$totalPrice&paymentMethod=$paymentMethod");
       exit();
@@ -153,13 +149,16 @@ try {
         <br>
         <div class="MainSubmit">
           <input type="submit" name="update-address-btn" value="Update">
-            <?php
-            $TotalPrice = $_GET["TotalPrice"];
-            $paymentMethod = $_GET["paymentMethod"];
-            ?>
-            <a class="mainLink" href="../Interface/PaymentPage.php?TotalPrice=<?php echo $TotalPrice ?>&paymentMethod=<?php echo $paymentMethod ?>">
-              Continue Payment
-            </a>
+
+          <?php
+          if ((isset($_POST['update-address-btn']) && count($errors) === 0) ||
+            (!empty($result["MobileNumber"]) && !empty($result["Email"]) && !empty($result["Area"]) && !empty($result["House"]) && !empty($result["Street"]) && !empty($result["Block"]))
+          ) {
+            echo '<a class="mainLink" href="../Interface/PaymentPage.php">Continue Payment</a>';
+          } else {
+            echo '<button style="color: gray; cursor: not-allowed;" disabled>Continue Payment</button>';
+          }
+          ?>
         </div>
       </form>
     </div>

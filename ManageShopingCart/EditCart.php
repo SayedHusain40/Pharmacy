@@ -7,9 +7,9 @@ try {
   require("../Connection/init.php");
 
   //delete Items from cart when click on delete
-  if (isset($_POST['cartID']) && isset($_POST['delete'])) {
+  if (isset($_REQUEST['cartID']) && isset($_REQUEST['delete'])) {
 
-    $cartID = $_POST['cartID'];
+    $cartID = $_REQUEST['cartID'];
 
     $deleteQuery = "DELETE FROM `view cart` WHERE CartID = ?";
     $stmt = $db->prepare($deleteQuery);
