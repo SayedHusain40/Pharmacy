@@ -31,110 +31,114 @@ try {
   // This if statement for when user click on pay 
   if (isset($_POST["paymentOption"]) && $_POST["paymentOption"] == "Pay") {
 
-    //get OrderID from (order data) that not pay
-    $data = $db->prepare("SELECT OrderID, TotalPrice FROM `order data` WHERE UserID = ? AND PaymentID IS NULL");
-    $data->execute([$userID]);
-    $result = $data->fetch();
-    $OrderID = $result["OrderID"];
+    // //get OrderID from (order data) that not pay
+    // $data = $db->prepare("SELECT OrderID, TotalPrice FROM `order data` WHERE UserID = ? AND PaymentID IS NULL");
+    // $data->execute([$userID]);
+    // $result = $data->fetch();
+    // $OrderID = $result["OrderID"];
 
 
-    //Get items that user order from (view cart table)
-    $ItemsOrdered = $db->prepare("SELECT * FROM `view cart` WHERE UserID = ?");
-    $ItemsOrdered->execute([$userID]);
+    // //Get items that user order from (view cart table)
+    // $ItemsOrdered = $db->prepare("SELECT * FROM `view cart` WHERE UserID = ?");
+    // $ItemsOrdered->execute([$userID]);
 
-    //insert order Items in (ordered item table) and reduce Qty in (product data table)
-    $TotalMembershipPoints = 0;
-    while ($row = $ItemsOrdered->fetch()) {
-      $productQtyQuery = $db->prepare("SELECT Quantity, Points FROM `product data` WHERE ProductID = ?");
-      $productQtyQuery->execute([$row["ProductID"]]);
+    // //insert order Items in (ordered item table) and reduce Qty in (product data table)
+    // $TotalMembershipPoints = 0;
+    // while ($row = $ItemsOrdered->fetch()) {
+    //   $productQtyQuery = $db->prepare("SELECT Quantity, Points FROM `product data` WHERE ProductID = ?");
+    //   $productQtyQuery->execute([$row["ProductID"]]);
 
-      $productQtyResult = $productQtyQuery->fetch();
-      $productQty = $productQtyResult['Quantity'];
-      $productPoint = $productQtyResult['Points'];
+    //   $productQtyResult = $productQtyQuery->fetch();
+    //   $productQty = $productQtyResult['Quantity'];
+    //   $productPoint = $productQtyResult['Points'];
 
-      $MembershipPoints = $productPoint * $row["Qty"];
-      $TotalMembershipPoints = $TotalMembershipPoints + $MembershipPoints;
+    //   $MembershipPoints = $productPoint * $row["Qty"];
+    //   $TotalMembershipPoints = $TotalMembershipPoints + $MembershipPoints;
 
-      $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, TotalPrice, TotalPoints) VALUES (?,?,?,?,?)");
-      $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"], $MembershipPoints]);
+    //   $stmt = $db->prepare("INSERT INTO `ordered item` (OrderID, ProductID, Qty, TotalPrice, TotalPoints) VALUES (?,?,?,?,?)");
+    //   $stmt->execute([$OrderID, $row["ProductID"], $row["Qty"], $row["Total"], $MembershipPoints]);
 
-      $newQty = $productQty - $row["Qty"];
-      $updateQty = $db->prepare("UPDATE `product data` SET Quantity = ? WHERE ProductID = ?");
-      $updateQty->execute([$newQty, $row["ProductID"]]);
-    }
+    //   $newQty = $productQty - $row["Qty"];
+    //   $updateQty = $db->prepare("UPDATE `product data` SET Quantity = ? WHERE ProductID = ?");
+    //   $updateQty->execute([$newQty, $row["ProductID"]]);
+    // }
 
-    //Get CreditCardInfo to store them in database
-    $cardholderName = $_POST['cardholder-name'];
-    $cardNumber = $_POST['card-number'];
-    $expirationDate = $_POST['expiration-date'];
-    $cvv = $_POST['cvv'];
+    // //Get CreditCardInfo to store them in database
+    // $cardholderName = $_POST['cardholder-name'];
+    // $cardNumber = $_POST['card-number'];
+    // $expirationDate = $_POST['expiration-date'];
+    // $cvv = $_POST['cvv'];
 
-    // Encrypt sensitive data
-    $key = 'secretKey';
-    $iv = openssl_random_pseudo_bytes(16);
-    $encryptedCardNumber = openssl_encrypt($cardNumber, 'AES-256-CBC', $key, 0, $iv);
+    // // Encrypt sensitive data
+    // $key = 'secretKey';
+    // $iv = openssl_random_pseudo_bytes(16);
+    // $encryptedCardNumber = openssl_encrypt($cardNumber, 'AES-256-CBC', $key, 0, $iv);
 
-    $CreditCardInfo = [
-      'cardholderName' => $cardholderName,
-      'encryptedCardNumber' => $encryptedCardNumber,
-      'expirationDate' => $expirationDate,
-      'cvv' => $cvv,
-    ];
+    // $CreditCardInfo = [
+    //   'cardholderName' => $cardholderName,
+    //   'encryptedCardNumber' => $encryptedCardNumber,
+    //   'expirationDate' => $expirationDate,
+    //   'cvv' => $cvv,
+    // ];
 
-    $CardInfoArray = json_encode($CreditCardInfo);
-
-
-    // Insert PaymentInfo into the (payment database table)
-    date_default_timezone_set('Asia/Bahrain');
-    $PayDate = date('Y-m-d');
-    $totalPrice = $_SESSION['TotalPrice'];
-    $PaymentStatus = "paid";
+    // $CardInfoArray = json_encode($CreditCardInfo);
 
 
-    // customer data for shippingInfo
-    $stmt = $db->prepare("SELECT * FROM `customer data` WHERE UserID = ?");
-    $stmt->execute([$userID]);
-    $result = $stmt->fetch();
-    $currentMembershipPoints = $result["MembershipPoints"];
-
-    $shippingInfo = [
-      'RecipientName' => $result['FirstName'] . ' ' . $result['LastName'],
-      'Address' => [
-        'Area' => $result['Area'],
-        'House' => $result['House'],
-        'Street' => $result['Street'],
-        'Block' => $result['Block'],
-      ],
-      'Contact' => [
-        'MobileNumber' => $result['MobileNumber'],
-        'Email' => $result['Email'],
-      ]
-    ];
-
-    $shippingInfoArray = json_encode($shippingInfo);
+    // // Insert PaymentInfo into the (payment database table)
+    // date_default_timezone_set('Asia/Bahrain');
+    // $PayDate = date('Y-m-d');
+    // $totalPrice = $_SESSION['TotalPrice'];
+    // $PaymentStatus = "paid";
 
 
-    $stmtPayment = $db->prepare("INSERT INTO `payment database` (PayDate, Total, ShippingInfo, MembershipPoints, CreditCardInfo, PaymentStatus, UserID) VALUES (?,?, ?, ?, ?, ?, ?)");
-    $stmtPayment->execute([$PayDate, $totalPrice, $shippingInfoArray, $TotalMembershipPoints, $CardInfoArray, $PaymentStatus, $userID]);
+    // // customer data for shippingInfo
+    // $stmt = $db->prepare("SELECT * FROM `customer data` WHERE UserID = ?");
+    // $stmt->execute([$userID]);
+    // $result = $stmt->fetch();
+    // $currentMembershipPoints = $result["MembershipPoints"];
 
-    // Get the last inserted PaymentID
-    $PaymentID = $db->lastInsertId();
+    // $shippingInfo = [
+    //   'RecipientName' => $result['FirstName'] . ' ' . $result['LastName'],
+    //   'Address' => [
+    //     'Area' => $result['Area'],
+    //     'House' => $result['House'],
+    //     'Street' => $result['Street'],
+    //     'Block' => $result['Block'],
+    //   ],
+    //   'Contact' => [
+    //     'MobileNumber' => $result['MobileNumber'],
+    //     'Email' => $result['Email'],
+    //   ]
+    // ];
+
+    // $shippingInfoArray = json_encode($shippingInfo);
 
 
-    // Update (order data table)
-    $Status = "Payment Confirmed";
-    $update = $db->prepare("UPDATE `order data` SET PaymentID = ?, Status = ?, CreditCardInfo = ?, MembershipPoints = ? WHERE OrderID = ?");
-    $update->execute([$PaymentID, $Status, $CardInfoArray, $TotalMembershipPoints, $OrderID]);
+    // $stmtPayment = $db->prepare("INSERT INTO `payment database` (PayDate, Total, ShippingInfo, MembershipPoints, CreditCardInfo, PaymentStatus, UserID) VALUES (?,?, ?, ?, ?, ?, ?)");
+    // $stmtPayment->execute([$PayDate, $totalPrice, $shippingInfoArray, $TotalMembershipPoints, $CardInfoArray, $PaymentStatus, $userID]);
+
+    // // Get the last inserted PaymentID
+    // $PaymentID = $db->lastInsertId();
 
 
-    // Update MembershipPoints for customer in (customer data table)
-    $newMembershipPoints = $currentMembershipPoints + $TotalMembershipPoints;
-    $update = $db->prepare("UPDATE `customer data` SET MembershipPoints = ? WHERE UserID = ?");
-    $update->execute([$newMembershipPoints, $userID]);
+    // // Update (order data table)
+    // $Status = "Payment Confirmed";
+    // $update = $db->prepare("UPDATE `order data` SET PaymentID = ?, Status = ?, CreditCardInfo = ?, MembershipPoints = ? WHERE OrderID = ?");
+    // $update->execute([$PaymentID, $Status, $CardInfoArray, $TotalMembershipPoints, $OrderID]);
+
+
+    // // Update MembershipPoints for customer in (customer data table)
+    // $newMembershipPoints = $currentMembershipPoints + $TotalMembershipPoints;
+    // $update = $db->prepare("UPDATE `customer data` SET MembershipPoints = ? WHERE UserID = ?");
+    // $update->execute([$newMembershipPoints, $userID]);
   ?>
 
-    <div class="MessagePaid" style="background-color: #d1e7dd; color: #0f5132; padding: 25px; font-size: 20px;">
+    <div class="MessagePaid">
       <i class="fa-solid fa-circle-check"></i> Thank You for Your Purchase
+    </div>
+
+    <div class="MessagePaid-btn">
+      <a href="../Interface/HomePageCustomer.php"><button>Return Home</button></a>
     </div>
 
   <?php
@@ -236,7 +240,7 @@ try {
         </div>
       </div>
 
-      <script src="../js/main.js"></script>
+      <script src="../js/mainn.js"></script>
     </body>
 
   </html>
