@@ -1,0 +1,161 @@
+html{
+    height: 100%;
+    background-image: url('../images/medical-banner-with-stethoscope.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  body{
+    font-family: arial;
+    background-image: url('../images/medical-banner-with-stethoscope.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0 auto;
+  }
+  .container {
+    display: flex;
+    justify-content:center ;
+  }
+  #center {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  #login fieldset {
+    background-color: #7C2582;
+    color: rgb(255, 255, 255);
+    margin: 0px auto;
+    border-radius: 10px;
+    border: 2px solid grey;
+    padding: 50px 10%;
+    max-width: 550px;
+  }
+  #Signup fieldset {
+    color: rgb(255, 255, 255);
+    margin: 0px auto;
+    column-count: 2;
+    column-gap: 40px;
+  }
+  #login a {
+    color: #FFB700;
+}
+h1{
+  color: white;
+  margin: 0px 30px -25px 30px;
+}
+.form-button-wrapper input[type=submit] {
+    background-color: #00BFD6;
+    color: white;
+    padding: 6px 45px;
+    width: auto;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 60px;
+  }
+
+.form-button-wrapper1 input[type=submit] {
+  background-color: #00BFD6;
+  color: white;
+  padding: 6px 45px;
+  width: auto;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 160px;
+}
+label{
+  padding-right: 10px;
+  margin-left: 60px;
+  color: white;
+}
+  .G.form-group {
+    margin-left: 60px;
+  }
+  
+  .G.form-group input[type="radio"] {
+    margin-right: 15px;
+  }
+  
+  .G.form-group label {
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 12px;
+  }
+.form-group input {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  #phone_code {
+    width: 19%;
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 60px;
+  }
+  #phone_number {
+    width: 49%;
+    padding: 5px;
+    border-radius: 10px;
+  }
+#username, #password, #fname, #lname, #email, #confirm-password, #dob{
+  width : 70%;
+  padding: 5px;
+  border-radius: 10px;
+  margin-left: 60px;
+  margin-bottom: 10px;
+}
+#female label {
+    padding-right: 10px;
+    color: #F8F8F8;
+}
+form{
+  margin: 0 auto;
+  padding: 50px 5px;
+  border: 2px solid grey;
+  border-radius: 10px;
+  background-color: rgba(128, 128, 128, 0.5);
+  width: 1024px;
+}
+header{
+  padding: 1px;
+}
+.logo{
+  max-width: 140px;
+  margin-left: 30px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.navbar{
+    color: #E51A92;
+}
+footer{
+  padding: 1px;
+  bottom: 0;
+}
+@media (max-width: 768px) {
+  #Login h1 {
+    font-size: 1.5rem;
+  }
+  #Login .form-control {
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  #Login h1 {
+    font-size: 1.2rem;
+  }
+  #Login .form-control {
+    font-size: 0.7rem;
+    padding: 0.3rem;
+  }
+}
+
+.signup-container {
+      text-align: center;
+      margin-top: 20px;
+      color: white;
+    }
+    .login-container {
+        margin-left: 60px;
+        margin-top: 20px;
+        color: white;
+      }

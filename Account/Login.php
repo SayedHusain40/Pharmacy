@@ -66,45 +66,62 @@ if ($prepare->rowCount() > 0)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Your Pharmacy</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" 
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" 
+        crossorigin="anonymous">
+        <script src="https://kit.fontawesome.com/76f78292cc.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../css/Account.css" />
 </head>
 <body>
   <?php 
   # include '../header.php';
   ?>
   <br>
-<div class="container">
-  <div class="row justify-content-center">
-  <div class="col-lg-6 col-md-8 col-sm-10 col-12">
-            <form id="Login" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);  ?>">
-        <fieldset class="fieldset-xl">
+  <header>
+    <div class="logo-container">
+      <img class="logo" src="../Images/logo.png" alt="Pharmacy Logo">
+    </div>
+  </header>
+  <div class="container">
+    <div class="login-form">
+    <h1>Log in</h1>
+      <form id="Login" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);  ?>">
+      <fieldset class="fieldset-xl">
+      
 
-        <h1> Log in </h1>
-
-          <!-- Display the validation errors -->
+        <!-- Display the validation errors -->
         <?php if (count($errors) > 0) : ?>
         <div class="alert alert-danger">
-        <?php foreach ($errors as $error) : ?>
-            <p><?php echo $error;?></p>
-        <?php endforeach; ?>
+          <?php foreach ($errors as $error) : ?>
+            <p><?php echo $error; ?></p>
+          <?php endforeach; ?>
         </div>
         <?php endif; ?>
 
         <div class="form-group">
-        <label for="username">Username:</label> 
-        <input type="text" id="username" name="un" title="Enter an username!" value="<?php echo $user; ?>" class="form-control" />
+          <label for="username">Username:</label> <br>
+          <input type="text" id="username" name="un" title="Enter a username!" value="<?php echo $user; ?>" class="form-control" placeholder="Enter your username" />
         </div>
         <div class="form-group">
-        <label for="password">Password:</label> 
-        <input type="password" id="password" name="ps" title="Enter a password!" value="<?php echo $password; ?>" class="form-control" />
+          <label for="password">Password:</label> <br>
+          <input type="password" id="password" name="ps" title="Enter a password!" value="<?php echo $password; ?>" class="form-control" placeholder="Enter your password" />
         </div>
-        If You don't have an account?  <a href="Sign.php" style="text-decoration: underline;"> Sign up </a>
-        </br><input type="submit" name="Loginbtn" value="Login"/>
-    </fieldset> 
-    </form>
-</div>
-          </div>
+        </br>
+        <div class="form-button-wrapper">
+          <input type="submit" name="Loginbtn" value="Login" class="form-button" />
         </div>
-    
+        <hr> 
+        <div class="signup-container">
+          <p>If you don't have an account?</p>
+          <a href="Signup.php" class="signup-link">Sign up</a>
+        </div>
+          </fieldset>
+      </form>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
 </body>
 </html>
