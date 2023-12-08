@@ -5,6 +5,19 @@ session_start();
 */
 
 try {
+?>
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/all.min.css" />
+  </head>
+  <?php
+
   require("../Connection/init.php");
 
   if (isset($_REQUEST["TotalPrice"]) && isset($_REQUEST["paymentMethod"])) {
@@ -118,8 +131,13 @@ try {
     $newMembershipPoints = $currentMembershipPoints + $TotalMembershipPoints;
     $update = $db->prepare("UPDATE `customer data` SET MembershipPoints = ? WHERE UserID = ?");
     $update->execute([$newMembershipPoints, $userID]);
+  ?>
 
-    echo "Thank You for Your Purchase";
+    <div class="MessagePaid" style="background-color: #d1e7dd; color: #0f5132; padding: 25px; font-size: 20px;">
+      <i class="fa-solid fa-circle-check"></i> Thank You for Your Purchase
+    </div>
+
+  <?php
     exit();
   } else {
 
@@ -157,17 +175,7 @@ try {
       }
     }
 
-?>
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Document</title>
-      <link rel="stylesheet" href="../css/main.css" />
-      <link rel="stylesheet" href="../css/all.min.css" />
-    </head>
+  ?>
 
     <body>
       <div class="payment MainHeader ">
@@ -213,7 +221,7 @@ try {
               </div>
               <div>
                 <label>CVV</label><br />
-                <input type="text" placeholder="CVV" id="cvv" name="cvv"/>
+                <input type="text" placeholder="CVV" id="cvv" name="cvv" />
                 <p class="cvv-error MainError">
                   <i class="fa-solid fa-circle-exclamation"></i><span>CVV cannot be empty</span>
                 </p>
@@ -231,7 +239,7 @@ try {
       <script src="../js/main.js"></script>
     </body>
 
-    </html>
+  </html>
 
 <?php
   }
