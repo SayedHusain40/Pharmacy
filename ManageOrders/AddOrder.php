@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include '../Pharmacy/Connection/init.php';
+include '../Connection/init.php';
 
 $stmt = $db->prepare("
     SELECT DISTINCT ud.UserID, ud.Username, cd.FirstName, cd.LastName
