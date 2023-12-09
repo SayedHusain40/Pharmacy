@@ -1,14 +1,10 @@
 <?php
 session_start();
-/*
-  include ""; 
-*/
-
 try {
   require("../Connection/init.php");
 
   //Assume 
-  $userID = $_SESSION["user_id"]; //
+  $userID = $_SESSION["user_id"];
 
   //query for view orders
   $sql = "SELECT 
@@ -88,7 +84,7 @@ try {
 
         <div class="checkout">
           <h1 class="summary">Summary</h1>
-          <form action="../Interface/PaymentPage.php" method="post">
+          <form action="../Test/Payment.php" method="post">
             <h4>Select a payment Method:</h4>
             <input type="radio" name="paymentMethod" value="Credit Card" checked><label>Credit Card</label>
             <input type="radio" name="paymentMethod" value="Debit Card"><label>Debit Card</label>

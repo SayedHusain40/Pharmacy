@@ -5,19 +5,6 @@ session_start();
 */
 
 try {
-?>
-  <!DOCTYPE html>
-  <html lang="en">
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/main.css" />
-    <link rel="stylesheet" href="../css/all.min.css" />
-  </head>
-  <?php
-
   require("../Connection/init.php");
 
   if (isset($_REQUEST["TotalPrice"]) && isset($_REQUEST["paymentMethod"])) {
@@ -36,6 +23,7 @@ try {
     $data->execute([$userID]);
     $result = $data->fetch();
     $OrderID = $result["OrderID"];
+
 
     //Get items that user order from (view cart table)
     $ItemsOrdered = $db->prepare("SELECT * FROM `view cart` WHERE UserID = ?");
@@ -60,12 +48,6 @@ try {
       $newQty = $productQty - $row["Qty"];
       $updateQty = $db->prepare("UPDATE `product data` SET Quantity = ? WHERE ProductID = ?");
       $updateQty->execute([$newQty, $row["ProductID"]]);
-
-      // Check if Quantity is 0 and update Availability in product data table
-      if ($newQty <= 0) {
-        $updateAvailability = $db->prepare("UPDATE `product data` SET Availability = 0 WHERE ProductID = ?");
-        $updateAvailability->execute([$row["ProductID"]]);
-      }
     }
 
     //Get CreditCardInfo to store them in database
@@ -92,7 +74,6 @@ try {
     // Insert PaymentInfo into the (payment database table)
     date_default_timezone_set('Asia/Bahrain');
     $PayDate = date('Y-m-d');
-    $totalPrice = $_SESSION['TotalPrice'];
     $PaymentStatus = "paid";
 
 
@@ -120,7 +101,7 @@ try {
 
 
     $stmtPayment = $db->prepare("INSERT INTO `payment database` (PayDate, Total, ShippingInfo, MembershipPoints, CreditCardInfo, PaymentStatus, UserID) VALUES (?,?, ?, ?, ?, ?, ?)");
-    $stmtPayment->execute([$PayDate, $totalPrice, $shippingInfoArray, $TotalMembershipPoints, $CardInfoArray, $PaymentStatus, $userID]);
+    $stmtPayment->execute([$PayDate, $_SESSION['TotalPrice'],$shippingInfoArray, $TotalMembershipPoints, $CardInfoArray, $PaymentStatus, $userID]);
 
     // Get the last inserted PaymentID
     $PaymentID = $db->lastInsertId();
@@ -132,21 +113,12 @@ try {
     $update->execute([$PaymentID, $Status, $CardInfoArray, $TotalMembershipPoints, $OrderID]);
 
 
-    // Update CreditCardInfo and ShippingInfo and MembershipPoints for customer in (customer data table)
+    // Update MembershipPoints for customer in (customer data table)
     $newMembershipPoints = $currentMembershipPoints + $TotalMembershipPoints;
-    $update = $db->prepare("UPDATE `customer data` SET CreditCardInfo = ?,ShippingInfo = ?, MembershipPoints = ? WHERE UserID = ?");
-    $update->execute([$CardInfoArray, $shippingInfoArray, $newMembershipPoints, $userID]);
-  ?>
+    $update = $db->prepare("UPDATE `customer data` SET MembershipPoints = ? WHERE UserID = ?");
+    $update->execute([$newMembershipPoints, $userID]);
 
-    <div class="MessagePaid">
-      <i class="fa-solid fa-circle-check"></i> Thank You for Your Purchase
-    </div>
-
-    <div class="MessagePaid-btn">
-      <a href="../Interface/HomePageCustomer.php"><button>Return Home</button></a>
-    </div>
-
-  <?php
+    echo "Thank You for Your Purchase";
     exit();
   } else {
 
@@ -184,7 +156,17 @@ try {
       }
     }
 
-  ?>
+?>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Document</title>
+      <link rel="stylesheet" href="../css/main.css" />
+      <link rel="stylesheet" href="../css/all.min.css" />
+    </head>
 
     <body>
       <div class="payment MainHeader ">
@@ -230,7 +212,7 @@ try {
               </div>
               <div>
                 <label>CVV</label><br />
-                <input type="text" placeholder="CVV" id="cvv" name="cvv" />
+                <input type="text" placeholder="CVV" id="cvv" name="cvv"/>
                 <p class="cvv-error MainError">
                   <i class="fa-solid fa-circle-exclamation"></i><span>CVV cannot be empty</span>
                 </p>
@@ -248,7 +230,7 @@ try {
       <script src="../js/main.js"></script>
     </body>
 
-  </html>
+    </html>
 
 <?php
   }
