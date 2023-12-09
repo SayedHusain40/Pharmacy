@@ -10,7 +10,7 @@
 <body>
   <header>
 <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
+      <nav class="navbar navbar-expand-lg navbar-lightsticky-top">
       <a class="navbar-brand" href="../Account/Login.php"> <img src="../images/logo.png" class="logo" /> </a>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
