@@ -168,6 +168,15 @@
   cursor: pointer;
 }
 /*======== Shopping Cart End========*/
+/*======== Start wish list End========*/
+.wishEmpty {
+  text-align: center;
+}
+.wish-image {
+  text-align: center;
+  margin-bottom: 20px;
+}
+/*======== wish list End========*/
 /* ======== Payment page Star And Addresses page ======== */
 .MainHeader {
   padding: 10px;
