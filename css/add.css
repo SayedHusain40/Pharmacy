@@ -1,13 +1,14 @@
-.Container {
+.col{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: right;
 }
 .card {
-  width: 3000px;
+  width: 320px;
   border: 1px solid #ccc;
-  padding: 1000px;
+  padding: 10px;
   margin: 10px;
+  height: 300px;
 }
 
 .card-image {
@@ -15,13 +16,11 @@
 }
 
 .card-image img {
-  width: 100%;
-  max-height: 100px;
-  object-fit: cover;
-  object-position: center top;
+  width: 260px;
+  height: 300px;
 }
 
-.card-content {
+.card-body {
   padding: 10px;
 }
 
@@ -38,6 +37,7 @@
 
 .quantity {
   display: flex;
+  justify-content: center;
   align-items: center;
   margin-bottom: 10px;
 }
@@ -47,9 +47,18 @@
   text-align: center;
 }
 
-.quantity button {
-  padding: 5px 10px;
-  margin: 0 5px;
+.quantity-button {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.quantity-button i {
+  color:#00BFD6;
+  margin-right: 12px;
+  margin-left: 10px;
+  font-size: 16px; /* Adjust the font size as needed */
 }
 
 .add-to-cart-button {
