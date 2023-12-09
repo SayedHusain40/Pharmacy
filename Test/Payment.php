@@ -74,7 +74,6 @@ try {
     // Insert PaymentInfo into the (payment database table)
     date_default_timezone_set('Asia/Bahrain');
     $PayDate = date('Y-m-d');
-    $totalPrice = $_SESSION['TotalPrice'];
     $PaymentStatus = "paid";
 
 
@@ -102,7 +101,7 @@ try {
 
 
     $stmtPayment = $db->prepare("INSERT INTO `payment database` (PayDate, Total, ShippingInfo, MembershipPoints, CreditCardInfo, PaymentStatus, UserID) VALUES (?,?, ?, ?, ?, ?, ?)");
-    $stmtPayment->execute([$PayDate, $totalPrice, $shippingInfoArray, $TotalMembershipPoints, $CardInfoArray, $PaymentStatus, $userID]);
+    $stmtPayment->execute([$PayDate, $_SESSION['TotalPrice'],$shippingInfoArray, $TotalMembershipPoints, $CardInfoArray, $PaymentStatus, $userID]);
 
     // Get the last inserted PaymentID
     $PaymentID = $db->lastInsertId();
