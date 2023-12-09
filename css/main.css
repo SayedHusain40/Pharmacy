@@ -1,3 +1,22 @@
+/*======== Header ========*/
+.logo{
+  max-width: 140px;
+  margin-left: 30px;
+}
+.favorite-button{
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.shopping-cart-button  {
+  border: none;
+  background-color: transparent;
+  margin-left: 10px;
+  padding: 0;
+  cursor: pointer;
+}
+/*======== Header End========*/
 * {
   box-sizing: border-box;
 }
