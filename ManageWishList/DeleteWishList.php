@@ -1,0 +1,25 @@
+<?php
+/*
+  include ""; 
+*/
+
+try {
+  require("../Connection/init.php");
+
+  //delete Items from cart when click on delete
+  if (isset($_REQUEST['WID']) && isset($_REQUEST['delete'])) {
+
+    $WID = $_REQUEST['WID'];
+
+    $deleteQuery = "DELETE FROM `wish list data` WHERE WID = ?";
+    $stmt = $db->prepare($deleteQuery);
+    $stmt->execute([$WID]);
+
+    header("Location: ViewWishList.php");
+    exit();
+  }
+
+  $db = null;
+} catch (PDOException $e) {
+  echo "Error: " . $e->getMessage();
+}

@@ -11,17 +11,18 @@ try {
   $userID = 6; //$_SESSION["user_id"]
 
   $sql = "SELECT 
-    `product data`.Photo,
-    `product data`.Name,
-    `product data`.Price
-    FROM 
-      `wish list data`
-    JOIN 
-      `product data` 
-    ON 
-      `wish list data`.ProductID = `product data`.ProductID
-    WHERE 
-      `wish list data`.UserID = ?";
+  `product data`.Photo,
+  `product data`.Name,
+  `product data`.Price,
+  `wish list data`.WID
+  FROM 
+    `wish list data`
+  JOIN 
+    `product data` 
+  ON 
+    `wish list data`.ProductID = `product data`.ProductID
+  WHERE 
+    `wish list data`.UserID = ?";
 
   $data = $db->prepare($sql);
   $data->execute([$userID]);
@@ -52,6 +53,9 @@ try {
             <div> <img src="../images/<?php echo $row['Photo']; ?>" width="100px" /></div>
             <h3>Name: <?php echo $row['Name']; ?></h3>
             <div>Price: <?php echo $row['Price']; ?> BHD</div>
+            <span class="deleteItemsCart">
+              <a href="./DeleteWishList.php?delete&WID=<?php echo $row["WID"]; ?>"> <i class="fa-solid fa-circle-xmark"></i> </a>
+            </span>
           </div>
         <?php
         }
