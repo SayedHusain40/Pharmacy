@@ -37,7 +37,6 @@ try {
     $result = $data->fetch();
     $OrderID = $result["OrderID"];
 
-
     //Get items that user order from (view cart table)
     $ItemsOrdered = $db->prepare("SELECT * FROM `view cart` WHERE UserID = ?");
     $ItemsOrdered->execute([$userID]);
@@ -61,6 +60,12 @@ try {
       $newQty = $productQty - $row["Qty"];
       $updateQty = $db->prepare("UPDATE `product data` SET Quantity = ? WHERE ProductID = ?");
       $updateQty->execute([$newQty, $row["ProductID"]]);
+
+      // Check if Quantity is 0 and update Availability in product data table
+      if ($newQty <= 0) {
+        $updateAvailability = $db->prepare("UPDATE `product data` SET Availability = 0 WHERE ProductID = ?");
+        $updateAvailability->execute([$row["ProductID"]]);
+      }
     }
 
     //Get CreditCardInfo to store them in database
@@ -127,10 +132,10 @@ try {
     $update->execute([$PaymentID, $Status, $CardInfoArray, $TotalMembershipPoints, $OrderID]);
 
 
-    // Update MembershipPoints for customer in (customer data table)
+    // Update CreditCardInfo and ShippingInfo and MembershipPoints for customer in (customer data table)
     $newMembershipPoints = $currentMembershipPoints + $TotalMembershipPoints;
-    $update = $db->prepare("UPDATE `customer data` SET MembershipPoints = ? WHERE UserID = ?");
-    $update->execute([$newMembershipPoints, $userID]);
+    $update = $db->prepare("UPDATE `customer data` SET CreditCardInfo = ?,ShippingInfo = ?, MembershipPoints = ? WHERE UserID = ?");
+    $update->execute([$CardInfoArray, $shippingInfoArray, $newMembershipPoints, $userID]);
   ?>
 
     <div class="MessagePaid">
