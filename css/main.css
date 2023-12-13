@@ -22,16 +22,15 @@
 }
 
 /*======== Shopping Cart Start========*/
-.title {
+.HeaderTitle {
   background-color: #e8eaff;
-  display: flex;
-  padding: 20px 0;
-  justify-content: center;
   align-items: center;
-  font-size: 25px;
-  color: #162d3d;
-  text-align: center;
   margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+.HeaderTitle h3 {
+  text-align: center;
+  margin-top: -15px;
 }
 .cartContainer {
   display: flex;
@@ -229,7 +228,7 @@
   font-weight: bold;
 }
 .MainHeader h3 {
-  margin-top: -24px 
+  margin-top: -24px;
 }
 .MainContent {
   color: #333;
@@ -286,14 +285,13 @@
   width: 45%;
 }
 @media (max-width: 450px) {
-  .MainContent .parentDiv { 
+  .MainContent .parentDiv {
     display: block;
   }
-.MainContent .parentDiv div {
-
+  .MainContent .parentDiv div {
     width: 100%;
   }
-} 
+}
 .MainContent label::after {
   content: "*";
   color: red;
@@ -346,7 +344,7 @@
     margin-bottom: 10px;
   }
   .mainLink {
-      margin: 0 auto;
+    margin: 0 auto;
   }
 }
 .MainError {
@@ -388,9 +386,10 @@
 }
 
 /* nav */
-.MainHeader .breadcrumb {
-    width: fit-content;
-    background: none;
-  }
+.MainHeader .breadcrumb,
+.HeaderTitle .breadcrumb {
+  width: fit-content;
+  background: none;
+}
 /* nav */
 /* ======== Payment page Star And Addresses page End ======== */

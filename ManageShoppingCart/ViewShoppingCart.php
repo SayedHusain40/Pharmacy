@@ -50,7 +50,16 @@ try {
     include "../header.php";
     if ($count > 0) {
     ?>
-      <h1 class="title">Your Shopping Cart</h1>
+
+      <div class="HeaderTitle">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../Interface/HomePageCustomer.php">Home Page</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+          </ol>
+        </nav>
+        <h3>Your Shopping Cart</h3>
+      </div>
       <div class="cartContainer">
         <div>
           <?php
@@ -65,9 +74,9 @@ try {
                   <h3><?php echo $row['Name']; ?></h3>
                 </div>
                 <div class="quantity">Quantity: <?php echo $row['Qty']; ?></div>
-                <div class="price">Price: <?php echo $row['Price']; ?> BHD</div>
+                <div class="price">Price: BHD <?php echo $row['Price']; ?></div>
                 <div class="points"><?php echo $row['Qty'] . " x " . $row['Points'] . " = " . $row['Qty'] * $row['Points'] . " Points"; ?></div>
-                <div class="totalPrice">Total Price: <?php echo $row["TotalPrice"]; ?> BHD</div>
+                <div class="totalPrice">Total Price: BHD <?php echo $row["TotalPrice"]; ?></div>
                 <div>
                   <form action="./EditCart.php" method="post">
                     <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
