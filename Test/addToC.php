@@ -24,9 +24,6 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
     </head>
     <body>
-      <?php
-       include ("../header.php");
-      ?>
       <div class="Container">
     <div class="col mb-4">
       <?php
