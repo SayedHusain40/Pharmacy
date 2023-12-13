@@ -20,7 +20,6 @@ include '../header.php';
     <!-- Header -->
     <!-- nav -->
     <!-- body -->
-    
     <!-- footer -->
 </body>
 </html>
