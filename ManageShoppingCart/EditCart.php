@@ -15,7 +15,7 @@ try {
     $stmt = $db->prepare($deleteQuery);
     $stmt->execute([$cartID]);
 
-    header("Location: ViewShopingCar.php");
+    header("Location: ViewShoppingCart.php");
     exit();
   }
 
@@ -34,7 +34,7 @@ try {
     $stmt = $db->prepare($UpdateQTY);
     $stmt->execute([$_POST['newQTY'], $total, $_POST['cartID']]);
 
-    header("Location: ViewShopingCar.php");
+    header("Location:  ViewShoppingCart.php");
     exit();
   }
 
@@ -42,4 +42,3 @@ try {
 } catch (PDOException $e) {
   echo "Error: " . $e->getMessage();
 }
-?>

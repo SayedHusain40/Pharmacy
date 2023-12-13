@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/main.css" />  
-  </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
 <body>
   <header>
-<div>
+    <div>
       <nav class="navbar navbar-expand-lg navbar-lightsticky-top">
-      <a class="navbar-brand" href="../Account/Login.php"> <img src="../images/logo.png" class="logo" /> </a>
+        <a class="navbar-brand" href="../Account/Login.php"> <img src="../images/logo.png" class="logo" /> </a>
 
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto float-none">
-        <?php if (isset($_SESSION['un']))
-      {  
-        if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Staff') {
-          echo '<li class="nav-item active">
-            <a class="nav-link" href="../Interface/HomePage'.$_SESSION['user_role'].'.php">Home <span class="sr-only">(current)</span></a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto float-none">
+            <?php if (isset($_SESSION['un'])) {
+              if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Staff') {
+                echo '<li class="nav-item active">
+            <a class="nav-link" href="../Interface/HomePage' . $_SESSION['user_role'] . '.php">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item dropdown mr-5">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
@@ -73,11 +73,11 @@
           <a class="dropdown-item" href="../ManageUsers/EditUser.php">Edit User</a>
           <a class="dropdown-item" href="../ManageUsers/AddCustomer.php">Add Customer</a>
           <a class="dropdown-item" href="../ManageUsers/EditCustomer.php">Edit Customer</a>';
-          if ($_SESSION['user_role'] == 'Admin'){
-            echo '<a class="dropdown-item" href="../ManageUsers/AddStaff.php">Add Staff</a>
+                if ($_SESSION['user_role'] == 'Admin') {
+                  echo '<a class="dropdown-item" href="../ManageUsers/AddStaff.php">Add Staff</a>
             <a class="dropdown-item" href="../ManageUsers/EditStaff.php">Edit Staff</a>';
-          }
-          echo'<a class="dropdown-item" href="../ManageUsers/AddSupplier.php">Add Supplier</a>
+                }
+                echo '<a class="dropdown-item" href="../ManageUsers/AddSupplier.php">Add Supplier</a>
           <a class="dropdown-item" href="../ManageUsers/EditSupplier.php">Edit Supplier</a>
           </div>
           </li>
@@ -101,11 +101,10 @@
             </div>
             </li>
           ';
-
-        } else if ($_SESSION['user_role'] == 'Customer') {
-          echo'
+              } else if ($_SESSION['user_role'] == 'Customer') {
+                echo '
           <li class="nav-item active">
-          <a class="nav-link" href="../Interface/HomePage'.$_SESSION['user_role'].'.php">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="../Interface/HomePage' . $_SESSION['user_role'] . '.php">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="../Account/Profile.php">My Profile</a>
@@ -146,9 +145,9 @@
         <button class="favorite-button"><i class="far fa-heart"></i></button>
         <button class="shopping-cart-button"><a href="../ManageShoppingCart/ViewShoppingCart.php"> <i class="fas fa-shopping-cart"></i> </a> </button>
         ';
-        }
-    } else {
-      echo '<li class="nav-item active">
+              }
+            } else {
+              echo '<li class="nav-item active">
       <a class="nav-link" href="../Interface/HomePage.php">Home <span class="sr-only">(current)</span></a>
     </li>
     <li class="nav-item dropdown mr-5">
@@ -189,13 +188,14 @@
     </li>
     <button class="favorite-button"><i class="far fa-heart"></i></button>
     <button class="shopping-cart-button"><a href="../ManageShoppingCart/ViewShoppingCart.php"> <i class="fas fa-shopping-cart"></i> </a> </button>';
-    }
-   
-    ?>
- </ul>
+            }
+
+            ?>
+          </ul>
   </header>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 </body>
+
 </html>

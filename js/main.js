@@ -44,7 +44,7 @@ cvvInput.addEventListener('input', function () {
 
 
 function goToPreviousPage() {
-  window.location.href = "../ManageShopingCart/ViewShopingCar.php";
+  window.location.href = "../ManageShoppingCart/ViewShoppingCart.php";
 }
 //For Validate submit
 paymentForm.addEventListener('submit', function (event) {

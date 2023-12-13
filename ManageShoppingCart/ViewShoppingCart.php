@@ -8,7 +8,7 @@ try {
   require("../Connection/init.php");
 
   //Assume 
-  $userID = $_SESSION["user_id"]; //
+  $userID = 6; // $userID = $_SESSION["user_id"];
 
   //query for view orders
   $sql = "SELECT 
@@ -47,6 +47,7 @@ try {
 
   <body>
     <?php
+    include "../header.php";
     if ($count > 0) {
     ?>
       <h1 class="title">Your Shopping Cart</h1>
@@ -61,16 +62,16 @@ try {
               <div> <img src="../images/<?php echo $row['Photo']; ?>" width="100px" /></div>
               <div class="itemsBoxContent">
                 <div>
-                  <h3>Name: <?php echo $row['Name']; ?></h3>
+                  <h3><?php echo $row['Name']; ?></h3>
                 </div>
-                <div>Quantity: <?php echo $row['Qty']; ?></div>
-                <div>Price: <?php echo $row['Price']; ?> BHD</div>
-                <div>Total Price: <?php echo $row["TotalPrice"]; ?> BHD</div>
-                <div><?php echo $row['Qty'] . " x " . $row['Points'] . " = " . $row['Qty'] * $row['Points'] . " Points"; ?></div>
+                <div class="quantity">Quantity: <?php echo $row['Qty']; ?></div>
+                <div class="price">Price: <?php echo $row['Price']; ?> BHD</div>
+                <div class="totalPrice">Total Price: <?php echo $row["TotalPrice"]; ?> BHD</div>
+                <div class="points"><?php echo $row['Qty'] . " x " . $row['Points'] . " = " . $row['Qty'] * $row['Points'] . " Points"; ?></div>
                 <div>
                   <form action="./EditCart.php" method="post">
                     <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
-                    Update Quantity: <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>" max="<?php echo $row["Quantity"] ?>">
+                    Update Quantity:  <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>" max="<?php echo $row["Quantity"] ?>">
                     <input type="hidden" name="productID" value="<?php echo $row["ProductID"] ?>">
                     <input class="update" type="submit" name="update-qty" value="Update" class="update-btn">
                   </form>
