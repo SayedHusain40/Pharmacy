@@ -144,13 +144,12 @@ try {
     </div>
 
     <div class="MessagePaid-btn">
-      <a href="../Interface/HomePageCustomer.php"><button>Return Home</button></a>
+      <a href="../Interface/HomePageCustomer.php"><button>Return Home Page</button></a>
     </div>
 
   <?php
     exit();
   } else {
-
 
     $totalPrice = $_SESSION['TotalPrice'];
     $paymentMethod = $_SESSION['paymentMethod'];
@@ -189,37 +188,40 @@ try {
 
     <body>
       <div class="payment MainHeader ">
-        <h1>Complete Your Purchase</h1>
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../ManageShoppingCart/ViewShoppingCart.php">Shopping Cart</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Payment</li>
+          </ol>
+        </nav>
+        <h3>Complete Your Purchase</h3>
       </div>
 
       <div class="payment-content">
         <div class="payment MainContent">
-          <h1>Payment</h1>
-          <h3 class="Price">Total Price: <?php echo $totalPrice ?> BHD</h3>
+          <h4>Payment</h4>
+          <h6 class="Price">Total Price: <?php echo $totalPrice ?> BHD</h6>
           <div class="credit-card">
-            <h3>
+            <h6 style="margin: 0;">
               <?php
               if ($paymentMethod == "Debit Card")
                 echo "Debit Card";
               else
                 echo "Credit Card";
               ?>
-            </h3>
+            </h6>
             <img src="../images/pay_by_cards.webp" alt="" />
           </div>
-
           <form class="paymentForm" method="post">
             <label>Cardholder Name (exactly as shown on card)</label>
             <input type="text" placeholder="Enter Your Full Name" id="cardholder-name" name="cardholder-name" />
             <p class="name-error MainError"><i class="fa-solid fa-circle-exclamation"></i><span>Cardholder Name cannot be empty</span></p>
 
-            <br /> <br>
 
             <label>Card number</label>
             <input type="text" placeholder="0000 0000 0000 0000" id="card-number" name="card-number" />
             <p class="card-error MainError"><i class="fa-solid fa-circle-exclamation"></i><span>Card number cannot be empty</span></p>
 
-            <br /><br>
 
             <div class="parentDiv">
               <div>
@@ -239,8 +241,8 @@ try {
             </div>
             <div class="MainSubmit">
               <input type="hidden" name="paymentOption" value="Pay">
-              <button onclick="goToPreviousPage()">Cancel</button>
               <input type="submit" name="paymentOption" value="Pay" id="inputPaymentOption" />
+              <button onclick="goToPreviousPage()">Cancel</button>
             </div>
           </form>
         </div>

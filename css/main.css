@@ -84,9 +84,8 @@
   font-size: 16px;
   margin: 5px 0;
 }
-.cartContainer .itemsBox .itemsBoxContent .points{
-  color: #004c5f;
-
+.cartContainer .itemsBox .itemsBoxContent .totalPrice {
+  font-weight: bold;
 }
 .cartContainer .itemsBox .itemsBoxContent h3 {
   margin: 0;
@@ -118,7 +117,7 @@
   font-size: 25px;
 }
 .cartContainer .itemsBox .update {
-  background-color: #488aec;
+  background-color: #488aec78;
   outline: none;
   border: 0;
   border-radius: 3px;
@@ -126,6 +125,10 @@
   margin-left: 9px;
   color: #162d3d;
   cursor: pointer;
+}
+.cartContainer .itemsBox .update:hover {
+  background-color: #488aec;
+  color: white;
 }
 @media (max-width: 400px) {
   .cartContainer .itemsBox .update {
@@ -143,18 +146,33 @@
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
-.cartContainer .checkout h1 {
+.cartContainer .checkout h2 {
   text-align: center;
-  margin: 0;
 }
 .cartContainer .checkout form > div {
   display: flex;
   justify-content: space-between;
 }
 
+.cartContainer .checkout form .subTotal p,
+.cartContainer .checkout form .delivery p {
+  line-height: 2;
+  margin: 0;
+}
+.cartContainer .checkout form .line {
+  margin: 10px 0;
+  height: 1px;
+  background-color: #a0a0a0;
+}
+
 .submit-btn {
   width: 55%;
   margin: 0 auto;
+}
+.cartContainer .checkout form label {
+  margin: 0;
+  margin-right: 20px;
+  margin-bottom: 5px;
 }
 .cartContainer .checkout form input[type="submit"] {
   width: 100%;
@@ -205,14 +223,17 @@
 .MainHeader {
   padding: 10px;
   background-color: #e8eaff;
-  min-height: 180px;
+  min-height: 165px;
   text-align: center;
   color: #162d3d;
   font-weight: bold;
 }
+.MainHeader h3 {
+  margin-top: -24px 
+}
 .MainContent {
-  color: #162d3d;
-  font-weight: bold;
+  color: #333;
+  font-weight: 600;
   background-color: white;
   border-radius: 6px;
   padding: 20px;
@@ -229,17 +250,19 @@
   border: 1px solid #e8eaff;
   font-size: 16px;
 }
-.MainContent h1 {
+.MainContent h4 {
   margin-top: 0;
   text-align: center;
 }
 .credit-card {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3px;
 }
 .credit-card img {
-  width: 260px;
-  height: 45px;
+  width: 270px;
+  height: 40px;
 }
 @media (max-width: 430px) {
   .credit-card {
@@ -249,6 +272,8 @@
 }
 .MainContent label {
   color: #333;
+  margin: 0;
+  margin-top: 10px;
 }
 .MainContent input:hover {
   background-color: #e8eaff;
@@ -260,6 +285,15 @@
 .MainContent .parentDiv div {
   width: 45%;
 }
+@media (max-width: 450px) {
+  .MainContent .parentDiv { 
+    display: block;
+  }
+.MainContent .parentDiv div {
+
+    width: 100%;
+  }
+} 
 .MainContent label::after {
   content: "*";
   color: red;
@@ -285,15 +319,34 @@
   color: #162d3d;
   text-decoration: none;
 }
+.mainLink {
+  font-size: 16px;
+  font-weight: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .MainContent input[type="submit"]:hover,
 .MainContent button:hover,
 .mainLink:hover {
   background-color: #488aec;
   color: white;
+  text-decoration: none;
 }
 @media (max-width: 500px) {
   .payment input[type="submit"]:first-child {
     margin-bottom: 10px;
+  }
+}
+@media (max-width: 430px) {
+  .MainContent .MainSubmit {
+    display: block;
+  }
+  .MainContent .MainSubmit input[type="submit"] {
+    margin-bottom: 10px;
+  }
+  .mainLink {
+      margin: 0 auto;
   }
 }
 .MainError {
@@ -301,6 +354,7 @@
   margin: 0;
   padding: 0;
   display: none;
+  margin-bottom: 10px;
 }
 .MainErrorSAddresses {
   color: red;
@@ -322,10 +376,21 @@
 }
 .MessagePaid-btn button {
   padding: 15px 25px;
-  background-color: #488aec;
+  background-color: #488aeca7;
   border: 0;
   border-radius: 3px;
   font-size: 18px;
   cursor: pointer;
 }
+.MessagePaid-btn button:hover {
+  background-color: #488aec;
+  color: white;
+}
+
+/* nav */
+.MainHeader .breadcrumb {
+    width: fit-content;
+    background: none;
+  }
+/* nav */
 /* ======== Payment page Star And Addresses page End ======== */

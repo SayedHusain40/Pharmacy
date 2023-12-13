@@ -8,7 +8,7 @@ try {
 
   //assume
   $userID = 6; //$_SESSION["user_id"]
-  $productID = 2; //GET by js
+  $productID = 1; //GET by js
   $QTY = 1; //GET by js
 
   // Get product Price

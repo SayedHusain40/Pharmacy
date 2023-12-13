@@ -82,9 +82,16 @@ try {
 
   <body>
     <div class="MainHeader">
-      <h1>Confirm your delivery address</h1>
+      <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="ViewShoppingCart.php">Shopping Cart</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Address</li>
+        </ol>
+      </nav>
+      <h3>Confirm your delivery address</h3>
     </div>
     <div class="MainContent">
+      <h4>Your addresses</h4>
       <form action="" method="post">
         <label>Your Mobile Number</label>
         <input type="tel" name="MobileNumber" placeholder="Mobile Number" value="<?php echo $result["MobileNumber"] ?>"><br>
@@ -94,8 +101,6 @@ try {
           <p><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['mobileNumberErr']; ?></span></p>
         <?php endif; ?>
 
-        <br>
-
         <label>Your Email</label>
         <input type="email" name="Email" placeholder="Email" value="<?php echo $result["Email"] ?>"><br>
         <?php if (isset($errors['emailRequired'])) : ?>
@@ -103,8 +108,6 @@ try {
         <?php elseif (isset($errors['emailErr'])) : ?>
           <p class="MainErrorSAddresses"><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['emailErr']; ?></span></p>
         <?php endif; ?>
-
-        <br>
 
         <div class="parentDiv">
           <div>
@@ -123,8 +126,6 @@ try {
             <?php endif; ?>
           </div>
         </div>
-
-        <br>
 
         <div class="parentDiv">
           <div>

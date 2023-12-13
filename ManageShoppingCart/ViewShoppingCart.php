@@ -66,12 +66,12 @@ try {
                 </div>
                 <div class="quantity">Quantity: <?php echo $row['Qty']; ?></div>
                 <div class="price">Price: <?php echo $row['Price']; ?> BHD</div>
-                <div class="totalPrice">Total Price: <?php echo $row["TotalPrice"]; ?> BHD</div>
                 <div class="points"><?php echo $row['Qty'] . " x " . $row['Points'] . " = " . $row['Qty'] * $row['Points'] . " Points"; ?></div>
+                <div class="totalPrice">Total Price: <?php echo $row["TotalPrice"]; ?> BHD</div>
                 <div>
                   <form action="./EditCart.php" method="post">
                     <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
-                    Update Quantity:  <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>" max="<?php echo $row["Quantity"] ?>">
+                    Update Quantity: <input type="number" name="newQTY" min="1" value="<?php echo $row['Qty']; ?>" max="<?php echo $row["Quantity"] ?>">
                     <input type="hidden" name="productID" value="<?php echo $row["ProductID"] ?>">
                     <input class="update" type="submit" name="update-qty" value="Update" class="update-btn">
                   </form>
@@ -88,29 +88,35 @@ try {
         </div>
 
         <div class="checkout">
-          <h1 class="summary">Summary</h1>
+          <h2 class="summary">Summary</h2>
           <form action="../Interface/PaymentPage.php" method="post">
-            <h4>Select a payment Method:</h4>
-            <input type="radio" name="paymentMethod" value="Credit Card" checked><label>Credit Card</label>
-            <input type="radio" name="paymentMethod" value="Debit Card"><label>Debit Card</label>
+            <h5>Select a payment Method</h5>
+            <input type="radio" name="paymentMethod" value="Credit Card" checked> <label> Credit Card </label>
+            <input type="radio" name="paymentMethod" value="Debit Card"> <label> Debit Card </label>
 
-            <h4>Shipping Method:</h4>
-            <input type="radio" name="order" value="pick-up" checked> Pick Up
+            <br>
 
-            <input type="radio" name="order" value="delivery"> Delivery (+1.5 BD)
-            <hr>
-            <div>
+            <h5>Shipping Method</h5>
+            <input type="radio" name="order" value="pick-up" checked> <label>Pick Up</label>
+
+            <input type="radio" name="order" value="delivery"> <label>Delivery (+1.5 BD)</label>
+
+            <div class="line"></div>
+
+            <div class="subTotal">
               <p>Sub total</p>
               <p><?php echo isset($TotalPrice) ? $TotalPrice : 0 ?> BHD</p>
             </div>
-            <div id="deliveryCost" style="display: none;">
+            <div class="delivery" id="deliveryCost" style="display: none;">
               <p>Delivery</p>
               <p>1.5 BHD</p>
             </div>
-            <hr>
+
+            <div class="line"></div>
+
             <div class="total">
-              <h3>Total</h3>
-              <h3 id="totalPrice">
+              <h4>Total</h4>
+              <h4 id="totalPrice">
                 <?php
                 if (isset($TotalPrice)) {
                   echo $TotalPrice . " BHD";
@@ -118,8 +124,10 @@ try {
                   echo "0 BHD";
                 }
                 ?>
-              </h3>
+              </h4>
             </div>
+
+            <div class="line"></div>
 
             <input type="hidden" id="hiddenTotalPrice" name="TotalPrice" value="<?php echo isset($TotalPrice) ? $TotalPrice : 0 ?>">
             <div class="submit-btn">
