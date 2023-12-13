@@ -2,23 +2,11 @@
 session_start();
 include '../header.php';
 ?>
-
 <?php
-try {
-  require("/Connection/init.php");
-} 
-catch(PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
-    exit;
-}
-?>
-<?php
-
 include '../Connection/init.php';
 
-$sql = "SELECT * FROM product_data";
-$all_product = $db->query($sql);
-
+$sql = "SELECT * FROM `product data`";
+$all_product = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);  // Fetch all rows as an associative array
 ?>
 
 <!DOCTYPE html>
@@ -38,24 +26,22 @@ $all_product = $db->query($sql);
 </head>
 <body>
     <main>
-<?php
-          while($row = mysqli_fetch_assoc($all_product)){
-       ?>
-       <div class="card">
-           <div class="image">
-               <img src="<?php echo $row["product_image"]; ?>" alt="">
-           </div>
-           <div class="caption">
-               <p class="product_name"><?php echo $row["Name"];  ?></p>
-               <p class="price"><b>$<?php echo $row["Price"]; ?></b></p>
-           </div>
-           <button class="add" data-id="<?php echo $row["product_id"];  ?>">Add to cart</button>
-       </div>
-       <?php
-
-          }
-     ?>
-     </main>
-    
+        <?php
+        foreach ($all_product as $row) {  // Iterate over each row of the result set
+        ?>
+            <div class="card">
+                <div class="image">
+                    <img src="<?php echo $row["Photo"]; ?>" alt="">
+                </div>
+                <div class="caption">
+                    <p class="product_name"><?php echo $row["Name"]; ?></p>
+                    <p class="price"><b>$<?php echo $row["Price"]; ?></b></p>
+                </div>
+                <button class="add" data-id="<?php echo $row["ProductID"]; ?>">Add to cart</button>
+            </div>
+        <?php
+        }
+        ?>
+    </main>
 </body>
 </html>
