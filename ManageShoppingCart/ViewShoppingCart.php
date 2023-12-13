@@ -8,7 +8,7 @@ try {
   require("../Connection/init.php");
 
   //Assume 
-  $userID = $_SESSION["user_id"]; //
+  $userID = 6; // $userID = $_SESSION["user_id"];
 
   //query for view orders
   $sql = "SELECT 
@@ -47,6 +47,7 @@ try {
 
   <body>
     <?php
+    include "../header.php";
     if ($count > 0) {
     ?>
       <h1 class="title">Your Shopping Cart</h1>

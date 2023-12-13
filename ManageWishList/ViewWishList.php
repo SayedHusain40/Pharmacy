@@ -5,6 +5,7 @@ session_start();
 */
 
 try {
+  include "../header.php";
   require("../Connection/init.php");
 
   //Assume 

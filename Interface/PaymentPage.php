@@ -5,6 +5,7 @@ session_start();
 */
 
 try {
+  include "../header.php";
 ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -26,7 +27,7 @@ try {
   }
 
   //Assume 
-  $userID = $_SESSION["user_id"];
+  $userID = 6; //  $userID = $_SESSION["user_id"];
 
   // This if statement for when user click on pay 
   if (isset($_POST["paymentOption"]) && $_POST["paymentOption"] == "Pay") {
@@ -179,7 +180,7 @@ try {
       // when user select delivery  will go to AddAddresses.php page
       if (isset($_POST["checkout-submit"]) && $_POST["order"] == "delivery") {
 
-        header("location: ../ManageShopingCart/AddAddresses.php?TotalPrice=$totalPrice&paymentMethod=$paymentMethod");
+        header("location: ../ManageShoppingCart/AddAddresses.php?TotalPrice=$totalPrice&paymentMethod=$paymentMethod");
         exit;
       }
     }

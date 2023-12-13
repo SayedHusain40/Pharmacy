@@ -1,15 +1,15 @@
 /*======== Header ========*/
-.logo{
+.logo {
   max-width: 140px;
   margin-left: 30px;
 }
-.favorite-button{
+.favorite-button {
   border: none;
   background-color: transparent;
   padding: 0;
   cursor: pointer;
 }
-.shopping-cart-button  {
+.shopping-cart-button {
   border: none;
   background-color: transparent;
   margin-left: 10px;
@@ -21,20 +21,19 @@
   box-sizing: border-box;
 }
 
-
-/*======== Shopping Cart End========*/
+/*======== Shopping Cart Start========*/
 .title {
+  background-color: #e8eaff;
   display: flex;
+  padding: 20px 0;
   justify-content: center;
   align-items: center;
-  margin-left: 10px;
+  font-size: 25px;
   color: #162d3d;
-  background-color: #e8eaff;
-  height: 100px;
-  margin: 0px;
-  margin-bottom: 10px;
+  text-align: center;
+  margin-bottom: 20px;
 }
-.cartContainer{
+.cartContainer {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -57,7 +56,7 @@
   font-size: 17px;
   border-radius: 6px;
   padding: 15px;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 @media (max-width: 1050px) {
   .cartContainer > div:first-child {
@@ -65,8 +64,8 @@
     margin-left: 0;
   }
   .cartContainer > div:last-child {
-      width: 700px;
-      margin: 0 auto;
+    width: 700px;
+    margin: 0 auto;
   }
 }
 @media (max-width: 530px) {
@@ -94,8 +93,8 @@
 }
 @media (max-width: 530px) {
   .cartContainer .itemsBox .deleteItemsCart {
-  left: -83%;
-  top: 10px;
+    left: -83%;
+    top: 10px;
   }
 }
 .cartContainer .itemsBox .favorite {
@@ -136,7 +135,8 @@
   border-radius: 16px;
   height: fit-content;
   color: #162d3d;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 .cartContainer .checkout h1 {
   text-align: center;
@@ -176,7 +176,7 @@
 .start-shopping {
   text-align: center;
 }
-.start-shopping button{
+.start-shopping button {
   text-align: center;
   width: 300px;
   padding: 10px 15px;
@@ -267,7 +267,8 @@
   justify-content: space-around;
 }
 .MainContent input[type="submit"],
-.MainContent button, .mainLink {
+.MainContent button,
+.mainLink {
   width: 200px;
   padding: 10px 15px;
   border-radius: 20px;
@@ -278,7 +279,6 @@
   cursor: pointer;
   color: #162d3d;
   text-decoration: none;
-
 }
 .MainContent input[type="submit"]:hover,
 .MainContent button:hover,
@@ -291,7 +291,7 @@
     margin-bottom: 10px;
   }
 }
-.MainError{
+.MainError {
   color: red;
   margin: 0;
   padding: 0;
@@ -306,16 +306,16 @@
   margin-right: 10px;
 }
 .MessagePaid {
-  background-color: #d1e7dd; 
-  color: #0f5132; 
-  padding: 25px; 
+  background-color: #d1e7dd;
+  color: #0f5132;
+  padding: 25px;
   font-size: 20px;
   margin-bottom: 50px;
 }
-.MessagePaid-btn{
+.MessagePaid-btn {
   text-align: center;
 }
-.MessagePaid-btn button{
+.MessagePaid-btn button {
   padding: 15px 25px;
   background-color: #488aec;
   border: 0;

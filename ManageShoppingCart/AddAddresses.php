@@ -4,7 +4,7 @@
 */
 
 try {
-
+  include "../header.php";
   //Assume 
   $userID = 6; //$_SESSION["user_id"]
 
@@ -57,7 +57,7 @@ try {
       $errors['blockRequired'] = "Block is required!";
     }
 
-    // Check for errors i f not errors update address value for customer
+    // Check for errors if not errors update address value for customer
     if (count($errors) === 0) {
       $stmt = $db->prepare("UPDATE `customer data` SET MobileNumber = ?, Email = ?, Area = ?, House = ?, Street = ?, Block = ? WHERE UserID = ?");
       $stmt->execute([$mobileNumber, $email, $area, $house, $street, $block, $userID]);
