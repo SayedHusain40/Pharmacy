@@ -114,11 +114,11 @@ try {
 
             <div class="subTotal">
               <p>Sub total</p>
-              <p><?php echo isset($TotalPrice) ? $TotalPrice : 0 ?> BHD</p>
+              <p>BHD <?php echo isset($TotalPrice) ? $TotalPrice : 0 ?></p>
             </div>
             <div class="delivery" id="deliveryCost" style="display: none;">
               <p>Delivery</p>
-              <p>1.5 BHD</p>
+              <p>BHD 1.5</p>
             </div>
 
             <div class="line"></div>
@@ -128,9 +128,9 @@ try {
               <h4 id="totalPrice">
                 <?php
                 if (isset($TotalPrice)) {
-                  echo $TotalPrice . " BHD";
+                  echo "BHD ".$TotalPrice;
                 } else {
-                  echo "0 BHD";
+                  echo "BHD 0";
                 }
                 ?>
               </h4>
