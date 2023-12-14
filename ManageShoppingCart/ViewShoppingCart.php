@@ -40,7 +40,7 @@ try {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Shopping Cart</title>
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/all.min.css" />
   </head>
@@ -128,7 +128,7 @@ try {
               <h4 id="totalPrice">
                 <?php
                 if (isset($TotalPrice)) {
-                  echo "BHD ".$TotalPrice;
+                  echo "BHD " . $TotalPrice;
                 } else {
                   echo "BHD 0";
                 }
