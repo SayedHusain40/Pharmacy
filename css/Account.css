@@ -15,6 +15,13 @@ html{
     display: flex;
     justify-content:center ;
   }
+ #CPR, #ADegree , #Block, #Area, #Street, #House, #SPosition {
+    width : 70%;
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 60px;
+    margin-bottom: 10px;
+  }
   #center {
     max-width: 1000px;
     margin: 0 auto;
@@ -33,6 +40,33 @@ html{
     column-count: 2;
     column-gap: 40px;
   }
+  #Staff fieldset {
+    color: rgb(255, 255, 255);
+    margin: 0px auto;
+    column-count: 3;
+    column-gap: 30px;
+  }
+  .option1 {
+    color: rgb(135, 25, 25);
+    margin: 0px auto;
+    column-count: 1;
+    column-gap: 30px;
+  }
+  
+  .option2 {
+    color: rgb(210, 95, 170);
+    margin: 0px auto;
+    column-count: 2;
+    column-gap: 30px;
+  }
+  
+  .option3 {
+    color: rgb(53, 29, 138);
+    margin: 0px auto;
+    column-count: 3;
+    column-gap: 30px;
+  }
+
   #login a {
     color: #FFB700;
 }
