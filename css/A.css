@@ -1,21 +1,4 @@
-html{
-    height: 100%;
-    background-image: url('../images/medical-banner-with-stethoscope.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-  .logo{
-    max-width: 90px;
-    margin-left: 30px;
-  }
-  .logo2{
-    max-width: 150px;
-    margin-right: 30px;
-  }
-  .navbar-brand {
-    color: white;
-    background-color: rgba(255, 255, 255, 0.5);
-  }
+
   .favorite-button {
     border: none;
     background-color: transparent;
@@ -28,13 +11,6 @@ html{
     margin-left: 10px;
     padding: 0;
     cursor: pointer;
-  }
-  body{
-    font-family: arial;
-    background-image: url('../images/medical-banner-with-stethoscope.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    margin: 0 auto;
   }
   .container {
     display: flex;

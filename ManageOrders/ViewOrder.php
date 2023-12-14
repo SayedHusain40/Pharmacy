@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+include '../header.php';
 include '../Connection/init.php';
 
 $stmt = $db->prepare("
@@ -41,3 +41,29 @@ $orderData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php else: ?>
   <p>No order data found.</p>
 <?php endif; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html{
+    height: 100%;
+  }
+  body{
+    font-family: arial;
+    background-image: url('../images/order.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0 auto;
+  }
+
+</style>
+</head>
+<body>
+
+
+ 
+</body>
+</html>
