@@ -90,7 +90,7 @@ try {
                 <a href="./EditCart.php?delete&cartID=<?php echo $row["cartID"]; ?>"> <i class="fa-solid fa-circle-xmark"></i> </a>
               </span>
               <span class="favorite">
-                <i class="fa-regular fa-heart"></i>
+                <a> <i class="fa-regular fa-heart"></i></a>
               </span>
             </div>
           <?php } ?>
