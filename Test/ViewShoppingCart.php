@@ -76,7 +76,9 @@ try {
                 <a href="./EditCart.php?delete&cartID=<?php echo $row["cartID"]; ?>"> <i class="fa-solid fa-circle-xmark"></i> </a>
               </span>
               <span class="favorite">
-                <i class="fa-regular fa-heart"></i>
+                <a href="" class="add-to-wishlist" product-id="<?php echo $row["ProductID"]; ?>">
+                  <i class="fa-regular fa-heart"></i>
+                </a>
               </span>
             </div>
           <?php } ?>
@@ -147,6 +149,12 @@ try {
             DivDeliveryCost.style.display = 'none';
           }
         });
+
+
+
+        //add to wish list
+
+        //add to wish list
       </script>
 
     <?php

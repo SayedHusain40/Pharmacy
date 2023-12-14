@@ -8,7 +8,7 @@ try {
 
   //assume
   $userID = 6; //$_SESSION["user_id"]
-  $productID = 3; //GET by js
+  $productID = 3; //GET by js better
 
   // insert into wish list data table
   $stmt = $db->prepare("INSERT INTO `wish list data` (UserID, ProductID) VALUES (?, ?)");
