@@ -4,7 +4,7 @@ try {
 
   //assume
   $userID = 6; //$_SESSION["user_id"]
-  $productID = 2; // $_POST[]  by js better
+  $productID = 5; // $_POST[]  by js better
   $QTY = 1; //$_POST[]  by js better
 
   // Get product Price
