@@ -7,7 +7,7 @@ include '../header.php';
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Document</title>
+      <title>Users Report</title>
     <link rel="stylesheet" href="../css/Report.css" />
 </head>
 <body>
@@ -16,59 +16,47 @@ include '../header.php';
     
 include '../Connection/init.php';
 
-$stmt = $db->prepare("SELECT * FROM `customer data`");
+$stmt = $db->prepare("SELECT * FROM `user data`");
 $stmt->execute();
-$customer = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$user = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <div class="container">
     <div class="row">
         <div class="col-x1-12">
-            <h1>User Data</h1>
+            <h1 style="text-align: center">User Data Report</h1>
                 <table>
                         <tr>
-                            <th>Customer ID</th>
                             <th>User ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Mobile Number</th>
+                            <th>Username</th>
                             <th>Email</th>
-                            <th>Date of Birth</th>
+                            <th>User Type</th>
                         </tr>
 
 
         <tbody>
 <?php
 
-foreach ($customer as $customer) {
-    $CustomerID = $customer['CustomerID'];
-    $UserID = $customer['UserID'];
-    $FirstName = $customer['FirstName'];
-    $LastName = $customer['LastName'];
-    $MobileNumber = $customer['MobileNumber'];
-    $Email = $customer['Email'];
-    $DOB = $customer['DOB'];
-}
+foreach ($user as $user) {
+    $UserID = $user['UserID'];
+    $Username = $user['Username'];
+    $Email = $user['Email'];
+    $Type = $user['Type'];
+
 ?>
         <tr>
-            <td><?php echo $CustomerID ?></td>
             <td><?php echo $UserID ?></td>
-            <td><?php echo $FirstName ?></td>
-            <td><?php echo $LastName ?></td>
-            <td><?php echo $MobileNumber ?></td>
+            <td><?php echo $Username ?></td>
             <td><?php echo $Email ?></td>
-            <td><?php echo $DOB ?></td>
+            <td><?php echo $Type ?></td>
 
         <tr>
-            
-
+        <?php } ?>
         </tbody>
         </div>
     </div>
 </div>
 </table>
-
-<div class="Print">
-<button onclick="window.print()">Print</button>
+<button onclick="window.print()" class="Print">Print</button>
 </div>
 
 </main>
