@@ -90,7 +90,9 @@ try {
                 <a href="./EditCart.php?delete&cartID=<?php echo $row["cartID"]; ?>"> <i class="fa-solid fa-circle-xmark"></i> </a>
               </span>
               <span class="favorite">
-                <a> <i class="fa-regular fa-heart"></i></a>
+                <a href="#" class="add-to-wishlist" product-id="<?php echo $row["ProductID"]; ?>">
+                  <i class="fa-regular fa-heart"></i>
+                </a>
               </span>
             </div>
           <?php } ?>
@@ -98,7 +100,7 @@ try {
 
         <div class="checkout">
           <h2 class="summary">Summary</h2>
-          <form  action="../Interface/PaymentPage.php" method="post">
+          <form action="../Interface/PaymentPage.php" method="post">
             <h5>Select a payment Method</h5>
             <input type="radio" name="paymentMethod" value="Credit Card" checked> <label> Credit Card </label>
             <input type="radio" name="paymentMethod" value="Debit Card"> <label> Debit Card </label>
@@ -169,6 +171,44 @@ try {
             DivDeliveryCost.style.display = 'none';
           }
         });
+
+        // add to wish list
+
+        // Select all favorite (wishlist) buttons
+        const wishlistButtons = document.querySelectorAll('.add-to-wishlist');
+
+        wishlistButtons.forEach(button => {
+          button.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            const productID = button.getAttribute('product-id');
+
+            button.querySelector('i').classList.toggle('fa-regular');
+            button.querySelector('i').classList.toggle('fa-solid');
+
+            addToWishlist(productID);
+          });
+        });
+
+        function addToWishlist(productID) {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', '../ManageWishList/AddToWishList.php', true);
+          xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+          const pID = `productID=${productID}`;
+
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                console.log('Item added to wishlist!');
+              } else {
+                console.error('Failed to add item to wishlist');
+              }
+            }
+          };
+
+          xhr.send(pID);
+        }
       </script>
 
     <?php
