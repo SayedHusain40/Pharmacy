@@ -8,6 +8,20 @@
   <link rel="stylesheet" href="../css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    .logo{
+max-width: 100px;
+}
+.logo2{
+max-width: 160px;
+}
+.navbar-brand {
+margin-left: 5px;
+margin-top: 5px;
+padding: 5px;
+background-color: rgba(255, 255, 255, 0.5);
+}
+  </style>
 </head>
 <body>
   <header>

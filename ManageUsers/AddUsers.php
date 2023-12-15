@@ -208,13 +208,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <style>
           html{
     height: 100%;
-    background-image: url('../images/bg2.jpeg');
+    background-image: url('../images/medical-banner-with-stethoscope.jpg');
     background-repeat: no-repeat;
     background-size: cover;
   }
   body{
     font-family: arial;
-    background-image: url('../images/bg2.jpeg');
+    background-image: url('../images/medical-banner-with-stethoscope.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     margin: 0 auto;
@@ -223,7 +223,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <header>
-<?php include'../h.php'; ?>
+<?php include '../header.php'; ?>
   </header>
 
 <div class="container">
