@@ -1,9 +1,5 @@
 <?php
 session_start();
-/*
-  include ""; 
-*/
-
 try {
   require("../Connection/init.php");
 

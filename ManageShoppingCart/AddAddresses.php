@@ -1,7 +1,4 @@
 <?php
-/*
-  include ""; 
-*/
 
 try {
   include "../header.php";

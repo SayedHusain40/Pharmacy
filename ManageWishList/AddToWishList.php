@@ -1,14 +1,11 @@
 <?php
-/*
-  include ""; 
-*/
 
 try {
   require("../Connection/init.php");
 
   //assume
   $userID = 6; //$_SESSION["user_id"]
-  $productID = $_REQUEST["productID"]; //GET by js better
+  $productID = $_REQUEST["productID"]; 
 
   // check for if product already in wish list
   $check = $db->prepare("SELECT * FROM `wish list data` WHERE ProductID = ? And UserID = ?");

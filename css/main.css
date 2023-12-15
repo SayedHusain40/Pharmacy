@@ -380,6 +380,10 @@
   background-color: #488aec;
   color: white;
 }
+.labelTotalPrice {
+  font-weight: 700;
+  color: #f44336;
+}
 
 /* nav */
 .MainHeader .breadcrumb,

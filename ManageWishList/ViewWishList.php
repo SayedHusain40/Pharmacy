@@ -1,8 +1,5 @@
 <?php
 session_start();
-/*
-  include ""; 
-*/
 
 try {
   include "../header.php";
@@ -45,7 +42,16 @@ try {
     <?php
     if ($count > 0) {
     ?>
-      <h1 class="title">Your Wish List</h1>
+      <!-- <h1 class="title">Your Wish List</h1> -->
+      <div class="HeaderTitle">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="../Interface/HomePageCustomer.php">Home Page</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Wish List</li>
+          </ol>
+        </nav>
+        <h3>Your Wish List</h3>
+      </div>
       <div class="containerWishList">
         <?php
         while ($row = $data->fetch()) {

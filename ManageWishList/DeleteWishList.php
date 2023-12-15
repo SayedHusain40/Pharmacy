@@ -1,7 +1,4 @@
 <?php
-/*
-  include ""; 
-*/
 
 try {
   require("../Connection/init.php");

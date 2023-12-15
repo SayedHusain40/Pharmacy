@@ -1,15 +1,11 @@
 <?php
-/*
-  include ""; 
-*/
-
 try {
   require("../Connection/init.php");
 
   //assume
   $userID = 6; //$_SESSION["user_id"]
-  $productID = 2; //GET by js better
-  $QTY = 1; //GET by js better
+  $productID = 2; // $_POST[]  by js better
+  $QTY = 1; //$_POST[]  by js better
 
   // Get product Price
   $stmt = $db->prepare("SELECT Price FROM `product data` WHERE ProductID = ?");
