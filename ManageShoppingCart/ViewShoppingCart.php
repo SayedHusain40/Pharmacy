@@ -98,7 +98,7 @@ try {
 
         <div class="checkout">
           <h2 class="summary">Summary</h2>
-          <form action="../Interface/PaymentPage.php" method="post">
+          <form  action="../Interface/PaymentPage.php" method="post">
             <h5>Select a payment Method</h5>
             <input type="radio" name="paymentMethod" value="Credit Card" checked> <label> Credit Card </label>
             <input type="radio" name="paymentMethod" value="Debit Card"> <label> Debit Card </label>
