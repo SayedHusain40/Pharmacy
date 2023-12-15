@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2023 at 03:06 PM
+-- Generation Time: Dec 15, 2023 at 03:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -95,8 +95,8 @@ INSERT INTO `interface` (`id`, `task_name`, `member_id`, `task_status`) VALUES
 (5, 'HomePageStaff.php', 2, 'NotDone'),
 (6, 'HomePageAdmin.php', 2, 'NotDone'),
 (7, 'HomePageSupplier.php', 2, 'NotDone'),
-(8, 'ShopByCategories.php', 5, 'NotDone'),
-(9, 'ShopByBrand.php', 5, 'NotDone'),
+(8, 'ShopByCategories.php', 3, 'NotDone'),
+(9, 'ShopByBrand.php', 3, 'NotDone'),
 (10, 'SPaymentPage.php', 5, 'NotDone'),
 (14, 'PaymentPage.php', 3, 'Done'),
 (16, 'AboutUs.php', 2, 'NotDone'),
@@ -121,9 +121,9 @@ CREATE TABLE `manageoffers` (
 --
 
 INSERT INTO `manageoffers` (`id`, `task_name`, `member_id`, `task_status`) VALUES
-(1, 'AddOffer.php', 5, 'NotDone'),
-(2, 'EditOffer.php', 5, 'NotDone'),
-(3, 'ViewOffer.php', 5, 'NotDone');
+(1, 'AddOffer.php', 3, 'NotDone'),
+(2, 'EditOffer.php', 3, 'NotDone'),
+(3, 'ViewOffer.php', 3, 'NotDone');
 
 -- --------------------------------------------------------
 
