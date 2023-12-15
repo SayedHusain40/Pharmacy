@@ -223,7 +223,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <header>
-<?php include'../header.php'; ?>
+<?php include '../header.php'; ?>
   </header>
 
 <div class="container">

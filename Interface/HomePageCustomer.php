@@ -10,15 +10,16 @@ include '../header.php';
       <title>Document</title>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
       <link rel="stylesheet" href="../css/add.css" />
+      <link rel="stylesheet" href="../css/main.css" />
       <style>
         body {
-            background-image: url("../images/m.jpg");
             background-repeat: no-repeat;
             background-size: cover;
         }
     </style>
 </head>
 <body>
+
     <main>
     <?php
     
@@ -53,8 +54,8 @@ foreach ($products as $product) {
         <div class="card-image">
             <img src="../images/'. $photo .'" alt="Product Image" class="product-image" id="product-image">
         </div>
-            <div class="product-name">Product Name: '. $productName .'</div>
-            <div class="product-price">Price: BHD '. $price.'</div>
+            <div class="product-name">'. $productName .'</div>
+            <div class="product-price">BHD '. $price.'</div>
             <div class="quantity">
                 <button class="quantity-button minus"><i class="fas fa-minus"></i></button>
                 <input type="number" class="quantity-input" value="1" min="1">
