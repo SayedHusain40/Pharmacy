@@ -44,8 +44,8 @@ foreach ($customer as $customer) {
     $UserID = $customer['UserID'];
     $FirstName = $customer['FirstName'];
     $LastName = $customer['LastName'];
-    $Email = $customer['Email'];
     $MobileNumber = $customer['MobileNumber'];
+    $Email = $customer['Email'];
     $DOB = $customer['DOB'];
 }
 ?>
@@ -54,8 +54,8 @@ foreach ($customer as $customer) {
             <td><?php echo $UserID ?></td>
             <td><?php echo $FirstName ?></td>
             <td><?php echo $LastName ?></td>
-            <td><?php echo $Email ?></td>
             <td><?php echo $MobileNumber ?></td>
+            <td><?php echo $Email ?></td>
             <td><?php echo $DOB ?></td>
 
         <tr>
