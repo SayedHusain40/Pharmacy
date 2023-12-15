@@ -12,9 +12,8 @@
 <body>
   <header>
     <div>
-      <nav class="navbar navbar-expand-lg navbar-lightsticky-top">
-        <a class="navbar-brand" href="../Account/Login.php"> <img src="../images/logo.png" class="logo" /> </a>
-
+      <nav class="navbar navbar-expand-xl navbar-lightsticky-top">
+        <a class="navbar-brand" href="../Account/Login.php"> <img src="../images/logo1.png" class="logo" /> <img src="../images/logo2.png" class="logo2" /></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

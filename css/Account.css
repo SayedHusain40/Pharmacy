@@ -15,6 +15,13 @@ html{
     display: flex;
     justify-content:center ;
   }
+ #CPR, #ADegree , #Block, #Area, #Street, #House, #SPosition {
+    width : 70%;
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 60px;
+    margin-bottom: 10px;
+  }
   #center {
     max-width: 1000px;
     margin: 0 auto;
@@ -66,6 +73,8 @@ label{
   margin-left: 60px;
   color: white;
 }
+
+
   .G.form-group {
     margin-left: 60px;
   }

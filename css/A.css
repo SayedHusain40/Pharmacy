@@ -1,0 +1,96 @@
+
+  .favorite-button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+  }
+  .shopping-cart-button {
+    border: none;
+    background-color: transparent;
+    margin-left: 10px;
+    padding: 0;
+    cursor: pointer;
+  }
+  .container {
+    display: flex;
+    justify-content:center ;
+  }
+  h1{
+    color: white;
+    margin: -40px 30px 0px 30px;
+  }
+  form{
+    margin: 0 auto;
+    padding: 20px 5px;
+    border: 2px solid grey;
+    border-radius: 10px;
+    background-color: rgba(128, 128, 128, 0.5);
+    width: 1200px;
+  }
+  #Signup fieldset {
+    color: rgb(255, 255, 255);
+    margin: 0px auto;
+    column-count: 3;
+  }
+  label{
+    padding-right: 10px;
+    margin-left: 60px;
+    color: white;
+  }
+  .G.form-group {
+    margin-left: 60px;
+  }
+  
+  .G.form-group input[type="radio"] {
+    margin-right: 15px;
+  }
+  
+  .G.form-group label {
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 12px;
+  }
+.form-group input {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  #phone_code {
+    width: 19%;
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 60px;
+  }
+  #phone_number {
+    width: 49%;
+    padding: 5px;
+    border-radius: 10px;
+  }
+  #username, #password, #fname, #lname, #email, #confirm-password, #dob, #CPR, #ADegree , #Block, #Area, #Street, #House, #SPosition {
+    width : 80%;
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 60px;
+    margin-bottom: 10px;
+  }
+  #female label {
+    padding-right: 10px;
+    color: #F8F8F8;
+}
+  .form-button-wrapper1 input[type=submit] {
+    background-color: #00BFD6;
+    color: white;
+    padding: 6px 45px;
+    width: auto;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 120px;
+  }
+  .required {
+    color: #7C2582;
+  }
+  footer{
+    padding: 1px;
+    bottom: 0;
+  }

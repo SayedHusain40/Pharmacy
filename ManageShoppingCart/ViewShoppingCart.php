@@ -40,7 +40,7 @@ try {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Shopping Cart</title>
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/all.min.css" />
   </head>
@@ -90,7 +90,7 @@ try {
                 <a href="./EditCart.php?delete&cartID=<?php echo $row["cartID"]; ?>"> <i class="fa-solid fa-circle-xmark"></i> </a>
               </span>
               <span class="favorite">
-                <i class="fa-regular fa-heart"></i>
+                <a> <i class="fa-regular fa-heart"></i></a>
               </span>
             </div>
           <?php } ?>
@@ -114,11 +114,11 @@ try {
 
             <div class="subTotal">
               <p>Sub total</p>
-              <p><?php echo isset($TotalPrice) ? $TotalPrice : 0 ?> BHD</p>
+              <p>BHD <?php echo isset($TotalPrice) ? $TotalPrice : 0 ?></p>
             </div>
             <div class="delivery" id="deliveryCost" style="display: none;">
               <p>Delivery</p>
-              <p>1.5 BHD</p>
+              <p>BHD 1.5</p>
             </div>
 
             <div class="line"></div>
@@ -128,9 +128,9 @@ try {
               <h4 id="totalPrice">
                 <?php
                 if (isset($TotalPrice)) {
-                  echo $TotalPrice . " BHD";
+                  echo "BHD " . $TotalPrice;
                 } else {
-                  echo "0 BHD";
+                  echo "BHD 0";
                 }
                 ?>
               </h4>
