@@ -1,4 +1,15 @@
-
+.logo{
+  max-width: 100px;
+  }
+  .logo2{
+  max-width: 160px;
+  }
+  .navbar-brand {
+  margin-left: 5px;
+  margin-top: 5px;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  }
   .favorite-button {
     border: none;
     background-color: transparent;

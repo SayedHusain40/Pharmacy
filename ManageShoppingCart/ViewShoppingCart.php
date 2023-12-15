@@ -1,9 +1,5 @@
 <?php
 session_start();
-/*
-  include ""; 
-*/
-
 try {
   require("../Connection/init.php");
 
@@ -48,7 +44,21 @@ try {
   <body>
     <?php
     include "../header.php";
+
     if ($count > 0) {
+      //for display Successfully messages
+      if (isset($_SESSION['updateQty_success'])) {
+        echo '<div class="success-box" id="successBox">';
+        echo '<div><i class="success-icon fa-solid fa-xmark" id="iconX"></i>Successfully Updated Qty!</div>';
+        echo '</div>';
+        unset($_SESSION['updateQty_success']);
+      }
+      if (isset($_SESSION['deleteProduct_success'])) {
+        echo '<div class="success-box" id="successBox">';
+        echo '<div><i class="success-icon fa-solid fa-xmark" id="iconX"></i>Successfully Delete Product!</div>';
+        echo '</div>';
+        unset($_SESSION['deleteProduct_success']);
+      }
     ?>
 
       <div class="HeaderTitle">
@@ -90,7 +100,19 @@ try {
                 <a href="./EditCart.php?delete&cartID=<?php echo $row["cartID"]; ?>"> <i class="fa-solid fa-circle-xmark"></i> </a>
               </span>
               <span class="favorite">
-                <a> <i class="fa-regular fa-heart"></i></a>
+                <?php
+                // check for if product already in wish list
+                $check = $db->prepare("SELECT * FROM `wish list data` WHERE ProductID = ? And UserID = ?");
+                $check->execute([$row["ProductID"], $userID]);
+                $checkResult = $check->rowCount();
+                $dataWishList = $check->fetch();
+
+                // Insert and delete in wishlist
+                ?>
+                <a href="#" class="wishlist-action" data-product-id="<?php echo $row["ProductID"]; ?>" data-wishlist-id="<?php echo isset($dataWishList["WID"]) ? $dataWishList["WID"] : ''; ?>">
+                  <i class="<?php echo isset($dataWishList["WID"]) ? 'fa-solid' : 'fa-regular'; ?> fa-heart"></i>
+                </a>
+
               </span>
             </div>
           <?php } ?>
@@ -98,7 +120,7 @@ try {
 
         <div class="checkout">
           <h2 class="summary">Summary</h2>
-          <form  action="../Interface/PaymentPage.php" method="post">
+          <form action="../Interface/PaymentPage.php" method="post">
             <h5>Select a payment Method</h5>
             <input type="radio" name="paymentMethod" value="Credit Card" checked> <label> Credit Card </label>
             <input type="radio" name="paymentMethod" value="Debit Card"> <label> Debit Card </label>
@@ -147,6 +169,23 @@ try {
       </div>
 
       <script>
+        let iconX = document.getElementById('iconX');
+        let successBox = document.getElementById('successBox');
+
+        iconX.addEventListener('click', function() {
+          hideSuccessBox();
+        });
+
+        // Function to hide the success box
+        function hideSuccessBox() {
+          successBox.style.display = 'none';
+        }
+
+        // Hide the success box after 3 seconds
+        setTimeout(hideSuccessBox, 3000); 
+
+
+
         const deliveryRadio = document.querySelector('input[type=radio][value=delivery]');
         const pickUpRadio = document.querySelector('input[type=radio][value=pick-up]');
         const DivDeliveryCost = document.getElementById('deliveryCost');
@@ -169,6 +208,87 @@ try {
             DivDeliveryCost.style.display = 'none';
           }
         });
+
+
+        // for update Quantity
+        function updateQuantity() {
+          var form = document.getElementById('updateForm');
+          var formData = new FormData(form);
+
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {}
+            };
+
+            xhr.open('POST', form.action, true);
+            xhr.send(formData);
+          }
+        }
+
+
+        // for delete and add to wish list 
+        document.querySelectorAll('.wishlist-action').forEach(item => {
+          item.addEventListener('click', function(event) {
+            event.preventDefault();
+            const productId = this.getAttribute('data-product-id');
+            const wishlistId = this.getAttribute('data-wishlist-id');
+
+            const heartIcon = this.querySelector('i');
+            if (heartIcon.classList.contains('fa-regular')) {
+              heartIcon.classList.remove('fa-regular');
+              heartIcon.classList.add('fa-solid');
+              addToWishlist(productId);
+            } else {
+              heartIcon.classList.remove('fa-solid');
+              heartIcon.classList.add('fa-regular');
+              removeFromWishlist(wishlistId);
+            }
+          });
+        });
+
+        // Add function
+        function addToWishlist(productID) {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', '../ManageWishList/AddToWishList.php', true);
+          xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+          const pID = `productID=${productID}`;
+
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                console.log('Item added to wishlist!');
+              } else {
+                console.error('Failed to add item to wishlist');
+              }
+            }
+          };
+
+          xhr.send(pID);
+        }
+
+
+        // Remove function 
+        function removeFromWishlist(wishlistId) {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', '../ManageWishList/DeleteWishList.php', true);
+          xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+          const wID = `WID=${wishlistId}`;
+
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                console.log('Item removed from wishlist!');
+              } else {
+                console.error('Failed to remove item from wishlist');
+              }
+            }
+          };
+
+          xhr.send(wID);
+        }
+        // for delete and add to wish list
       </script>
 
     <?php

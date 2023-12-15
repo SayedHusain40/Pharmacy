@@ -1,9 +1,7 @@
 <?php
-/*
-  include ""; 
-*/
 
 try {
+  session_start();
   include "../header.php";
   //Assume 
   $userID = 6; //$_SESSION["user_id"]
@@ -62,6 +60,7 @@ try {
       $stmt = $db->prepare("UPDATE `customer data` SET MobileNumber = ?, Email = ?, Area = ?, House = ?, Street = ?, Block = ? WHERE UserID = ?");
       $stmt->execute([$mobileNumber, $email, $area, $house, $street, $block, $userID]);
 
+      $_SESSION['updateAddress_success'] = "true";
       header("Location: {$_SERVER['PHP_SELF']}?TotalPrice=$totalPrice&paymentMethod=$paymentMethod");
       exit();
     }
@@ -81,6 +80,15 @@ try {
   </head>
 
   <body>
+    <?php
+    //for display Successfully messages
+    if (isset($_SESSION['updateAddress_success'])) {
+      echo '<div class="success-box" id="successBox">';
+      echo '<div><i class="success-icon fa-solid fa-xmark" id="iconX"></i>Successfully Updated Your Address!</div>';
+      echo '</div>';
+      unset($_SESSION['updateAddress_success']);
+    } ?>
+
     <div class="MainHeader">
       <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -163,6 +171,22 @@ try {
         </div>
       </form>
     </div>
+    <script>
+      let iconX = document.getElementById('iconX');
+      let successBox = document.getElementById('successBox');
+
+      iconX.addEventListener('click', function() {
+        hideSuccessBox();
+      });
+
+      // Function to hide the success box
+      function hideSuccessBox() {
+        successBox.style.display = 'none';
+      }
+
+      // Hide the success box after 3 seconds
+      setTimeout(hideSuccessBox, 3000);
+    </script>
   </body>
 
   </html>

@@ -1,13 +1,10 @@
 <?php
-/*
-  include ""; 
-*/
 
 try {
   require("../Connection/init.php");
 
   //delete Items from cart when click on delete
-  if (isset($_REQUEST['WID']) && isset($_REQUEST['delete'])) {
+  if (isset($_REQUEST['WID'])) {
 
     $WID = $_REQUEST['WID'];
 

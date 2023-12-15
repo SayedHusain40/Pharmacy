@@ -55,7 +55,7 @@ echo "<script>alert('Account(s) successfully deleted')</script>";
   }
   body{
     font-family: arial;
-    background-image: url('../images/Users.gif');
+    background-image: url('../images/bg2.jpeg');
     background-repeat: no-repeat;
     background-size: cover;
     margin: 0 auto;

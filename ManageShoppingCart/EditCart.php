@@ -1,8 +1,4 @@
 <?php
-/*
-  include ""; 
-*/
-
 try {
   require("../Connection/init.php");
 
@@ -15,7 +11,9 @@ try {
     $stmt = $db->prepare($deleteQuery);
     $stmt->execute([$cartID]);
 
-    header("Location: ViewShoppingCart.php");
+    session_start();
+    $_SESSION['deleteProduct_success'] = "true";
+    header("Location:  ViewShoppingCart.php");
     exit();
   }
 
@@ -33,7 +31,10 @@ try {
     $UpdateQTY = "UPDATE `view cart` SET Qty = ?, Total = ? WHERE `CartID` = ?";
     $stmt = $db->prepare($UpdateQTY);
     $stmt->execute([$_POST['newQTY'], $total, $_POST['cartID']]);
+    $count = $stmt->rowCount();
 
+    session_start();
+    $_SESSION['updateQty_success'] = "true";
     header("Location:  ViewShoppingCart.php");
     exit();
   }

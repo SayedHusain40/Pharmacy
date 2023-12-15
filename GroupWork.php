@@ -13,7 +13,7 @@ try {
     $db = new PDO('mysql:host=localhost;dbname=groupwork;charset=utf8', 'root', '');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $tables = array('Account', 'Interface', 'ManageOffers', 'ManageOrders', 'ManageProducts', 'ManageUsers', 'Reports', 'Function');
+    $tables = array('Account', 'Interface', 'ManageOffers', 'ManageOrders', 'ManageProducts','Manageshoppingcart', 'ManageUsers', 'Managewishlist','Reports', 'Function');
 
     // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

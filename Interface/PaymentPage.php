@@ -200,7 +200,7 @@ try {
       <div class="payment-content">
         <div class="payment MainContent">
           <h4>Payment</h4>
-          <h6 class="Price">Total Price: <?php echo $totalPrice ?> BHD</h6>
+          <h6 class="labelTotalPrice">Total Price: <?php echo $totalPrice ?> BHD</h6>
           <div class="credit-card">
             <h6 style="margin: 0;">
               <?php
