@@ -405,7 +405,7 @@
   width: 100%;
 }
 .success-box div {
- position: fixed;
+  position: fixed;
   background-color: #4fdf55;
   width: fit-content;
   margin-top: 20px;
@@ -427,3 +427,32 @@
   cursor: pointer;
 }
 /* ==== End Design success-box */
+
+/* == Start shop by category == */
+.categoryContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 50px;
+  max-width: 2000px;
+  margin: 0 auto;
+}
+.categoryContainer .box {
+  text-align: center;
+  margin: 0 5px;
+}
+.categoryContainer .categoryBox {
+  padding: 15px;
+  width: 220px;
+  height: 220px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+.categoryContainer .categoryBox:hover {
+box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.categoryBox img {
+  width: 100%;
+}
+/* == End shop by category == */
