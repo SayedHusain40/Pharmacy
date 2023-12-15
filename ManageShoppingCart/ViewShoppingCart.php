@@ -44,7 +44,21 @@ try {
   <body>
     <?php
     include "../header.php";
+
     if ($count > 0) {
+      //for display updated Qty success
+      if (isset($_SESSION['updateQty_success'])) {
+        echo '<div class="success-box" id="successBox">';
+        echo '<div><i class="success-icon fa-solid fa-xmark" id="iconX"></i>Successfully Updated Qty!</div>';
+        echo '</div>';
+        unset($_SESSION['updateQty_success']);
+      }
+      if (isset($_SESSION['deleteProduct_success'])) {
+        echo '<div class="success-box" id="successBox">';
+        echo '<div><i class="success-icon fa-solid fa-xmark" id="iconX"></i>Successfully Delete Product!</div>';
+        echo '</div>';
+        unset($_SESSION['deleteProduct_success']);
+      }
     ?>
 
       <div class="HeaderTitle">
@@ -155,6 +169,23 @@ try {
       </div>
 
       <script>
+        let iconX = document.getElementById('iconX');
+        let successBox = document.getElementById('successBox');
+
+        iconX.addEventListener('click', function() {
+          hideSuccessBox();
+        });
+
+        // Function to hide the success box
+        function hideSuccessBox() {
+          successBox.style.display = 'none';
+        }
+
+        // Hide the success box after 3 seconds
+        setTimeout(hideSuccessBox, 3000); 
+
+
+
         const deliveryRadio = document.querySelector('input[type=radio][value=delivery]');
         const pickUpRadio = document.querySelector('input[type=radio][value=pick-up]');
         const DivDeliveryCost = document.getElementById('deliveryCost');
@@ -177,6 +208,22 @@ try {
             DivDeliveryCost.style.display = 'none';
           }
         });
+
+
+        // for update Quantity
+        function updateQuantity() {
+          var form = document.getElementById('updateForm');
+          var formData = new FormData(form);
+
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {}
+            };
+
+            xhr.open('POST', form.action, true);
+            xhr.send(formData);
+          }
+        }
 
 
         // for delete and add to wish list 
@@ -241,7 +288,7 @@ try {
 
           xhr.send(wID);
         }
-        // for delete and add to wish list 
+        // for delete and add to wish list
       </script>
 
     <?php
