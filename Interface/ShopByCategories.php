@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 session_start();
 try {
   require("../Connection/init.php");
@@ -75,4 +75,4 @@ try {
 } catch (PDOException $e) {
   echo "Error: " . $e->getMessage();
 }
-?>
+?> -->
