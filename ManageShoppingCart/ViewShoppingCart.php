@@ -90,9 +90,19 @@ try {
                 <a href="./EditCart.php?delete&cartID=<?php echo $row["cartID"]; ?>"> <i class="fa-solid fa-circle-xmark"></i> </a>
               </span>
               <span class="favorite">
-                <a href="#" class="add-to-wishlist" product-id="<?php echo $row["ProductID"]; ?>">
-                  <i class="fa-regular fa-heart"></i>
+                <?php
+                // check for if product already in wish list
+                $check = $db->prepare("SELECT * FROM `wish list data` WHERE ProductID = ? And UserID = ?");
+                $check->execute([$row["ProductID"], $userID]);
+                $checkResult = $check->rowCount();
+                $dataWishList = $check->fetch();
+
+                // Insert and delete in wishlist
+                ?>
+                <a href="#" class="wishlist-action" data-product-id="<?php echo $row["ProductID"]; ?>" data-wishlist-id="<?php echo isset($dataWishList["WID"]) ? $dataWishList["WID"] : ''; ?>">
+                  <i class="<?php echo isset($dataWishList["WID"]) ? 'fa-solid' : 'fa-regular'; ?> fa-heart"></i>
                 </a>
+
               </span>
             </div>
           <?php } ?>
@@ -172,24 +182,28 @@ try {
           }
         });
 
-        // add to wish list
 
-        // Select all favorite (wishlist) buttons
-        const wishlistButtons = document.querySelectorAll('.add-to-wishlist');
-
-        wishlistButtons.forEach(button => {
-          button.addEventListener('click', (event) => {
+        // for delete and add to wish list 
+        document.querySelectorAll('.wishlist-action').forEach(item => {
+          item.addEventListener('click', function(event) {
             event.preventDefault();
+            const productId = this.getAttribute('data-product-id');
+            const wishlistId = this.getAttribute('data-wishlist-id');
 
-            const productID = button.getAttribute('product-id');
-
-            button.querySelector('i').classList.toggle('fa-regular');
-            button.querySelector('i').classList.toggle('fa-solid');
-
-            addToWishlist(productID);
+            const heartIcon = this.querySelector('i');
+            if (heartIcon.classList.contains('fa-regular')) {
+              heartIcon.classList.remove('fa-regular');
+              heartIcon.classList.add('fa-solid');
+              addToWishlist(productId);
+            } else {
+              heartIcon.classList.remove('fa-solid');
+              heartIcon.classList.add('fa-regular');
+              removeFromWishlist(wishlistId);
+            }
           });
         });
 
+        // Add function
         function addToWishlist(productID) {
           const xhr = new XMLHttpRequest();
           xhr.open('POST', '../ManageWishList/AddToWishList.php', true);
@@ -209,6 +223,29 @@ try {
 
           xhr.send(pID);
         }
+
+
+        // Remove function 
+        function removeFromWishlist(wishlistId) {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', '../ManageWishList/DeleteWishList.php', true);
+          xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+          const wID = `WID=${wishlistId}`;
+
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                console.log('Item removed from wishlist!');
+              } else {
+                console.error('Failed to remove item from wishlist');
+              }
+            }
+          };
+
+          xhr.send(wID);
+        }
+        // for delete and add to wish list 
       </script>
 
     <?php
