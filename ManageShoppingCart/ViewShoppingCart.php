@@ -46,7 +46,7 @@ try {
     include "../header.php";
 
     if ($count > 0) {
-      //for display updated Qty success
+      //for display Successfully messages
       if (isset($_SESSION['updateQty_success'])) {
         echo '<div class="success-box" id="successBox">';
         echo '<div><i class="success-icon fa-solid fa-xmark" id="iconX"></i>Successfully Updated Qty!</div>';
