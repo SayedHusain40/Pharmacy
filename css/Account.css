@@ -40,33 +40,6 @@ html{
     column-count: 2;
     column-gap: 40px;
   }
-  #Staff fieldset {
-    color: rgb(255, 255, 255);
-    margin: 0px auto;
-    column-count: 3;
-    column-gap: 30px;
-  }
-  .option1 {
-    color: rgb(135, 25, 25);
-    margin: 0px auto;
-    column-count: 1;
-    column-gap: 30px;
-  }
-  
-  .option2 {
-    color: rgb(210, 95, 170);
-    margin: 0px auto;
-    column-count: 2;
-    column-gap: 30px;
-  }
-  
-  .option3 {
-    color: rgb(53, 29, 138);
-    margin: 0px auto;
-    column-count: 3;
-    column-gap: 30px;
-  }
-
   #login a {
     color: #FFB700;
 }
@@ -100,6 +73,8 @@ label{
   margin-left: 60px;
   color: white;
 }
+
+
   .G.form-group {
     margin-left: 60px;
   }

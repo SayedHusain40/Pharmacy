@@ -60,10 +60,10 @@ if ($prepare->rowCount() > 0)
 
 // Generate a unique login token
 $loginToken = bin2hex(random_bytes(32));
-
+$userId = $_SESSION['user_id'];
 // Store the login token in the database
 $expirationDate = date('Y-m-d H:i:s', strtotime('+14 days'));
-$db->exec("INSERT INTO remember_me_tokens (token, user_id, expiration_date) VALUES ('$loginToken', '$userId', '$expirationDate')");
+$db->exec("INSERT INTO remember_me_tokens (token, UserID, expiration_date) VALUES ('$loginToken', '$userId', '$expirationDate')");
 
 // Set the login token as a cookie
 setcookie('loginToken', $loginToken, strtotime('+14 days'), '/');
@@ -72,7 +72,7 @@ if (isset($_COOKIE['loginToken'])) {
     $loginToken = $_COOKIE['loginToken'];
 
     // Retrieve the user ID associated with the login token from the database
-    $stmt = $db->prepare("SELECT user_id FROM remember_me_tokens WHERE token = :token AND expiration_date > NOW()");
+    $stmt = $db->prepare("SELECT UserID FROM remember_me_tokens WHERE token = :token AND expiration_date > NOW()");
     $stmt->bindParam(':token', $loginToken);
     $stmt->execute();
 
@@ -109,6 +109,16 @@ if (isset($_COOKIE['loginToken'])) {
         crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/76f78292cc.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../css/Account.css" />
+        <style>
+          #RememberMe-label {
+  padding-right: 10px;
+  margin-left: -5px;
+  color: white;
+}
+input[type="checkbox"] {
+  margin-left: 60px;
+}
+        </style>
 </head>
 <body>
   <?php 
@@ -144,7 +154,10 @@ if (isset($_COOKIE['loginToken'])) {
           <label for="password">Password:</label> <br>
           <input type="password" id="password" name="ps" title="Enter a password!" value="<?php echo $password; ?>" class="form-control" placeholder="Enter your password" />
         </div>
-        </br>
+        <div class="form-group">
+  <input type="checkbox" name="RememberMe" id="RememberMe">
+  <label for="RememberMe" id="RememberMe-label">Remember Me</label>
+</div>
         <div class="form-button-wrapper">
           <input type="submit" name="Loginbtn" value="Login" class="form-button" />
         </div>
