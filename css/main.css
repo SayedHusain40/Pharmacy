@@ -422,9 +422,8 @@
   text-align: center;
   position: absolute;
   top: 15px;
-  left: 11px;
+  left: 8px;
   z-index: 10;
-  cursor: pointer;
 }
 /* ==== End Design success-box */
 
@@ -446,13 +445,79 @@
   padding: 15px;
   width: 220px;
   height: 220px;
-  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 .categoryContainer .categoryBox:hover {
-box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 .categoryBox img {
   width: 100%;
 }
+
+/*  */
+.containerProducts {
+  display: flex;
+  justify-content: space-between;
+}
+.containerProducts .filter {
+  width: 20%;
+}
+.containerProducts .content {
+  padding: 0 20px;
+  width: 75%;
+}
+@media (max-width: 900px) {
+  .containerProducts .filter {
+    display: none;
+  }
+  .containerProducts .content {
+    width: 100%;
+  }
+}
+.containerProducts .content .card-body {
+  border-top: 1px solid #eee;
+}
+.containerProducts .content .col {
+  margin-bottom: 20px;
+}
+.containerProducts .content .card:hover {
+box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+}
+.containerProducts .headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 30px;
+}
+.containerProducts .inputQtyContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.containerProducts .custom-number-input {
+  width: 70px;
+  display: flex;
+  text-align: center;
+  padding: 5px 0;
+}
+
+.containerProducts .btnMins {
+  background-color: white;
+  border: none;
+  color: red;
+}
+.containerProducts .btnPlus {
+  background-color: white;
+  border: none;
+  color: #007bff;
+}
+
+.containerProducts .cartImag {
+background-color: #f6f5fa;
+}
+
+/*  */
 /* == End shop by category == */

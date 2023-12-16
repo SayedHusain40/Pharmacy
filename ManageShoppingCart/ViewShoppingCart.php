@@ -78,7 +78,7 @@ try {
             $TotalPrice = $TotalPrice + $row["TotalPrice"];
           ?>
             <div class="itemsBox">
-              <div> <img src="../images/<?php echo $row['Photo']; ?>" width="100px" /></div>
+              <div> <img src="../images/<?php echo $row['Photo']; ?>" width="150px" /></div>
               <div class="itemsBoxContent">
                 <div>
                   <h3><?php echo $row['Name']; ?></h3>
@@ -169,6 +169,7 @@ try {
       </div>
 
       <script>
+        //for hiding susscfuly message 
         let iconX = document.getElementById('iconX');
         let successBox = document.getElementById('successBox');
 

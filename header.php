@@ -188,7 +188,7 @@ background-color: rgba(255, 255, 255, 0.5);
     </div>
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="Interface/ShopByCategories.php">Shop by Categories</a>
+    <a class="nav-link" href="../Interface/ShopByCategories.php">Shop by Categories</a>
     </li>
     <li class="nav-item">
     <a class="nav-link" href="#">Shop by Brand</a>

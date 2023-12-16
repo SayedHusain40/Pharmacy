@@ -1,11 +1,13 @@
 <?php
 try {
+  session_start();
+
   require("../Connection/init.php");
 
   //assume
   $userID = 6; //$_SESSION["user_id"]
-  $productID = 5; // $_POST[]  by js better
-  $QTY = 1; //$_POST[]  by js better
+  $productID = $_POST["productID"];
+  $QTY = $_POST["quantity"];
 
   // Get product Price
   $stmt = $db->prepare("SELECT Price FROM `product data` WHERE ProductID = ?");
@@ -35,12 +37,16 @@ try {
     $update = $db->prepare("UPDATE `view cart` SET Qty = ?, Total = ?, AddedDate = ? WHERE ProductID = ? AND UserID = ?");
     $update->execute([$newQTY, $newTotal, $AddedDate, $productID, $userID]);
   }
+
   else {
     // insert into view cart
     $stmt = $db->prepare("INSERT INTO `view cart` (UserID, ProductID, Qty, Total, AddedDate) VALUES (?, ?, ?, ?, ?)");
     $stmt->execute([$userID, $productID, $QTY, $total, $AddedDate]);
   }
 
+
+  //for message added to cart successfully
+  $_SESSION['addToCart_success'] = "true";
 
   $db = null;
 } catch (PDOException $e) {
