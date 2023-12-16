@@ -32,6 +32,17 @@ try {
     ?>
       <div class="containerProducts">
         <div class="filter">
+          <div class="dropdown">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown link
+            </a>
+
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </div>
         </div>
         <div class="content">
           <div class="headerContainer">
@@ -52,6 +63,7 @@ try {
                     <img src="../images/<?php echo $Photo ?>" class="card-img-top w-50 mx-auto d-block">
                   </div>
                   <div class="card-body">
+                    <span><?php echo $categoryName ?></span>
                     <h5 class="card-title"><?php echo $name ?></h5>
                     <p class="card-text"><?php echo "Price: BHD " . $price ?></p>
                     <div class="inputQtyContainer">
