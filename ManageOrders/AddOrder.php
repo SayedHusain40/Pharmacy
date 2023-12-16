@@ -117,6 +117,7 @@ echo '</select>';
 echo "<table>";
 echo "<tr>";
 echo "<th>Product ID</th>";
+echo "<th>Photo</th>";
 echo "<th>Name</th>";
 echo "<th>Type</th>";
 echo "<th>Requires Prescription</th>";
@@ -127,7 +128,6 @@ echo "<th>Availability</th>";
 echo "<th>Price</th>";
 echo "<th>Points</th>";
 echo "<th>Brand</th>";
-echo "<th>Photo</th>";
 echo "<th>Alternate</th>";
 echo "<th>Select</th>";
 echo "</tr>";
@@ -149,12 +149,13 @@ foreach ($products as $product) {
 
     echo "<tr>";
     echo "<td>$productId</td>";
+    echo '<td><img src="../images/'. $photo .'" alt="Product Image" width = "160px" height: "200px" class="product-image" id="product-image"></td>';
     echo "<td>$productName</td>";
     echo "<td>$productType</td>";
     echo "<td>$requiresPrescription</td>";
     echo "<td>$description</td>";
     echo "<td>$expireDate</td>";
-    echo "<td><select name='quantities[]' class='quantity-select'>";
+    echo "<td>$quantity<br><select name='quantities[]' class='quantity-select'>";
    for ($i = 1; $i <= 10; $i++) { 
     echo"<option value='";
     echo $i;
@@ -167,7 +168,6 @@ foreach ($products as $product) {
     echo "<td>$price</td>";
     echo "<td><span class='points'>$points</span></td>";
     echo "<td>$brand</td>";
-    echo "<td>$photo</td>";
     echo "<td>$alternate</td>";
     echo "<td><input type='checkbox' name='products[]' value='$productId'></td>";
     echo "</tr>";
