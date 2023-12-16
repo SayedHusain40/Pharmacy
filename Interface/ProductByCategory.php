@@ -3,6 +3,7 @@ session_start();
 try {
   require("../Connection/init.php");
 
+  $userID = 6;
   if (isset($_GET["Category"])) {
     $categoryName = $_GET["Category"];
   }
@@ -31,23 +32,40 @@ try {
     if ($count > 0) {
     ?>
       <div class="containerProducts">
-        <div class="filter">
-          <div class="dropdown">
-            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown link
-            </a>
-
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <div class="filter" id="showFilterDiv">
+          <h5>Shopping by Category</h5>
+          <div class=" dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              <?php echo $categoryName ?>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="#">Medicine</a>
+              <a class="dropdown-item" href="#">Minerals</a>
+              <a class="dropdown-item" href="#">Vitamins</a>
+              <a class="dropdown-item" href="#">Supplements</a>
+              <a class="dropdown-item" href="#">Common Conditions</a>
+              <a class="dropdown-item" href="#">Skin Care</a>
+              <a class="dropdown-item" href="#">Oral Care</a>
+              <a class="dropdown-item" href="#">Bath & Shower</a>
+              <a class="dropdown-item" href="#">Hair Wash & Care</a>
+              <a class="dropdown-item" href="#">Body Supports</a>
+              <a class="dropdown-item" href="#">Feminine Hygiene</a>
+              <a class="dropdown-item" href="#">Mens Grooming</a>
+              <a class="dropdown-item" href="#">Deodorants</a>
+              <a class="dropdown-item" href="#">Health Accessories</a>
+              <a class="dropdown-item" href="#">First Aid</a>
+              <a class="dropdown-item" href="#">Diagnostics & Monitoring</a>
+              <a class="dropdown-item" href="#">Baby Skin Care & Accessories</a>
             </ul>
           </div>
+
+          <h5>Price</h5>
+
         </div>
         <div class="content">
           <div class="headerContainer">
             <h2 class="title"> <?php echo $categoryName ?></h2>
-            <i class="fa-solid fa-filter"></i>
+            <i class="fa-solid fa-sliders" id="filterIcon"></i>
           </div>
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <?php
@@ -63,6 +81,21 @@ try {
                     <img src="../images/<?php echo $Photo ?>" class="card-img-top w-50 mx-auto d-block">
                   </div>
                   <div class="card-body">
+                    <div class="HeartDiv">
+                      <?php
+                      // check for if product already in wish list
+                      $check = $db->prepare("SELECT * FROM `wish list data` WHERE ProductID = ? And UserID = ?");
+                      $check->execute([$productID, $userID]);
+                      $checkResult = $check->rowCount();
+                      $dataWishList = $check->fetch();
+
+                      // Insert and delete in wishlist
+                      ?>
+                      <a href="#" class="wishlist-action" data-product-id="<?php echo $productID; ?>" data-wishlist-id="<?php echo isset($dataWishList["WID"]) ? $dataWishList["WID"] : ''; ?>">
+                        <i id="HeartIcon" class="<?php echo isset($dataWishList["WID"]) ? 'fa-solid' : 'fa-regular'; ?> fa-heart"></i>
+                      </a>
+                    </div>
+
                     <span><?php echo $categoryName ?></span>
                     <h5 class="card-title"><?php echo $name ?></h5>
                     <p class="card-text"><?php echo "Price: BHD " . $price ?></p>
@@ -95,9 +128,17 @@ try {
     <?php
     }
     ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script src="../js/editWishList.js"></script>
     <script>
-      // Get all the quantity inputs and plus/minus buttons by their classes
+      //for open filter div
+      const filterDiv = document.getElementById('showFilterDiv');
+      const filterIcon = document.getElementById('filterIcon');
+      filterIcon.addEventListener('click', function() {
+        filterDiv.classList.toggle('open');
+      });
+
       const quantityInputs = document.querySelectorAll('.custom-number-input');
       const increaseQtyBtns = document.querySelectorAll('.btnPlus');
       const decreaseQtyBtns = document.querySelectorAll('.btnMins');
@@ -119,8 +160,6 @@ try {
           }
         });
       });
-
-
 
       //for hiding Successfully  message 
       let iconX = document.getElementById('iconX');
