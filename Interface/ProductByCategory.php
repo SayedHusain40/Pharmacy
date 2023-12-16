@@ -8,7 +8,7 @@ try {
     $categoryName = $_GET["Category"];
   }
 
-  //query for view orders
+  //query for view products
   $data = $db->prepare("SELECT * FROM `product data` WHERE Type = ?");
   $data->execute([$categoryName]);
   $count = $data->rowCount();
@@ -31,6 +31,13 @@ try {
 
     if ($count > 0) {
     ?>
+      <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="navContainerProducts">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="HomePageCustomer.php">Home Page</a></li>
+          <li class="breadcrumb-item"><a href="ShopByCategories.php">Shopping By Category</a></li>
+          <li class="breadcrumb-item active" aria-current="page"><?php echo $categoryName ?></li>
+        </ol>
+      </nav>
       <div class="containerProducts">
         <div class="filter" id="showFilterDiv">
           <h5>Shopping by Category</h5>
@@ -39,8 +46,8 @@ try {
               <?php echo $categoryName ?>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Medicine</a>
-              <a class="dropdown-item" href="#">Minerals</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Medicine">Medicine</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Personal care">Minerals</a>
               <a class="dropdown-item" href="#">Vitamins</a>
               <a class="dropdown-item" href="#">Supplements</a>
               <a class="dropdown-item" href="#">Common Conditions</a>
