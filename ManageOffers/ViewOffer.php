@@ -43,8 +43,10 @@
   <?php
   if ($count > 0) {
   ?>
-  <a href="">+ Add Offer</a>
     <div class="containerOfferTAble table-responsive">
+      <div style="text-align: right;">
+        <a href="AddOffer.php"> <button type="button" class="btn btn-outline-primary"> + Add New Offer</button></a>
+      </div>
       <table class="table table-hover mx-auto px-3">
         <thead>
           <tr>

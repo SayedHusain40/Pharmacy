@@ -587,4 +587,22 @@
   width: 90%;
   margin: 0 auto;
 }
+.containerOfferTAble table{
+    margin-top: 10px;
+}
 /* Admin Offer view */
+/* Admin Add Offer */
+.containerAddOffers {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+}
+@media (max-width: 900px) {
+  .containerAddOffers {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+/* Admin Add Offer */
