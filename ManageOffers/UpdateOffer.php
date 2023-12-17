@@ -76,6 +76,7 @@ session_start();
   <div class="containerAddOffers">
     <h3 style="text-align: center; margin-bottom: 20px;">Update a Offer</h3>
     <h5 style="margin-bottom: 20px;">Product Name: <?php echo $name ?></h5>
+    <h5 style="margin-bottom: 20px;">Product Original Price: <?php echo $offer["OriginalPrice"] ?></h5>
     <form class="row row-cols-lg-auto g-3 align-items-center" method="post">
 
       <div class="col-12">
@@ -105,6 +106,47 @@ session_start();
   </div>
 
   <script>
+    const form = document.querySelector('.containerAddOffers form');
+    const errorDiscountPrice = document.querySelector('.errorDiscountPrice');
+    const errorStartOfferDate = document.querySelector('.errorStartOfferDate');
+    const errorEndOfferDate = document.querySelector('.errorEndOfferDate');
+
+    form.addEventListener('submit', function(event) {
+      const discountPriceInput = document.getElementById('inlineFormInputGroupUsername');
+      const startOfferDate = document.getElementById('startOfferDate');
+      const endOfferDate = document.getElementById('endOfferDate');
+
+      // Reset error messages
+      errorDiscountPrice.textContent = '';
+      errorStartOfferDate.textContent = '';
+      errorEndOfferDate.textContent = '';
+
+      // Check if the discount price is empty or not a number
+      if (discountPriceInput.value.trim() === '') {
+        errorDiscountPrice.innerHTML = 'Please enter a discount price.';
+        event.preventDefault();
+      } else if (!/^\d+$/.test(discountPriceInput.value)) {
+        errorDiscountPrice.innerHTML = 'Please enter a valid discount price (only numbers).';
+        event.preventDefault();
+      }
+
+      // Check for the start and end offer dates
+      const today = new Date().toLocaleDateString('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).split('/').reverse().join('-');
+
+      if (startOfferDate.value === '' || startOfferDate.value < today) {
+        errorStartOfferDate.innerHTML = 'Please select a valid start offer date.';
+        event.preventDefault();
+      }
+      if (endOfferDate.value === '' || endOfferDate.value < today || endOfferDate.value < startOfferDate.value) {
+        errorEndOfferDate.innerHTML = 'Please select a valid end offer date.';
+        event.preventDefault();
+      }
+    });
+
     //for hiding Successfully message 
     let iconX = document.getElementById('iconX');
     let successBox = document.getElementById('successBox');
@@ -120,13 +162,6 @@ session_start();
 
     // Hide the success box after 3 seconds
     setTimeout(hideSuccessBox, 3000);
-
-    const form = document.querySelector('.containerAddOffers form');
-    const errorDiscountPrice = document.querySelector('.errorDiscountPrice');
-    const errorStartOfferDate = document.querySelector('.errorStartOfferDate');
-    const errorEndOfferDate = document.querySelector('.errorEndOfferDate');
-
-
   </script>
 
 </body>
