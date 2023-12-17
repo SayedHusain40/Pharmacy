@@ -129,23 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["AddOffer"])) {
   </div>
 
   <script>
-    //for hiding Successfully message 
-    let iconX = document.getElementById('iconX');
-    let successBox = document.getElementById('successBox');
-
-    iconX.addEventListener('click', function() {
-      hideSuccessBox();
-    });
-
-    // Function to hide the success box
-    function hideSuccessBox() {
-      successBox.style.display = 'none';
-    }
-
-    // Hide the success box after 3 seconds
-    setTimeout(hideSuccessBox, 3000);
-
-
     const form = document.querySelector('.row-cols-lg-auto');
     const errorDiscountPrice = document.querySelector('.errorDiscountPrice');
     const errorSelectProduct = document.querySelector('.errorSelectProduct');
@@ -168,8 +151,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["AddOffer"])) {
       if (discountPriceInput.value.trim() === '') {
         errorDiscountPrice.innerHTML = 'Please enter a discount price.';
         event.preventDefault();
-      } else if (!/^\d+(\.\d{1,2})?$/.test(discountPriceInput.value)) {
-        errorDiscountPrice.innerHTML = 'Please enter a valid discount price (numbers only, with up to 2 decimal places).';
+      } else if (!/^\d+$/.test(discountPriceInput.value)) {
+        errorDiscountPrice.innerHTML = 'Please enter a valid discount price (only numbers).';
         event.preventDefault();
       }
 
@@ -190,7 +173,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["AddOffer"])) {
       }
 
       // Check for the start and end offer dates
-      const today = new Date().toISOString().split('T')[0];
+      const today = new Date().toLocaleDateString('en-CA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).split('/').reverse().join('-');
+
       if (startOfferDate.value === '' || startOfferDate.value < today) {
         errorStartOfferDate.innerHTML = 'Please select a valid start offer date.';
         event.preventDefault();
@@ -200,6 +188,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["AddOffer"])) {
         event.preventDefault();
       }
     });
+
+
+    //for hiding Successfully message 
+    let iconX = document.getElementById('iconX');
+    let successBox = document.getElementById('successBox');
+
+    iconX.addEventListener('click', function() {
+      hideSuccessBox();
+    });
+
+    // Function to hide the success box
+    function hideSuccessBox() {
+      successBox.style.display = 'none';
+    }
+
+    // Hide the success box after 3 seconds
+    setTimeout(hideSuccessBox, 3000);
   </script>
 
 </body>

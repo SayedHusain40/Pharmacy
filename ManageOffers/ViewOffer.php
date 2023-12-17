@@ -40,13 +40,14 @@
     <h3>Offers</h3>
   </div>
 
-  <?php
-  if ($count > 0) {
-  ?>
-    <div class="containerOfferTAble table-responsive">
-      <div style="text-align: right;">
-        <a href="AddOffer.php"> <button type="button" class="btn btn-outline-primary"> + Add New Offer</button></a>
-      </div>
+
+  <div class="containerOfferTAble table-responsive">
+    <div style="text-align: right;">
+      <a href="AddOffer.php"> <button type="button" class="btn btn-outline-primary"> + Add New Offer</button></a>
+    </div>
+    <?php
+    if ($count > 0) {
+    ?>
       <table class="table table-hover mx-auto px-3">
         <thead>
           <tr>
@@ -62,6 +63,7 @@
         <tbody>
           <?php
           while ($row = $stmt->fetch()) {
+            $OfferID = $row["OfferID"];
             $image = $row["Photo"];
             $Name = $row["Name"];
             $StartDate = $row["StartDate"];
@@ -77,7 +79,11 @@
               <td class="align-middle">BHD <?php echo $DiscountedPrice ?></td>
               <td class="align-middle">BHD <?php echo $OriginalPrice ?></td>
               <td class="align-middle">
-                <a href="">Update</a>
+                <form action="UpdateOffer.php" method="post">
+                  <input type="hidden" name="OfferID" value="<?php echo $OfferID ?>">
+                  <input type="hidden" name="Name" value="<?php echo $Name ?>">
+                  <input type="submit" value="Update">
+                </form>
                 <a href="">Remove</a>
               </td>
             </tr>
@@ -87,10 +93,10 @@
           ?>
         </tbody>
       </table>
-    </div>
-  <?php
-  }
-  ?>
+  </div>
+<?php
+    }
+?>
 </body>
 
 </html>
