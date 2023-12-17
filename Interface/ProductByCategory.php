@@ -66,7 +66,31 @@ try {
             </ul>
           </div>
 
-          <h5>Price</h5>
+          <h5>Shopping by Brand</h5>
+          <div class=" dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              Brand
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Medicine">Medicine</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Personal care">Minerals</a>
+              <a class="dropdown-item" href="#">Vitamins</a>
+              <a class="dropdown-item" href="#">Supplements</a>
+              <a class="dropdown-item" href="#">Common Conditions</a>
+              <a class="dropdown-item" href="#">Skin Care</a>
+              <a class="dropdown-item" href="#">Oral Care</a>
+              <a class="dropdown-item" href="#">Bath & Shower</a>
+              <a class="dropdown-item" href="#">Hair Wash & Care</a>
+              <a class="dropdown-item" href="#">Body Supports</a>
+              <a class="dropdown-item" href="#">Feminine Hygiene</a>
+              <a class="dropdown-item" href="#">Mens Grooming</a>
+              <a class="dropdown-item" href="#">Deodorants</a>
+              <a class="dropdown-item" href="#">Health Accessories</a>
+              <a class="dropdown-item" href="#">First Aid</a>
+              <a class="dropdown-item" href="#">Diagnostics & Monitoring</a>
+              <a class="dropdown-item" href="#">Baby Skin Care & Accessories</a>
+            </ul>
+          </div>
 
         </div>
         <div class="content">
