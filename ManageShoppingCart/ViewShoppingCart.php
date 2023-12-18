@@ -4,7 +4,7 @@ try {
   require("../Connection/init.php");
 
   //Assume 
-  $userID = 6; // $userID = $_SESSION["user_id"];
+  $userID = $_SESSION["user_id"];
 
   //query for view orders
   $sql = "SELECT 

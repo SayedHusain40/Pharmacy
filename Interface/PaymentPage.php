@@ -27,7 +27,7 @@ try {
   }
 
   //Assume 
-  $userID = 6; //  $userID = $_SESSION["user_id"];
+  $userID = $_SESSION["user_id"];
 
   // This if statement for when user click on pay 
   if (isset($_POST["paymentOption"]) && $_POST["paymentOption"] == "Pay") {
