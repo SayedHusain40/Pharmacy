@@ -5,8 +5,7 @@ try {
   include "../header.php";
   require("../Connection/init.php");
 
-  //Assume 
-  $userID = 6; //$_SESSION["user_id"]
+  $userID = $_SESSION["user_id"];
 
   $sql = "SELECT 
   `product data`.Photo,

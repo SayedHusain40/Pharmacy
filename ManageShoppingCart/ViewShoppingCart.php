@@ -3,8 +3,8 @@ session_start();
 try {
   require("../Connection/init.php");
 
-  //Assume 
   $userID = $_SESSION["user_id"];
+  echo  $userID;
 
   //query for view orders
   $sql = "SELECT 
@@ -28,6 +28,8 @@ try {
   $data = $db->prepare($sql);
   $data->execute([$userID]);
   $count = $data->rowCount();
+
+  echo $count;
 
 ?>
   <!DOCTYPE html>

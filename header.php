@@ -155,7 +155,7 @@ background-color: rgba(255, 255, 255, 0.5);
         <li class="nav-item">
         <a class="nav-link" href="../Interface/AboutUs.php">About Us</a>
         </li>
-        <button class="favorite-button"><i class="far fa-heart"></i></button>
+        <button class="favorite-button"> <a href="../ManageWishList/ViewWishList.php"><i class="far fa-heart"></i></a> </button>
         <button class="shopping-cart-button"><a href="../ManageShoppingCart/ViewShoppingCart.php"> <i class="fas fa-shopping-cart"></i> </a> </button>
         ';
               }

@@ -3,8 +3,7 @@
 try {
   require("../Connection/init.php");
 
-  //assume
-  $userID = 6; //$_SESSION["user_id"]
+  $userID = $_SESSION["user_id"];
   $productID = $_REQUEST["productID"]; 
 
   // check for if product already in wish list
