@@ -13,12 +13,13 @@
   <?php
   session_start();
   include "../header.php";
-    if (isset($_SESSION['updateOffer_success'])) {
-      echo '<div class="success-box" id="successBox">';
-      echo '<div><i class="success-icon fa-solid fa-check" id="iconX"></i> Successfully Update Offer!</div>';
-      echo '</div>';
-      unset($_SESSION['updateOffer_success']);
-    }
+
+  if (isset($_SESSION['updateOffer_success'])) {
+    echo '<div class="success-box" id="successBox">';
+    echo '<div><i class="success-icon fa-solid fa-check" id="iconX"></i> Successfully Update Offer!</div>';
+    echo '</div>';
+    unset($_SESSION['updateOffer_success']);
+  }
   try {
     require("../Connection/init.php");
     $stmt = $db->prepare("SELECT 
@@ -89,9 +90,9 @@
                 <form action="UpdateOffer.php" method="post">
                   <input type="hidden" name="OfferID" value="<?php echo $OfferID ?>">
                   <input type="hidden" name="Name" value="<?php echo $Name ?>">
-                  <input type="submit" value="Update">
+                  <input type="submit" value="Update" class="OfferUpdate-btn">
                 </form>
-                <a href="">Remove</a>
+                <button class="OfferDelete-btn" id="removeOffer" offer-ID="<?php echo $OfferID ?>">Remove</button>
               </td>
             </tr>
 
@@ -104,6 +105,51 @@
 <?php
     }
 ?>
+
+<script>
+  let removeOfferButtons = document.querySelectorAll("#removeOffer");
+
+  removeOfferButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      const offerID = this.getAttribute('offer-ID');
+      console.log(offerID);
+
+      // Display confirmation dialog before deleting
+      const confirmation = confirm("Are you sure you want to delete this offer?");
+      if (confirmation) {
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "DeleteOffer.php");
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(`OfferID=${offerID}`);
+        xhttp.onreadystatechange = function() {
+          if (this.readyState === 4 && this.status === 200) {
+            // If deletion was successful, remove the row from the table
+            const deletedOfferRow = button.closest('tr');
+            deletedOfferRow.remove();
+          }
+        };
+      } else {
+        // Do nothing if the user clicks "Cancel" in the confirmation dialog
+        console.log("Deletion canceled");
+      }
+    });
+  });
+
+
+  //for hiding susscfuly meesage
+  let successBox = document.getElementById('successBox');
+
+  //Function to hide the success box
+  function hideSuccessBox() {
+    successBox.style.display = 'none';
+  }
+
+  // Hide the success box after 3 seconds
+  setTimeout(hideSuccessBox, 3000);
+</script>
+
 </body>
 
 </html>

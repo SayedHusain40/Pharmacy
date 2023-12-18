@@ -587,8 +587,33 @@
   width: 90%;
   margin: 0 auto;
 }
-.containerOfferTAble table{
-    margin-top: 10px;
+.containerOfferTAble table {
+  margin-top: 10px;
+}
+.containerOfferTAble .OfferUpdate-btn,
+.containerOfferTAble .OfferDelete-btn {
+  background-color: transparent;
+  outline: 0;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  padding: 5px 0;
+  width: 100px;
+}
+.containerOfferTAble .OfferUpdate-btn {
+    color: #007bff;
+  border-color: #007bff;
+}
+.containerOfferTAble .OfferUpdate-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+.containerOfferTAble .OfferDelete-btn {
+  color: #e91e63;
+  border-color: #e91e63;
+}
+.containerOfferTAble .OfferDelete-btn:hover {
+  background-color: #e91e63;
+  color: white;
 }
 /* Admin Offer view */
 /* Admin Add Offer */
