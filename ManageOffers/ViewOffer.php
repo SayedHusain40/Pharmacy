@@ -11,7 +11,14 @@
 
 <body>
   <?php
+  session_start();
   include "../header.php";
+    if (isset($_SESSION['updateOffer_success'])) {
+      echo '<div class="success-box" id="successBox">';
+      echo '<div><i class="success-icon fa-solid fa-check" id="iconX"></i> Successfully Update Offer!</div>';
+      echo '</div>';
+      unset($_SESSION['updateOffer_success']);
+    }
   try {
     require("../Connection/init.php");
     $stmt = $db->prepare("SELECT 

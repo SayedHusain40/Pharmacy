@@ -2,26 +2,26 @@
 require("../Connection/init.php");
 session_start();
 
-// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["UpdateOffer-btn"])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["UpdateOffer-btn"])) {
 
-//   $productID = $_POST['ProductID'];
-//   $discountedPrice = $_POST['DiscountedPrice'];
-//   $startDate = $_POST['StartDate'];
-//   $endDate = $_POST['EndDate'];
+  $discountedPrice = $_POST['DiscountedPrice'];
+  $startDate = $_POST['StartDate'];
+  $endDate = $_POST['EndDate'];
+  $offerID = $_POST['offerID'];
 
 
-//   $sql = "UPDATE `offers data` 
-//           SET StartDate = ?, EndDate = ?, DiscountedPrice = ? 
-//           WHERE OfferID = ?";
+  $sql = "UPDATE `offers data` 
+          SET StartDate = ?, EndDate = ?, DiscountedPrice = ? 
+          WHERE OfferID = ?";
 
-//   $stmt = $db->prepare($sql);
-//   $result = $stmt->execute([$productID, $startDate, $endDate, $discountedPrice, $OriginalPrice]);
+  $stmt = $db->prepare($sql);
+  $result = $stmt->execute([$startDate, $endDate, $discountedPrice, $offerID]);
 
-//   $_SESSION['updateOffer_success'] = "true";
+  $_SESSION['updateOffer_success'] = "true";
 
-//   header('Location: ' . $_SERVER['PHP_SELF']);
-//   exit();
-// }
+  header('Location: ViewOffer.php');
+  exit();
+}
 ?>
 
 
@@ -39,13 +39,6 @@ session_start();
 <body>
   <?php
   include "../header.php";
-  if (isset($_SESSION['updateOffer_success'])) {
-    echo '<div class="success-box" id="successBox">';
-    echo '<div><i class="success-icon fa-solid fa-check" id="iconX"></i> Successfully Update Offer!</div>';
-    echo '</div>';
-    unset($_SESSION['updateOffer_success']);
-  }
-
 
   $OfferID = $_POST['OfferID'];
   $name = $_POST['Name'];
@@ -78,6 +71,7 @@ session_start();
     <h5 style="margin-bottom: 20px;">Product Name: <?php echo $name ?></h5>
     <h5 style="margin-bottom: 20px;">Product Original Price: <?php echo $offer["OriginalPrice"] ?></h5>
     <form class="row row-cols-lg-auto g-3 align-items-center" method="post">
+      <input type="hidden" name="offerID" value="<?php echo $OfferID ?>">
 
       <div class="col-12">
         <label class="visually-hidden" for="inlineFormInputGroupUsername">Update Discount Price</label>
@@ -100,7 +94,7 @@ session_start();
       </div>
 
       <div class="col-12">
-        <button type="submit" name="UpdateOffer" class="btn btn-primary">Update Offer</button>
+        <button type="submit" name="UpdateOffer-btn" class="btn btn-primary">Update Offer</button>
       </div>
     </form>
   </div>
@@ -110,6 +104,7 @@ session_start();
     const errorDiscountPrice = document.querySelector('.errorDiscountPrice');
     const errorStartOfferDate = document.querySelector('.errorStartOfferDate');
     const errorEndOfferDate = document.querySelector('.errorEndOfferDate');
+    const originalPrice = <?php echo $offer["OriginalPrice"]; ?>;
 
     form.addEventListener('submit', function(event) {
       const discountPriceInput = document.getElementById('inlineFormInputGroupUsername');
@@ -127,6 +122,9 @@ session_start();
         event.preventDefault();
       } else if (!/^\d+$/.test(discountPriceInput.value)) {
         errorDiscountPrice.innerHTML = 'Please enter a valid discount price (only numbers).';
+        event.preventDefault();
+      } else if (parseInt(discountPriceInput.value) >= parseInt(originalPrice)) {
+        errorDiscountPrice.innerHTML = 'Discount price must be less than the original price.';
         event.preventDefault();
       }
 
