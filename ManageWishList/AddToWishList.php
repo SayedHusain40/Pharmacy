@@ -1,6 +1,7 @@
 <?php
 
 try {
+  session_start();
   require("../Connection/init.php");
 
   $userID = $_SESSION["user_id"];

@@ -1,6 +1,7 @@
 // for delete and add to wish list
 document.querySelectorAll('.wishlist-action').forEach(item => {
   item.addEventListener('click', function (event) {
+    console.log("ok");
     event.preventDefault();
     const productId = this.getAttribute('data-product-id');
     const wishlistId = this.getAttribute('data-wishlist-id');

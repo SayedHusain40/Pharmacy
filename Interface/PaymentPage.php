@@ -1,5 +1,6 @@
 <?php
 session_start();
+ob_start();
 /*
   include ""; 
 */
@@ -26,7 +27,6 @@ try {
     $_SESSION['paymentMethod'] = $_REQUEST["paymentMethod"];
   }
 
-  //Assume 
   $userID = $_SESSION["user_id"];
 
   // This if statement for when user click on pay 
@@ -137,18 +137,22 @@ try {
     $newMembershipPoints = $currentMembershipPoints + $TotalMembershipPoints;
     $update = $db->prepare("UPDATE `customer data` SET CreditCardInfo = ?,ShippingInfo = ?, MembershipPoints = ? WHERE UserID = ?");
     $update->execute([$CardInfoArray, $shippingInfoArray, $newMembershipPoints, $userID]);
+
+    $_SESSION['payment_success'] = "true";
+    header("Location: HomePageCustomer.php");
+    ob_end_flush();
+    exit();
   ?>
 
-    <div class="MessagePaid">
+    <!-- <div class="MessagePaid">
       <i class="fa-solid fa-circle-check"></i> Thank You for Your Purchase
     </div>
 
     <div class="MessagePaid-btn">
       <a href="../Interface/HomePageCustomer.php"><button>Return Home Page</button></a>
-    </div>
-
+    </div> -->
   <?php
-    exit();
+    // exit();
   } else {
 
     $totalPrice = $_SESSION['TotalPrice'];
@@ -248,7 +252,7 @@ try {
         </div>
       </div>
 
-      <script src="../js/main.js"></script>
+      <!-- <script src="../js/main.js"></script> -->
     </body>
 
   </html>
