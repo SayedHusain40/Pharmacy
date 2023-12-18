@@ -9,7 +9,7 @@ try {
   }
 
   //query for view products
-  $data = $db->prepare("SELECT * FROM `product data` WHERE Type = ? AND Availability = 1");
+  $data = $db->prepare("SELECT * FROM `product data` WHERE Type = ?");
   $data->execute([$categoryName]);
   $count = $data->rowCount();
 
@@ -111,6 +111,7 @@ try {
               $name = $row["Name"];
               $price = $row["Price"];
               $Photo = $row["Photo"];
+              $Availability = $row["Availability"];
             ?>
               <div class="col">
                 <div class="card card-color:red">
@@ -138,9 +139,9 @@ try {
                       $DiscountedPrice = $result["DiscountedPrice"];
                       $percentage = round((($price - $DiscountedPrice) / $price) * 100, 1);
                     ?>
-                    <div class="offer"> <?php echo $percentage . "%" ?> </div>
+                      <div class="offer"> <?php echo $percentage . "%" ?> </div>
                     <?php
-                    } 
+                    }
                     ?>
 
                     <span><?php echo $categoryName ?></span>
@@ -168,7 +169,22 @@ try {
                       <input type="number" class="custom-number-input" id="quantity" value="1" min="1" productID=<?php echo $productID ?>>
                       <button class="btnPlus" id="increaseQty"><i class="fas fa-plus"></i></button>
                     </div>
-                    <button type="button" onclick="addToCart(<?php echo $productID ?>)" class="btn btn-outline-primary w-100 d-block mx-auto">Add to Cart</button>
+
+                    <?php
+                    if ($Availability === 1) {
+                    ?>
+                      <button type="button" onclick="addToCart(<?php echo $productID ?>)" class="btn btn-outline-primary w-100 d-block mx-auto">Add to Cart</button>
+                    <?php
+                    } else {
+                    ?>
+                      <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" 
+                      style="pointer-events: none; filter: none; background-color:#eee;
+                      border-color:#ddd; color:#333;">
+                      Out Of Stock
+                    </button>
+                    <?php
+                    }
+                    ?>
                   </div>
                 </div>
               </div>
@@ -272,6 +288,9 @@ try {
           }
         };
       }
+
+
+      document.getElementById("outOfStock").disabled = true;
     </script>
   </body>
 
