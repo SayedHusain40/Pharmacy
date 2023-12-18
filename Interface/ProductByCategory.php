@@ -9,7 +9,7 @@ try {
   }
 
   //query for view products
-  $data = $db->prepare("SELECT * FROM `product data` WHERE Type = ?");
+  $data = $db->prepare("SELECT * FROM `product data` WHERE Type = ? AND Availability = 1");
   $data->execute([$categoryName]);
   $count = $data->rowCount();
 
@@ -102,6 +102,12 @@ try {
             <?php
             while ($row = $data->fetch()) {
               $productID = $row["ProductID"];
+
+              $stmt = $db->prepare("SELECT DiscountedPrice FROM `offers data` WHERE ProductID = ?");
+              $stmt->execute([$productID]);
+              $result = $stmt->fetch();
+              $countOffer = $stmt->rowCount();
+
               $name = $row["Name"];
               $price = $row["Price"];
               $Photo = $row["Photo"];
@@ -127,9 +133,36 @@ try {
                       </a>
                     </div>
 
+                    <?php
+                    if ($countOffer > 0) {
+                      $DiscountedPrice = $result["DiscountedPrice"];
+                      $percentage = round((($price - $DiscountedPrice) / $price) * 100, 1);
+                    ?>
+                    <div class="offer"> <?php echo $percentage . "%" ?> </div>
+                    <?php
+                    } 
+                    ?>
+
                     <span><?php echo $categoryName ?></span>
                     <h5 class="card-title"><?php echo $name ?></h5>
-                    <p class="card-text"><?php echo "Price: BHD " . $price ?></p>
+                    <?php
+                    if ($countOffer === 0) {
+                    ?>
+                      <p class="card-text nowPrice"><?php echo "BHD" . $price ?></p>
+                    <?php
+                    } else {
+                      $DiscountedPrice = $result["DiscountedPrice"];
+                    ?>
+                      <p class="card-text discountPrice">
+                        <span>
+                          <span class="originalPrice"><?php echo "BHD" . $price ?></span>
+                          <span class="line"></span>
+                        </span>
+                        <span class="nowPrice"><?php echo "BHD" . $DiscountedPrice ?></span>
+                      </p>
+                    <?php
+                    }
+                    ?>
                     <div class="inputQtyContainer">
                       <button class="btnMins" id="decreaseQty"><i class="fas fa-minus"></i></button>
                       <input type="number" class="custom-number-input" id="quantity" value="1" min="1" productID=<?php echo $productID ?>>

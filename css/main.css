@@ -524,6 +524,16 @@
   font-size: 25px;
   color: #ec407a;
 }
+.containerProducts .content .card-body .offer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 16px;
+  color: black;
+  background-color: #e91e635e;
+  border-radius: 7px;
+  padding: 0 4px;
+}
 .containerProducts .content .card-body .HeartDiv #HeartIcon {
   color: #ec407a;
 }
@@ -531,7 +541,40 @@
 .containerProducts .content .card-body {
   padding-top: 5px;
 }
+.containerProducts
+  .content
+  .card-body
+  .card-text.discountPrice
+  > span:first-child {
+  position: relative;
+  z-index: 3;
+  margin-right: 5px;
+}
+.containerProducts
+  .content
+  .card-body
+  .card-text.discountPrice
+  > span:first-child
+  .line {
+  position: absolute;
+  background-color: black;
+  width: 100%;
+  height: 1px;
+  left: 49%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+.containerProducts .content .card-body .originalPrice {
+  position: relative;
+  font-size: 15px;
+  color: #333;
+}
 
+.containerProducts .content .card-body .nowPrice {
+  color: #2196f3;
+  font-size: 16px;
+}
 .containerProducts .content .card:hover {
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
     rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
@@ -600,7 +643,7 @@
   width: 100px;
 }
 .containerOfferTAble .OfferUpdate-btn {
-    color: #007bff;
+  color: #007bff;
   border-color: #007bff;
 }
 .containerOfferTAble .OfferUpdate-btn:hover {

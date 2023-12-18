@@ -1,4 +1,5 @@
 <?php
+session_start();
 try {
   require("../Connection/init.php");
 
@@ -11,7 +12,7 @@ try {
     $stmt = $db->prepare($deleteQuery);
     $stmt->execute([$cartID]);
 
-    session_start();
+
     $_SESSION['deleteProduct_success'] = "true";
     header("Location:  ViewShoppingCart.php");
     exit();
@@ -33,7 +34,6 @@ try {
     $stmt->execute([$_POST['newQTY'], $total, $_POST['cartID']]);
     $count = $stmt->rowCount();
 
-    session_start();
     $_SESSION['updateQty_success'] = "true";
     header("Location:  ViewShoppingCart.php");
     exit();
