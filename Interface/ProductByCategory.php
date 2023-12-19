@@ -103,8 +103,14 @@ try {
             while ($row = $data->fetch()) {
               $productID = $row["ProductID"];
 
-              $stmt = $db->prepare("SELECT DiscountedPrice FROM `offers data` WHERE ProductID = ?");
-              $stmt->execute([$productID]);
+              date_default_timezone_set('Asia/Bahrain');
+              $currentDate = date("Y-m-d");
+
+              $stmt = $db->prepare("SELECT DiscountedPrice FROM `offers data` WHERE ProductID = ? 
+                      AND StartDate <= ? AND EndDate >= ?");
+              $stmt->execute([$productID, $currentDate, $currentDate]); 
+
+
               $result = $stmt->fetch();
               $countOffer = $stmt->rowCount();
 
