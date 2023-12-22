@@ -7,11 +7,12 @@
   <title>Shopping By Categories</title>
   <link rel="stylesheet" href="../css/main.css" />
   <link rel="stylesheet" href="../css/all.min.css" />
-  <link rel="stylesheet" href="../css/add.css" />
+  <!-- <link rel="stylesheet" href="../css/add.css" /> -->
 </head>
 
 <body>
   <?php
+  session_start();
   include "../header.php";
 
   ?>
