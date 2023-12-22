@@ -3,7 +3,6 @@ session_start();
 try {
   require("../Connection/init.php");
 
-  $userID = 6;
   if (isset($_GET["Category"])) {
     $categoryName = $_GET["Category"];
   }
@@ -23,6 +22,7 @@ try {
     <title></title>
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
   </head>
 
   <body>
@@ -108,11 +108,13 @@ try {
 
               $stmt = $db->prepare("SELECT DiscountedPrice FROM `offers data` WHERE ProductID = ? 
                       AND StartDate <= ? AND EndDate >= ?");
-              $stmt->execute([$productID, $currentDate, $currentDate]); 
+              $stmt->execute([$productID, $currentDate, $currentDate]);
 
 
               $result = $stmt->fetch();
               $countOffer = $stmt->rowCount();
+
+              // echo  $countOffer;
 
               $name = $row["Name"];
               $price = $row["Price"];
@@ -125,22 +127,50 @@ try {
                     <img src="../images/<?php echo $Photo ?>" class="card-img-top w-50 mx-auto d-block">
                   </div>
                   <div class="card-body">
-                    <div class="HeartDiv">
-                      <?php
-                      // check for if product already in wish list
-                      $check = $db->prepare("SELECT * FROM `wish list data` WHERE ProductID = ? And UserID = ?");
-                      $check->execute([$productID, $userID]);
-                      $checkResult = $check->rowCount();
-                      $dataWishList = $check->fetch();
-
-                      // Insert and delete in wishlist
-                      ?>
-                      <a href="#" class="wishlist-action" data-product-id="<?php echo $productID; ?>" data-wishlist-id="<?php echo isset($dataWishList["WID"]) ? $dataWishList["WID"] : ''; ?>">
-                        <i id="HeartIcon" class="<?php echo isset($dataWishList["WID"]) ? 'fa-solid' : 'fa-regular'; ?> fa-heart"></i>
-                      </a>
-                    </div>
-
                     <?php
+                    if (isset($_SESSION['user_id'])) {
+                      $userID = $_SESSION['user_id'];
+                    ?>
+                      <div class="HeartDiv">
+                        <?php
+                        // check for if product already in wish list
+                        $check = $db->prepare("SELECT * FROM `wish list data` WHERE ProductID = ? And UserID = ?");
+                        $check->execute([$productID, $userID]);
+                        $checkResult = $check->rowCount();
+                        $dataWishList = $check->fetch();
+
+                        // Insert and delete in wishlist
+                        ?>
+                        <a href="#" class="wishlist-action" data-product-id="<?php echo $productID; ?>" data-wishlist-id="<?php echo isset($dataWishList["WID"]) ? $dataWishList["WID"] : ''; ?>">
+                          <i id="HeartIcon" class="<?php echo isset($dataWishList["WID"]) ? 'fa-solid' : 'fa-regular'; ?> fa-heart"></i>
+                        </a>
+                      </div>
+                    <?php
+                    } else {
+                    ?>
+                      <div class="HeartDiv">
+                        <a href="#" tabindex="0" data-bs-toggle="modal" data-bs-target="#alertModal">
+                          <i class="fa-regular fa-heart" id="HeartIcon2"></i>
+                        </a>
+                      </div>
+
+                      <!-- Modal -->
+                      <div class="modal" id="alertModal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" style="color: #0288d1;">Important!</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="font-size: large;">
+                              "Please Log In to add this product to your wishlist Cart."
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <?php
+                    }
+
                     if ($countOffer > 0) {
                       $DiscountedPrice = $result["DiscountedPrice"];
                       $percentage = round((($price - $DiscountedPrice) / $price) * 100, 1);
@@ -177,19 +207,43 @@ try {
                     </div>
 
                     <?php
-                    if ($Availability === 1) {
+
+                    if (isset($_SESSION['user_id'])) {
+                      if ($Availability === 1) {
                     ?>
-                      <button type="button" onclick="addToCart(<?php echo $productID ?>)" class="btn btn-outline-primary w-100 d-block mx-auto">Add to Cart</button>
-                    <?php
-                    } else {
-                    ?>
-                      <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" 
-                      style="pointer-events: none; filter: none; background-color:#eee;
+                        <button type="button" onclick="addToCart(<?php echo $productID ?>)" class="btn btn-outline-primary w-100 d-block mx-auto">Add to Cart</button>
+                      <?php
+                      } else {
+                      ?>
+                        <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" style="pointer-events: none; filter: none; background-color:#eee;
                       border-color:#ddd; color:#333;">
-                      Out Of Stock
-                    </button>
+                          Out Of Stock
+                        </button>
+                      <?php
+                      }
+                    } else {
+                      ?>
+                      <button type="button" class="btn btn-outline-primary w-100 d-block mx-auto" data-bs-toggle="modal" data-bs-target="#cartModal">
+                        Add to Cart
+                      </button>
+
+                      <!-- Modal -->
+                      <div class="modal" id="cartModal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" style="color: #0288d1;">Important!</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="font-size: large;">
+                              "Please Log In to add this product to your Shopping Cart."
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     <?php
                     }
+
                     ?>
                   </div>
                 </div>
@@ -294,7 +348,6 @@ try {
           }
         };
       }
-
 
       document.getElementById("outOfStock").disabled = true;
     </script>

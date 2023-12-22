@@ -534,7 +534,8 @@
   border-radius: 7px;
   padding: 0 4px;
 }
-.containerProducts .content .card-body .HeartDiv #HeartIcon {
+.containerProducts .content .card-body .HeartDiv #HeartIcon, 
+.containerProducts .content .card-body .HeartDiv #HeartIcon2 {
   color: #ec407a;
 }
 
