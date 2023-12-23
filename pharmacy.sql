@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2023 at 02:43 PM
+-- Generation Time: Dec 23, 2023 at 04:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `pharmacy`
 --
-CREATE DATABASE IF NOT EXISTS `pharmacy` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `pharmacy`;
 
 -- --------------------------------------------------------
 
@@ -29,9 +27,8 @@ USE `pharmacy`;
 -- Table structure for table `customer data`
 --
 
-DROP TABLE IF EXISTS `customer data`;
-CREATE TABLE IF NOT EXISTS `customer data` (
-  `CustomerID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `customer data` (
+  `CustomerID` int(9) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `MobileNumber` varchar(15) NOT NULL,
@@ -47,26 +44,15 @@ CREATE TABLE IF NOT EXISTS `customer data` (
   `AccBalance` int(20) NOT NULL,
   `MembershipPoints` int(10) NOT NULL,
   `ProfilePic` text DEFAULT NULL,
-  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL,
-  PRIMARY KEY (`CustomerID`),
-  KEY `UserID` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `customer data`
 --
 
 INSERT INTO `customer data` (`CustomerID`, `FirstName`, `LastName`, `MobileNumber`, `Email`, `Area`, `House`, `Street`, `Block`, `Gender`, `DOB`, `CreditCardInfo`, `ShippingInfo`, `AccBalance`, `MembershipPoints`, `ProfilePic`, `UserID`) VALUES
-(1, 'faisal', 'name', '+97311111111', '1213sada2@hotmail.com', 'TEst1', 'TEst2', 'TEst23', 6514, 'Female', NULL, '', '', 0, 0, NULL, 000000003),
-(2, 'at', 'table', '+9734567890', '', '', '', '', 0, 'Female', NULL, '', '', 0, 0, NULL, 000000006),
-(7, 'at', 'table', '+973456789876', '', '', '', '', 0, 'Female', NULL, '', '', 0, 488, NULL, 000000007),
-(8, 'Walaa', 'Salman', '+97336735550', 'walaa.e@icloud.com', '', '', '', 0, 'Female', NULL, '', '', 0, 0, NULL, 000000008),
-(10, 'gdjehgfjkeh', 'jhgjjh', '+86723456789', '201908@stu.uob.edu.bh', '', '', '', 0, 'Female', NULL, '', '', 0, 0, NULL, 000000010),
-(12, 'dfghjk', 'ry', '+973456789', '2023068@stu.uob.edu.bh', '', '', '', 0, 'Female', NULL, '', '', 0, 0, NULL, 000000012),
-(13, 'gfhjk', 'fghjkl', '+945234567890', 'fabh2001@hotmail.com', '', '', '', 0, 'Female', NULL, '', '', 0, 0, NULL, 000000013),
-(14, 'hdkjfj', 'dekiho', '+9453254566789', 'faqbh2001@hotmail.com', '', '', '', 0, 'Female', NULL, '', '', 0, 0, NULL, 000000015),
-(15, 'goird', 'sdjhgtf', '+7843543543', 'fndjdgdid@stu.com', '', '', '', 0, 'Female', NULL, '', '', 0, 0, NULL, 000000022),
-(16, 'Fiddah', 'Ahmed Alqaidoom', '+97336654453', 'fiddah16@hotmail.com', '', '', '', 0, 'Female', NULL, '', '', 0, 0, NULL, 000000029);
+(18, 's', 'h', '+93554468648648', 's@h.com', '', '', '', 0, 'Female', NULL, '{\"cardholderName\":\"sada\",\"encryptedCardNumber\":\"WOSP082TgwfSPRDe16NxPy\\/ORg1o6krWEvnHbAmrS+U=\",\"expirationDate\":\"12\\/55\",\"cvv\":\"1213\"}', '{\"RecipientName\":\"s h\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+93554468648648\",\"Email\":\"s@h.com\"}}', 0, 195, NULL, 000000034);
 
 -- --------------------------------------------------------
 
@@ -74,18 +60,23 @@ INSERT INTO `customer data` (`CustomerID`, `FirstName`, `LastName`, `MobileNumbe
 -- Table structure for table `offers data`
 --
 
-DROP TABLE IF EXISTS `offers data`;
-CREATE TABLE IF NOT EXISTS `offers data` (
-  `OfferID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `offers data` (
+  `OfferID` int(9) NOT NULL,
   `ProductID` int(9) DEFAULT NULL,
   `OfferCode` int(9) DEFAULT NULL,
   `StartDate` date NOT NULL,
   `EndDate` date NOT NULL,
   `DiscountedPrice` double DEFAULT NULL,
-  `OriginalPrice` double DEFAULT NULL,
-  PRIMARY KEY (`OfferID`),
-  KEY `ProductID` (`ProductID`)
+  `OriginalPrice` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `offers data`
+--
+
+INSERT INTO `offers data` (`OfferID`, `ProductID`, `OfferCode`, `StartDate`, `EndDate`, `DiscountedPrice`, `OriginalPrice`) VALUES
+(39, 5, NULL, '2023-12-21', '2023-12-25', 50, 100),
+(41, 7, NULL, '2023-12-21', '2023-12-26', 20, 22);
 
 -- --------------------------------------------------------
 
@@ -93,9 +84,8 @@ CREATE TABLE IF NOT EXISTS `offers data` (
 -- Table structure for table `order data`
 --
 
-DROP TABLE IF EXISTS `order data`;
-CREATE TABLE IF NOT EXISTS `order data` (
-  `OrderID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `order data` (
+  `OrderID` int(9) NOT NULL,
   `UserID` int(9) DEFAULT NULL,
   `TotalPrice` double DEFAULT NULL,
   `PaymentMethod` varchar(20) DEFAULT NULL,
@@ -104,25 +94,17 @@ CREATE TABLE IF NOT EXISTS `order data` (
   `CreditCardInfo` varchar(255) DEFAULT NULL,
   `AccBalance` int(20) DEFAULT NULL,
   `MembershipPoints` int(10) DEFAULT NULL,
-  `PaymentID` int(9) DEFAULT NULL,
-  PRIMARY KEY (`OrderID`),
-  KEY `UserID` (`UserID`),
-  KEY `PaymentID` (`PaymentID`)
-) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `PaymentID` int(9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order data`
 --
 
 INSERT INTO `order data` (`OrderID`, `UserID`, `TotalPrice`, `PaymentMethod`, `Status`, `OrderDate`, `CreditCardInfo`, `AccBalance`, `MembershipPoints`, `PaymentID`) VALUES
-(61, 6, 1450, 'Credit Card', 'Payment Confirmed', '2023-12-09', '{\"cardholderName\":\"fsefsf\",\"encryptedCardNumber\":\"ouC5SUkKffEzzQltRhpwJfvbN4CxKnwiUd8qKFVZ3jA=\",\"expirationDate\":\"12\\/55\",\"cvv\":\"3111\"}', NULL, NULL, 35),
-(139, 7, 1450, 'Credit Card', 'Payment Confirmed', '2023-12-09', '{\"cardholderName\":\"dekjhkeh\",\"encryptedCardNumber\":\"7QMJ5XDyrXIT3ujRMHtjr1pBi+OaTaRE1J4pTOn+kUM=\",\"expirationDate\":\"04\\/56\",\"cvv\":\"3454\"}', NULL, 61, 38),
-(140, 7, 1450, 'Credit Card', 'Payment Confirmed', '2023-12-09', '{\"cardholderName\":\"fedfe\",\"encryptedCardNumber\":\"O+pPFex127CQzesQg6uFEYEl+shzOOwmwrSNxN40iv4=\",\"expirationDate\":\"02\\/26\",\"cvv\":\"244\"}', NULL, 61, 39),
-(141, 7, 1450, 'Credit Card', 'Payment Confirmed', '2023-12-09', '{\"cardholderName\":\"wfgd\",\"encryptedCardNumber\":\"0kzCTa6C53SLLgRbFAizoEDZC7i1lUDzpNuqqhIewwY=\",\"expirationDate\":\"09\\/65\",\"cvv\":\"4566\"}', NULL, 61, 40),
-(142, 7, 1450, 'Credit Card', 'Payment Confirmed', '2023-12-09', '{\"cardholderName\":\"fdef\",\"encryptedCardNumber\":\"BZIjkULAHtNoib1J52qmYfYt0eVB1gLk\\/HwB4pBl+fc=\",\"expirationDate\":\"06\\/54\",\"cvv\":\"2334\"}', NULL, 61, 41),
-(144, 6, 780, 'Credit Card', 'Payment Pending', '2023-12-09', NULL, NULL, NULL, NULL),
-(145, 7, 1450, 'Credit Card', 'Payment Confirmed', '2023-12-09', '{\"cardholderName\":\"dfghjklyl\",\"encryptedCardNumber\":\"04oSSq85i6dHl9114vghtuAgLXIwKV8qWed5cJVmYMs=\",\"expirationDate\":\"09\\/96\",\"cvv\":\"4345\"}', NULL, 61, 42),
-(146, 7, 1450, 'Credit Card', 'Payment Confirmed', '2023-12-09', '{\"cardholderName\":\"fkedgfj\",\"encryptedCardNumber\":\"M8\\/0kGqZW4IxLwRHleplWRR\\/n9BdPBz+Lj4NuHrwO2c=\",\"expirationDate\":\"08\\/66\",\"cvv\":\"245\"}', NULL, 61, 43);
+(161, 34, 1500, 'Credit Card', 'Payment Confirmed', '2023-12-18', '{\"cardholderName\":\"wd\",\"encryptedCardNumber\":\"jt+CJj2tBO3FKG6OMUFz2rOiTuWYDVO18VQasEA6ecQ=\",\"expirationDate\":\"11\\/55\",\"cvv\":\"1321\"}', NULL, 30, 58),
+(162, 34, 1100, 'Credit Card', 'Payment Confirmed', '2023-12-18', '{\"cardholderName\":\"fwefw\",\"encryptedCardNumber\":\"ARWNvbJbbnv\\/54vMbC9AHDo3ZkOQmArlbPpZhvwG5Hk=\",\"expirationDate\":\"11\\/55\",\"cvv\":\"1213\"}', NULL, 25, 59),
+(163, 34, 199, 'Credit Card', 'Payment Confirmed', '2023-12-23', '{\"cardholderName\":\"sada\",\"encryptedCardNumber\":\"WOSP082TgwfSPRDe16NxPy\\/ORg1o6krWEvnHbAmrS+U=\",\"expirationDate\":\"12\\/55\",\"cvv\":\"1213\"}', NULL, 18, 60);
 
 -- --------------------------------------------------------
 
@@ -130,15 +112,12 @@ INSERT INTO `order data` (`OrderID`, `UserID`, `TotalPrice`, `PaymentMethod`, `S
 -- Table structure for table `ordered item`
 --
 
-DROP TABLE IF EXISTS `ordered item`;
-CREATE TABLE IF NOT EXISTS `ordered item` (
+CREATE TABLE `ordered item` (
   `OrderID` int(9) NOT NULL,
   `ProductID` int(9) NOT NULL,
   `Qty` int(10) DEFAULT NULL,
   `TotalPrice` double DEFAULT NULL,
-  `TotalPoints` int(11) NOT NULL,
-  PRIMARY KEY (`OrderID`,`ProductID`),
-  KEY `ProductID` (`ProductID`)
+  `TotalPoints` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -146,55 +125,11 @@ CREATE TABLE IF NOT EXISTS `ordered item` (
 --
 
 INSERT INTO `ordered item` (`OrderID`, `ProductID`, `Qty`, `TotalPrice`, `TotalPoints`) VALUES
-(61, 1, 2, 200, 0),
-(61, 2, 2, 20, 0),
-(121, 1, 4, 100, 2),
-(121, 2, 4, 10, 3),
-(121, 3, 4, 20, 4),
-(122, 1, 5, 500, 10),
-(122, 2, 7, 570, 31),
-(122, 3, 8, 730, 63),
-(124, 3, 6, 120, 24),
-(126, 1, 2, 200, 4),
-(126, 2, 2, 20, 6),
-(126, 3, 2, 40, 8),
-(127, 1, 4, 400, 8),
-(127, 2, 2, 20, 6),
-(127, 3, 3, 60, 12),
-(128, 1, 4, 400, 8),
-(128, 2, 7, 70, 21),
-(128, 3, 7, 140, 28),
-(129, 1, 4, 400, 8),
-(129, 2, 7, 70, 21),
-(129, 3, 7, 140, 28),
-(130, 1, 1, 100, 2),
-(131, 1, 1, 100, 2),
-(133, 1, 5, 500, 10),
-(133, 2, 5, 50, 15),
-(136, 1, 13, 1300, 26),
-(136, 2, 5, 50, 15),
-(136, 3, 5, 100, 20),
-(137, 1, 13, 1300, 26),
-(137, 2, 5, 50, 15),
-(137, 3, 5, 100, 20),
-(139, 1, 13, 1300, 26),
-(139, 2, 5, 50, 15),
-(139, 3, 5, 100, 20),
-(140, 1, 13, 1300, 26),
-(140, 2, 5, 50, 15),
-(140, 3, 5, 100, 20),
-(141, 1, 13, 1300, 26),
-(141, 2, 5, 50, 15),
-(141, 3, 5, 100, 20),
-(144, 1, 7, 200, 14),
-(144, 2, 1, 0, 3),
-(144, 3, 1, 0, 4),
-(145, 1, 13, 1300, 26),
-(145, 2, 5, 50, 15),
-(145, 3, 5, 100, 20),
-(146, 1, 13, 1300, 26),
-(146, 2, 5, 50, 15),
-(146, 3, 5, 100, 20);
+(161, 6, 5, 1500, 30),
+(162, 4, 5, 1000, 20),
+(162, 5, 1, 100, 5),
+(163, 5, 2, 200, 10),
+(163, 8, 1, 99, 8);
 
 -- --------------------------------------------------------
 
@@ -202,9 +137,8 @@ INSERT INTO `ordered item` (`OrderID`, `ProductID`, `Qty`, `TotalPrice`, `TotalP
 -- Table structure for table `payment database`
 --
 
-DROP TABLE IF EXISTS `payment database`;
-CREATE TABLE IF NOT EXISTS `payment database` (
-  `PaymentID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payment database` (
+  `PaymentID` int(9) NOT NULL,
   `PayDate` date NOT NULL,
   `Total` double NOT NULL,
   `ShippingInfo` varchar(255) NOT NULL,
@@ -213,25 +147,17 @@ CREATE TABLE IF NOT EXISTS `payment database` (
   `CreditCardInfo` varchar(255) DEFAULT NULL,
   `AccBalance` int(20) DEFAULT NULL,
   `PaymentStatus` varchar(20) DEFAULT NULL,
-  `UserID` int(10) UNSIGNED ZEROFILL DEFAULT NULL,
-  PRIMARY KEY (`PaymentID`),
-  KEY `UserID` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `UserID` int(10) UNSIGNED ZEROFILL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `payment database`
 --
 
 INSERT INTO `payment database` (`PaymentID`, `PayDate`, `Total`, `ShippingInfo`, `Details`, `MembershipPoints`, `CreditCardInfo`, `AccBalance`, `PaymentStatus`, `UserID`) VALUES
-(35, '2023-12-08', 9.999, '{\"RecipientName\":\"at table\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+9734567890\",\"Email\":\"\"}}', NULL, NULL, '{\"cardholderName\":\"fsefsf\",\"encryptedCardNumber\":\"ouC5SUkKffEzzQltRhpwJfvbN4CxKnwiUd8qKFVZ3jA=\",\"expirationDate\":\"12\\/55\",\"cvv\":\"3111\"}', NULL, 'paid', 0000000006),
-(36, '2023-12-09', 9.999, '{\"RecipientName\":\"at table\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+973456789876\",\"Email\":\"\"}}', NULL, 61, '{\"cardholderName\":\"ejkhfjkdssfk\",\"encryptedCardNumber\":\"ZWk14acNBmIivl7tJ72hcDfdSRwHEx0yZxWi9LO9bxE=\",\"expirationDate\":\"08\\/46\",\"cvv\":\"467\"}', NULL, 'paid', 0000000007),
-(37, '2023-12-09', 9.999, '{\"RecipientName\":\"at table\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+973456789876\",\"Email\":\"\"}}', NULL, 61, '{\"cardholderName\":\"jkdnf\",\"encryptedCardNumber\":\"qEi99AE6LlwTVVaXM47UtOpFhVmDr2EwhxanUnrPMJo=\",\"expirationDate\":\"08\\/42\",\"cvv\":\"124\"}', NULL, 'paid', 0000000007),
-(38, '2023-12-09', 9.999, '{\"RecipientName\":\"at table\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+973456789876\",\"Email\":\"\"}}', NULL, 61, '{\"cardholderName\":\"dekjhkeh\",\"encryptedCardNumber\":\"7QMJ5XDyrXIT3ujRMHtjr1pBi+OaTaRE1J4pTOn+kUM=\",\"expirationDate\":\"04\\/56\",\"cvv\":\"3454\"}', NULL, 'paid', 0000000007),
-(39, '2023-12-09', 9.999, '{\"RecipientName\":\"at table\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+973456789876\",\"Email\":\"\"}}', NULL, 61, '{\"cardholderName\":\"fedfe\",\"encryptedCardNumber\":\"O+pPFex127CQzesQg6uFEYEl+shzOOwmwrSNxN40iv4=\",\"expirationDate\":\"02\\/26\",\"cvv\":\"244\"}', NULL, 'paid', 0000000007),
-(40, '2023-12-09', 0, '1450', NULL, 61, '{\"cardholderName\":\"wfgd\",\"encryptedCardNumber\":\"0kzCTa6C53SLLgRbFAizoEDZC7i1lUDzpNuqqhIewwY=\",\"expirationDate\":\"09\\/65\",\"cvv\":\"4566\"}', NULL, 'paid', 0000000007),
-(41, '2023-12-09', 1450, '{\"RecipientName\":\"at table\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+973456789876\",\"Email\":\"\"}}', NULL, 61, '{\"cardholderName\":\"fdef\",\"encryptedCardNumber\":\"BZIjkULAHtNoib1J52qmYfYt0eVB1gLk\\/HwB4pBl+fc=\",\"expirationDate\":\"06\\/54\",\"cvv\":\"2334\"}', NULL, 'paid', 0000000007),
-(42, '2023-12-09', 1450, '{\"RecipientName\":\"at table\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+973456789876\",\"Email\":\"\"}}', NULL, 61, '{\"cardholderName\":\"dfghjklyl\",\"encryptedCardNumber\":\"04oSSq85i6dHl9114vghtuAgLXIwKV8qWed5cJVmYMs=\",\"expirationDate\":\"09\\/96\",\"cvv\":\"4345\"}', NULL, 'paid', 0000000007),
-(43, '2023-12-09', 1450, '{\"RecipientName\":\"at table\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+973456789876\",\"Email\":\"\"}}', NULL, 61, '{\"cardholderName\":\"fkedgfj\",\"encryptedCardNumber\":\"M8\\/0kGqZW4IxLwRHleplWRR\\/n9BdPBz+Lj4NuHrwO2c=\",\"expirationDate\":\"08\\/66\",\"cvv\":\"245\"}', NULL, 'paid', 0000000007);
+(58, '2023-12-18', 1500, '{\"RecipientName\":\"s h\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+93554468648648\",\"Email\":\"s@h.com\"}}', NULL, 30, '{\"cardholderName\":\"wd\",\"encryptedCardNumber\":\"jt+CJj2tBO3FKG6OMUFz2rOiTuWYDVO18VQasEA6ecQ=\",\"expirationDate\":\"11\\/55\",\"cvv\":\"1321\"}', NULL, 'paid', 0000000034),
+(59, '2023-12-18', 1100, '{\"RecipientName\":\"s h\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+93554468648648\",\"Email\":\"s@h.com\"}}', NULL, 25, '{\"cardholderName\":\"fwefw\",\"encryptedCardNumber\":\"ARWNvbJbbnv\\/54vMbC9AHDo3ZkOQmArlbPpZhvwG5Hk=\",\"expirationDate\":\"11\\/55\",\"cvv\":\"1213\"}', NULL, 'paid', 0000000034),
+(60, '2023-12-23', 199, '{\"RecipientName\":\"s h\",\"Address\":{\"Area\":\"\",\"House\":\"\",\"Street\":\"\",\"Block\":0},\"Contact\":{\"MobileNumber\":\"+93554468648648\",\"Email\":\"s@h.com\"}}', NULL, 18, '{\"cardholderName\":\"sada\",\"encryptedCardNumber\":\"WOSP082TgwfSPRDe16NxPy\\/ORg1o6krWEvnHbAmrS+U=\",\"expirationDate\":\"12\\/55\",\"cvv\":\"1213\"}', NULL, 'paid', 0000000034);
 
 -- --------------------------------------------------------
 
@@ -239,9 +165,8 @@ INSERT INTO `payment database` (`PaymentID`, `PayDate`, `Total`, `ShippingInfo`,
 -- Table structure for table `product data`
 --
 
-DROP TABLE IF EXISTS `product data`;
-CREATE TABLE IF NOT EXISTS `product data` (
-  `ProductID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `product data` (
+  `ProductID` int(9) NOT NULL,
   `Name` varchar(255) NOT NULL,
   `Type` varchar(30) NOT NULL,
   `RequiresPrescription` tinyint(1) NOT NULL,
@@ -253,18 +178,19 @@ CREATE TABLE IF NOT EXISTS `product data` (
   `Points` int(11) DEFAULT NULL,
   `Brand` varchar(50) DEFAULT NULL,
   `Photo` varchar(500) DEFAULT NULL,
-  `Alternate` varchar(255) NOT NULL,
-  PRIMARY KEY (`ProductID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Alternate` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product data`
 --
 
 INSERT INTO `product data` (`ProductID`, `Name`, `Type`, `RequiresPrescription`, `Description`, `ExpireDate`, `Quantity`, `Availability`, `Price`, `Points`, `Brand`, `Photo`, `Alternate`) VALUES
-(1, 'Product 1', '', 0, '', '0000-00-00', -124, 5, 100, 2, NULL, 'p1.jpg', ''),
-(2, 'Product 2', '', 0, '', '0000-00-00', 6, 0, 10, 3, NULL, 'p2.jpg', ''),
-(3, 'Product 3', '', 0, '', '0000-00-00', 8, 0, 20, 4, NULL, 'p3.jpg', '');
+(4, 'Product 4', 'Medicine', 0, '', '0000-00-00', 1, 0, 200, 4, NULL, 'p4.jpg', ''),
+(5, 'Product 5', 'Medicine', 0, '', '0000-00-00', 3, 1, 100, 5, NULL, 'p1.jpg', ''),
+(6, 'Product 6', 'Personal care', 0, '', '0000-00-00', 1, 0, 300, 6, NULL, 'p1.jpg', ''),
+(7, 'Product 7', 'Medicine', 0, '', '0000-00-00', 66, 1, 22, 7, NULL, 'p2.jpg', ''),
+(8, 'Product 8', 'Medicine', 0, '', '0000-00-00', 47, 1, 99, 8, NULL, 'p3.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -272,15 +198,12 @@ INSERT INTO `product data` (`ProductID`, `Name`, `Type`, `RequiresPrescription`,
 -- Table structure for table `remember_me_tokens`
 --
 
-DROP TABLE IF EXISTS `remember_me_tokens`;
-CREATE TABLE IF NOT EXISTS `remember_me_tokens` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `remember_me_tokens` (
+  `id` int(11) NOT NULL,
   `token` varchar(255) DEFAULT NULL,
   `UserID` int(9) UNSIGNED ZEROFILL NOT NULL,
-  `expiration_date` date DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `remember_me_tokens_ibfk_1` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `expiration_date` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -288,9 +211,8 @@ CREATE TABLE IF NOT EXISTS `remember_me_tokens` (
 -- Table structure for table `sorder data`
 --
 
-DROP TABLE IF EXISTS `sorder data`;
-CREATE TABLE IF NOT EXISTS `sorder data` (
-  `OrderID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `sorder data` (
+  `OrderID` int(9) NOT NULL,
   `UserID` int(9) DEFAULT NULL,
   `TotalPrice` double DEFAULT NULL,
   `PaymentMethod` varchar(20) DEFAULT NULL,
@@ -299,10 +221,7 @@ CREATE TABLE IF NOT EXISTS `sorder data` (
   `CreditCardInfo` varchar(255) DEFAULT NULL,
   `AccBalance` int(20) DEFAULT NULL,
   `MembershipPoints` int(10) DEFAULT NULL,
-  `PaymentID` int(9) DEFAULT NULL,
-  PRIMARY KEY (`OrderID`),
-  KEY `UserID` (`UserID`),
-  KEY `PaymentID` (`PaymentID`)
+  `PaymentID` int(9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -311,15 +230,12 @@ CREATE TABLE IF NOT EXISTS `sorder data` (
 -- Table structure for table `sordered item`
 --
 
-DROP TABLE IF EXISTS `sordered item`;
-CREATE TABLE IF NOT EXISTS `sordered item` (
+CREATE TABLE `sordered item` (
   `OrderID` int(9) NOT NULL,
   `ProductID` int(9) NOT NULL,
   `Qty` int(10) DEFAULT NULL,
   `TotalPrice` double DEFAULT NULL,
-  `TotalPoints` int(11) NOT NULL,
-  PRIMARY KEY (`OrderID`,`ProductID`),
-  KEY `ProductID` (`ProductID`)
+  `TotalPoints` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -328,9 +244,8 @@ CREATE TABLE IF NOT EXISTS `sordered item` (
 -- Table structure for table `spayment database`
 --
 
-DROP TABLE IF EXISTS `spayment database`;
-CREATE TABLE IF NOT EXISTS `spayment database` (
-  `PaymentID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `spayment database` (
+  `PaymentID` int(9) NOT NULL,
   `PayDate` date NOT NULL,
   `Total` double NOT NULL,
   `ShippingInfo` varchar(255) NOT NULL,
@@ -339,9 +254,7 @@ CREATE TABLE IF NOT EXISTS `spayment database` (
   `CreditCardInfo` varchar(255) DEFAULT NULL,
   `AccBalance` int(20) DEFAULT NULL,
   `PaymentStatus` varchar(20) DEFAULT NULL,
-  `UserID` int(10) UNSIGNED ZEROFILL DEFAULT NULL,
-  PRIMARY KEY (`PaymentID`),
-  KEY `UserID` (`UserID`)
+  `UserID` int(10) UNSIGNED ZEROFILL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -350,9 +263,8 @@ CREATE TABLE IF NOT EXISTS `spayment database` (
 -- Table structure for table `sproduct data`
 --
 
-DROP TABLE IF EXISTS `sproduct data`;
-CREATE TABLE IF NOT EXISTS `sproduct data` (
-  `ProductID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `sproduct data` (
+  `ProductID` int(9) NOT NULL,
   `Name` varchar(255) NOT NULL,
   `Type` varchar(30) NOT NULL,
   `RequiresPrescription` tinyint(1) NOT NULL,
@@ -364,8 +276,7 @@ CREATE TABLE IF NOT EXISTS `sproduct data` (
   `Points` int(11) DEFAULT NULL,
   `Brand` varchar(50) DEFAULT NULL,
   `Photo` varchar(500) DEFAULT NULL,
-  `Alternate` varchar(255) NOT NULL,
-  PRIMARY KEY (`ProductID`)
+  `Alternate` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -374,9 +285,8 @@ CREATE TABLE IF NOT EXISTS `sproduct data` (
 -- Table structure for table `staff data`
 --
 
-DROP TABLE IF EXISTS `staff data`;
-CREATE TABLE IF NOT EXISTS `staff data` (
-  `StaffID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `staff data` (
+  `StaffID` int(9) NOT NULL,
   `CPR` int(9) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
@@ -391,10 +301,8 @@ CREATE TABLE IF NOT EXISTS `staff data` (
   `Block` int(5) NOT NULL,
   `ProfilePic` text DEFAULT NULL,
   `StaffPosition` varchar(255) NOT NULL,
-  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL,
-  PRIMARY KEY (`StaffID`),
-  KEY `UserID` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `staff data`
@@ -409,18 +317,15 @@ INSERT INTO `staff data` (`StaffID`, `CPR`, `FirstName`, `LastName`, `Gender`, `
 -- Table structure for table `supplier data`
 --
 
-DROP TABLE IF EXISTS `supplier data`;
-CREATE TABLE IF NOT EXISTS `supplier data` (
-  `SupplierID` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `supplier data` (
+  `SupplierID` int(10) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `LastName` varchar(50) NOT NULL,
   `MobileNumber` int(15) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `ProfilePic` text DEFAULT NULL,
-  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL,
-  PRIMARY KEY (`SupplierID`),
-  KEY `UserID` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `UserID` int(9) UNSIGNED ZEROFILL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `supplier data`
@@ -435,16 +340,13 @@ INSERT INTO `supplier data` (`SupplierID`, `FirstName`, `LastName`, `MobileNumbe
 -- Table structure for table `sview cart`
 --
 
-DROP TABLE IF EXISTS `sview cart`;
-CREATE TABLE IF NOT EXISTS `sview cart` (
-  `CartID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `sview cart` (
+  `CartID` int(9) NOT NULL,
   `UserID` int(11) NOT NULL,
   `ProductID` int(9) NOT NULL,
   `Qty` int(10) DEFAULT NULL,
   `Total` double DEFAULT NULL,
-  `AddedDate` date DEFAULT NULL,
-  PRIMARY KEY (`CartID`,`ProductID`,`UserID`) USING BTREE,
-  KEY `ProductID` (`ProductID`,`UserID`) USING BTREE
+  `AddedDate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -453,14 +355,10 @@ CREATE TABLE IF NOT EXISTS `sview cart` (
 -- Table structure for table `swish list data`
 --
 
-DROP TABLE IF EXISTS `swish list data`;
-CREATE TABLE IF NOT EXISTS `swish list data` (
-  `WID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `swish list data` (
+  `WID` int(9) NOT NULL,
   `ProductID` int(9) DEFAULT NULL,
-  `UserID` int(9) DEFAULT NULL,
-  PRIMARY KEY (`WID`),
-  KEY `ProductID` (`ProductID`),
-  KEY `UserID` (`UserID`)
+  `UserID` int(9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -469,15 +367,13 @@ CREATE TABLE IF NOT EXISTS `swish list data` (
 -- Table structure for table `user data`
 --
 
-DROP TABLE IF EXISTS `user data`;
-CREATE TABLE IF NOT EXISTS `user data` (
-  `UserID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user data` (
+  `UserID` int(9) UNSIGNED ZEROFILL NOT NULL,
   `Username` varchar(50) NOT NULL,
   `Email` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
-  `Type` enum('Admin','Customer','Staff','Supplier') NOT NULL,
-  PRIMARY KEY (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `Type` enum('Admin','Customer','Staff','Supplier') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user data`
@@ -511,7 +407,9 @@ INSERT INTO `user data` (`UserID`, `Username`, `Email`, `Password`, `Type`) VALU
 (000000025, 'gtghthfyn', 'grdgrg@et.po', '$2y$10$dLnKT9yk82YqT.9Ytu/xPeR9chshFGlmdDtE0DZ2Ayp1YX14omHca', 'Staff'),
 (000000027, 'wsdfghjkdd', 'jhgfudyd@xc.dx', '$2y$10$rCoG33E96zBqCDhdTBQbF.z3ZLiMkJvem9lrFUqdZosdHFDWf0Oj2', 'Staff'),
 (000000028, 'dcfd', 'dddddddd@ss.xa', '$2y$10$KBo/TRCIvYjj9Jqa/stv8.7/GMZ81A8WMSOCsZ1uFoJ7IyTLiE7LO', 'Supplier'),
-(000000029, 'Fiddah', 'fiddah16@hotmail.com', '$2y$10$UahvMwHfVfyc/Lnt/gLIKur3m4qc1cjRdx3RNPAuhhljzr5r8S60y', 'Customer');
+(000000029, 'Fiddah', 'fiddah16@hotmail.com', '$2y$10$UahvMwHfVfyc/Lnt/gLIKur3m4qc1cjRdx3RNPAuhhljzr5r8S60y', 'Customer'),
+(000000033, 'Sayed', '', 'A123456789a', 'Admin'),
+(000000034, 'sh', 's@h.com', '$2y$10$GzAAq3FF.xHX9D8xRkgnXeW8kSmCA0x7ZSJNE/qvVInn7QqAiQ8F.', 'Customer');
 
 -- --------------------------------------------------------
 
@@ -519,36 +417,23 @@ INSERT INTO `user data` (`UserID`, `Username`, `Email`, `Password`, `Type`) VALU
 -- Table structure for table `view cart`
 --
 
-DROP TABLE IF EXISTS `view cart`;
-CREATE TABLE IF NOT EXISTS `view cart` (
-  `CartID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `view cart` (
+  `CartID` int(9) NOT NULL,
   `UserID` int(11) NOT NULL,
   `ProductID` int(9) NOT NULL,
   `Qty` int(10) DEFAULT NULL,
   `Total` double DEFAULT NULL,
-  `AddedDate` date DEFAULT NULL,
-  PRIMARY KEY (`CartID`,`ProductID`,`UserID`) USING BTREE,
-  KEY `ProductID` (`ProductID`,`UserID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `AddedDate` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `view cart`
 --
 
 INSERT INTO `view cart` (`CartID`, `UserID`, `ProductID`, `Qty`, `Total`, `AddedDate`) VALUES
-(17, 3, 3, 1, 20, '2023-12-06'),
-(18, 3, 2, 2, 20, '2023-12-07'),
-(19, 6, 1, 7, 200, '2023-12-07'),
-(19, 6, 2, 1, 0, '2023-12-09'),
-(19, 6, 3, 1, 0, '2023-12-09'),
-(21, 6, 2, 2, 20, '2023-12-08'),
-(22, 6, 2, 2, 20, '2023-12-08'),
-(23, 6, 2, 1, 10, '2023-12-08'),
-(39, 7, 1, 32, 3200, '2023-12-09'),
-(39, 7, 2, 5, 50, '2023-12-09'),
-(39, 7, 3, 5, 100, '2023-12-09'),
-(40, 6, 2, 1, 10, '2023-12-14'),
-(41, 6, 2, 1, 10, '2023-12-14');
+(96, 34, 5, 2, 200, '2023-12-23'),
+(97, 34, 8, 1, 99, '2023-12-23'),
+(98, 34, 7, 3, 60, '2023-12-23');
 
 -- --------------------------------------------------------
 
@@ -556,15 +441,273 @@ INSERT INTO `view cart` (`CartID`, `UserID`, `ProductID`, `Qty`, `Total`, `Added
 -- Table structure for table `wish list data`
 --
 
-DROP TABLE IF EXISTS `wish list data`;
-CREATE TABLE IF NOT EXISTS `wish list data` (
-  `WID` int(9) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wish list data` (
+  `WID` int(9) NOT NULL,
   `ProductID` int(9) DEFAULT NULL,
-  `UserID` int(9) DEFAULT NULL,
-  PRIMARY KEY (`WID`),
-  KEY `ProductID` (`ProductID`),
-  KEY `UserID` (`UserID`)
+  `UserID` int(9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wish list data`
+--
+
+INSERT INTO `wish list data` (`WID`, `ProductID`, `UserID`) VALUES
+(46, 0, NULL),
+(47, 0, NULL),
+(48, 0, NULL),
+(49, 0, NULL),
+(50, 0, NULL),
+(51, 0, NULL),
+(52, 0, NULL),
+(53, 0, NULL),
+(54, 0, NULL),
+(55, 0, NULL),
+(56, 4, 34),
+(57, 0, NULL),
+(58, 0, NULL),
+(59, 0, NULL),
+(60, 0, NULL),
+(61, 0, NULL),
+(62, 0, NULL),
+(63, 0, NULL),
+(64, 0, NULL),
+(65, 0, NULL),
+(66, 0, NULL),
+(67, 0, NULL),
+(68, 0, NULL),
+(69, 0, NULL),
+(70, 5, 34);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `customer data`
+--
+ALTER TABLE `customer data`
+  ADD PRIMARY KEY (`CustomerID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `offers data`
+--
+ALTER TABLE `offers data`
+  ADD PRIMARY KEY (`OfferID`),
+  ADD KEY `ProductID` (`ProductID`);
+
+--
+-- Indexes for table `order data`
+--
+ALTER TABLE `order data`
+  ADD PRIMARY KEY (`OrderID`),
+  ADD KEY `UserID` (`UserID`),
+  ADD KEY `PaymentID` (`PaymentID`);
+
+--
+-- Indexes for table `ordered item`
+--
+ALTER TABLE `ordered item`
+  ADD PRIMARY KEY (`OrderID`,`ProductID`),
+  ADD KEY `ProductID` (`ProductID`);
+
+--
+-- Indexes for table `payment database`
+--
+ALTER TABLE `payment database`
+  ADD PRIMARY KEY (`PaymentID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `product data`
+--
+ALTER TABLE `product data`
+  ADD PRIMARY KEY (`ProductID`);
+
+--
+-- Indexes for table `remember_me_tokens`
+--
+ALTER TABLE `remember_me_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `remember_me_tokens_ibfk_1` (`UserID`);
+
+--
+-- Indexes for table `sorder data`
+--
+ALTER TABLE `sorder data`
+  ADD PRIMARY KEY (`OrderID`),
+  ADD KEY `UserID` (`UserID`),
+  ADD KEY `PaymentID` (`PaymentID`);
+
+--
+-- Indexes for table `sordered item`
+--
+ALTER TABLE `sordered item`
+  ADD PRIMARY KEY (`OrderID`,`ProductID`),
+  ADD KEY `ProductID` (`ProductID`);
+
+--
+-- Indexes for table `spayment database`
+--
+ALTER TABLE `spayment database`
+  ADD PRIMARY KEY (`PaymentID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `sproduct data`
+--
+ALTER TABLE `sproduct data`
+  ADD PRIMARY KEY (`ProductID`);
+
+--
+-- Indexes for table `staff data`
+--
+ALTER TABLE `staff data`
+  ADD PRIMARY KEY (`StaffID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `supplier data`
+--
+ALTER TABLE `supplier data`
+  ADD PRIMARY KEY (`SupplierID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `sview cart`
+--
+ALTER TABLE `sview cart`
+  ADD PRIMARY KEY (`CartID`,`ProductID`,`UserID`) USING BTREE,
+  ADD KEY `ProductID` (`ProductID`,`UserID`) USING BTREE;
+
+--
+-- Indexes for table `swish list data`
+--
+ALTER TABLE `swish list data`
+  ADD PRIMARY KEY (`WID`),
+  ADD KEY `ProductID` (`ProductID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `user data`
+--
+ALTER TABLE `user data`
+  ADD PRIMARY KEY (`UserID`);
+
+--
+-- Indexes for table `view cart`
+--
+ALTER TABLE `view cart`
+  ADD PRIMARY KEY (`CartID`,`ProductID`,`UserID`) USING BTREE,
+  ADD KEY `ProductID` (`ProductID`,`UserID`) USING BTREE;
+
+--
+-- Indexes for table `wish list data`
+--
+ALTER TABLE `wish list data`
+  ADD PRIMARY KEY (`WID`),
+  ADD KEY `ProductID` (`ProductID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `customer data`
+--
+ALTER TABLE `customer data`
+  MODIFY `CustomerID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `offers data`
+--
+ALTER TABLE `offers data`
+  MODIFY `OfferID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT for table `order data`
+--
+ALTER TABLE `order data`
+  MODIFY `OrderID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+
+--
+-- AUTO_INCREMENT for table `payment database`
+--
+ALTER TABLE `payment database`
+  MODIFY `PaymentID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+
+--
+-- AUTO_INCREMENT for table `product data`
+--
+ALTER TABLE `product data`
+  MODIFY `ProductID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `remember_me_tokens`
+--
+ALTER TABLE `remember_me_tokens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `sorder data`
+--
+ALTER TABLE `sorder data`
+  MODIFY `OrderID` int(9) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `spayment database`
+--
+ALTER TABLE `spayment database`
+  MODIFY `PaymentID` int(9) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sproduct data`
+--
+ALTER TABLE `sproduct data`
+  MODIFY `ProductID` int(9) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `staff data`
+--
+ALTER TABLE `staff data`
+  MODIFY `StaffID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT for table `supplier data`
+--
+ALTER TABLE `supplier data`
+  MODIFY `SupplierID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `sview cart`
+--
+ALTER TABLE `sview cart`
+  MODIFY `CartID` int(9) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `swish list data`
+--
+ALTER TABLE `swish list data`
+  MODIFY `WID` int(9) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user data`
+--
+ALTER TABLE `user data`
+  MODIFY `UserID` int(9) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `view cart`
+--
+ALTER TABLE `view cart`
+  MODIFY `CartID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+
+--
+-- AUTO_INCREMENT for table `wish list data`
+--
+ALTER TABLE `wish list data`
+  MODIFY `WID` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- Constraints for dumped tables
