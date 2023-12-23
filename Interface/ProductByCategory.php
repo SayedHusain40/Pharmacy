@@ -102,6 +102,7 @@ try {
             <?php
             while ($row = $data->fetch()) {
               $productID = $row["ProductID"];
+              $Quantity = $row["Quantity"];
 
               date_default_timezone_set('Asia/Bahrain');
               $currentDate = date("Y-m-d");
@@ -199,10 +200,11 @@ try {
                       </p>
                     <?php
                     }
+                    $maxValue = min(24, $Quantity);
                     ?>
                     <div class="inputQtyContainer">
                       <button class="btnMins" id="decreaseQty"><i class="fas fa-minus"></i></button>
-                      <input type="number" class="custom-number-input" id="quantity" value="1" min="1" productID=<?php echo $productID ?>>
+                      <input type="number" class="custom-number-input" id="quantity" value="1" min="1" max="<?php echo $maxValue ?>" productID=<?php echo $productID ?>>
                       <button class="btnPlus" id="increaseQty"><i class="fas fa-plus"></i></button>
                     </div>
 
@@ -287,7 +289,11 @@ try {
       increaseQtyBtns.forEach((button, index) => {
         button.addEventListener('click', () => {
           const currentValue = parseInt(quantityInputs[index].value);
-          quantityInputs[index].value = currentValue + 1;
+          const maxValue = parseInt(quantityInputs[index].getAttribute('max')); // Get the max value from the attribute
+
+          if (currentValue < maxValue) {
+            quantityInputs[index].value = currentValue + 1;
+          }
         });
       });
 
@@ -295,6 +301,7 @@ try {
       decreaseQtyBtns.forEach((button, index) => {
         button.addEventListener('click', () => {
           const currentValue = parseInt(quantityInputs[index].value);
+
           if (currentValue > 1) {
             quantityInputs[index].value = currentValue - 1;
           }
@@ -326,11 +333,25 @@ try {
         }, 3000);
       }
 
-      //add To Cart
-      function addToCart(productID) {
-        const quantity = document.querySelector(`input[productID='${productID}']`).value;
-        const xhr = new XMLHttpRequest();
 
+      // Function to validate the quantity
+      function isValidQuantity(quantity, maxValue) {
+        return !isNaN(quantity) && parseInt(quantity) > 0 && parseInt(quantity) <= maxValue;
+      }
+
+      // add To Cart
+      function addToCart(productID) {
+        const quantityInput = document.querySelector(`input[productID='${productID}']`);
+        const quantity = quantityInput.value;
+        const maxValue = parseInt(quantityInput.getAttribute('max'));
+
+        // Validate the quantity against the maximum allowed value before adding to cart
+        if (!isValidQuantity(quantity, maxValue)) {
+          alert(`Please enter a valid quantity (From 1 up to ${maxValue})`);
+          return;
+        }
+
+        const xhr = new XMLHttpRequest();
         xhr.open("POST", "../ManageShoppingCart/AddToCart.php");
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
