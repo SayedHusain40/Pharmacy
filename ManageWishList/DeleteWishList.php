@@ -8,15 +8,14 @@ try {
 
     $WID = $_REQUEST['WID'];
 
-    $deleteQuery = "DELETE FROM `wish list data` WHERE WID = ?";
-    $stmt = $db->prepare($deleteQuery);
+    $stmt = $db->prepare("DELETE FROM `wish list data` WHERE WID = ?");
     $stmt->execute([$WID]);
 
     header("Location: ViewWishList.php");
     exit();
   }
 
-  $db = null;
+  $db = null;   
 } catch (PDOException $e) {
   echo "Error: " . $e->getMessage();
 }

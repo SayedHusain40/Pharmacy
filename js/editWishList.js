@@ -1,4 +1,3 @@
-// for delete and add to wish list
 document.querySelectorAll('.wishlist-action').forEach(item => {
   item.addEventListener('click', function (event) {
     console.log("ok");
@@ -7,20 +6,20 @@ document.querySelectorAll('.wishlist-action').forEach(item => {
     const wishlistId = this.getAttribute('data-wishlist-id');
 
     const heartIcon = this.querySelector('i');
-    if (heartIcon.classList.contains('fa-regular')) {
+    if (wishlistId) {
+      // If product already in wishlist, disable the icon
+      this.setAttribute('disabled', 'true');
+    } else {
+      // If product not in wishlist, add it and disable the icon
       heartIcon.classList.remove('fa-regular');
       heartIcon.classList.add('fa-solid');
-      addToWishlist(productId);
-    } else {
-      heartIcon.classList.remove('fa-solid');
-      heartIcon.classList.add('fa-regular');
-      removeFromWishlist(wishlistId);
+      addToWishlist(productId, this); // Pass 'this' as an additional parameter
     }
   });
 });
 
-// Add function
-function addToWishlist(productID) {
+// Modify the addToWishlist function to disable the icon after adding
+function addToWishlist(productID, element) {
   const xhr = new XMLHttpRequest();
   xhr.open('POST', '../ManageWishList/AddToWishList.php', true);
   xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -31,6 +30,7 @@ function addToWishlist(productID) {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
         console.log('Item added to wishlist!');
+        element.setAttribute('disabled', 'true'); // Disable the icon
       } else {
         console.error('Failed to add item to wishlist');
       }
@@ -39,27 +39,3 @@ function addToWishlist(productID) {
 
   xhr.send(pID);
 }
-
-
-// Remove function
-function removeFromWishlist(wishlistId) {
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', '../ManageWishList/DeleteWishList.php', true);
-  xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-  const wID = `WID=${wishlistId}`;
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        console.log('Item removed from wishlist!');
-      } else {
-        console.error('Failed to remove item from wishlist');
-      }
-    }
-  };
-
-  xhr.send(wID);
-}
-
-// for delete and add to wish list

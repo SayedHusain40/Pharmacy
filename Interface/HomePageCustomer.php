@@ -24,6 +24,13 @@ try {
 
   <body>
     <?php
+    //for display Successfully messages
+    if (isset($_SESSION['payment_success'])) {
+      echo '<div class="success-box" id="successBox">';
+      echo '<div> <i class= "success-icon fa-solid fa-circle-check" id="iconX"></i>"Payment successful! 🎉 Thank you for your payment!</div>';
+      echo '</div>';
+      unset($_SESSION['payment_success']);
+    }
 
     if ($count > 0) {
     ?>
@@ -199,7 +206,6 @@ try {
 
     <script src="../js/editWishList.js"></script>
     <script>
-
       const quantityInputs = document.querySelectorAll('.custom-number-input');
       const increaseQtyBtns = document.querySelectorAll('.btnPlus');
       const decreaseQtyBtns = document.querySelectorAll('.btnMins');
@@ -246,10 +252,10 @@ try {
         successBox.appendChild(successMessage);
         document.body.appendChild(successBox);
 
-        // Hide the success box after 3 seconds
+        // Hide the success box after 5 seconds
         setTimeout(() => {
           successBox.style.display = 'none';
-        }, 3000);
+        }, 5000);
       }
 
 
@@ -288,6 +294,14 @@ try {
       }
 
       document.getElementById("outOfStock").disabled = true;
+
+      //Function to hide the success box
+      function hideSuccessBox() {
+        successBox.style.display = 'none';
+      }
+
+      // Hide the success box after 5 seconds
+      setTimeout(hideSuccessBox, 5000);
     </script>
   </body>
 
