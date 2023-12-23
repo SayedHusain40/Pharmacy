@@ -92,6 +92,14 @@ try {
             $TotalPrice = $TotalPrice + $currentPrice * $row["Qty"];
           ?>
             <div class="itemsBox">
+              <?php
+              if ($countOffer > 0) {
+                $percentage = round((($row["Price"] - $currentPrice) / $row["Price"]) * 100, 1);
+              ?>
+                <div class="offer"> <?php echo $percentage . "%" ?> </div>
+              <?php
+              }
+              ?>
               <div> <img src="../images/<?php echo $row['Photo']; ?>" width="150px" /></div>
               <div class="itemsBoxContent">
                 <div>

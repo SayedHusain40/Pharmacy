@@ -53,6 +53,9 @@
   padding: 15px;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
+.cartContainer .itemsBox .itemsBoxContent{
+  margin-left: 10px;
+}
 @media (max-width: 1050px) {
   .cartContainer > div:first-child {
     width: 100%;
@@ -63,11 +66,22 @@
     margin: 0 auto;
   }
 }
-@media (max-width: 530px) {
+@media (max-width: 570px) {
   .cartContainer .itemsBox {
     flex-direction: column;
     text-align: center;
+    padding-bottom: 50px;
   }
+}
+.cartContainer .itemsBox .offer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 16px;
+  color: black;
+  background-color: #e91e635e;
+  border-radius: 7px;
+  padding: 0 4px;
 }
 .cartContainer .itemsBox:hover {
   background-color: #efefefb9;
@@ -90,10 +104,10 @@
   right: 10px;
   bottom: 10px;
 }
-@media (max-width: 530px) {
+@media (max-width: 570px) {
   .cartContainer .itemsBox .deleteItemsCart {
-    left: -83%;
-    top: 10px;
+    right: 10px;
+    bottom: 10px;
   }
 }
 .cartContainer .itemsBox .favorite {
@@ -534,7 +548,7 @@
   border-radius: 7px;
   padding: 0 4px;
 }
-.containerProducts .content .card-body .HeartDiv #HeartIcon, 
+.containerProducts .content .card-body .HeartDiv #HeartIcon,
 .containerProducts .content .card-body .HeartDiv #HeartIcon2 {
   color: #ec407a;
 }

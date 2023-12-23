@@ -111,7 +111,6 @@ try {
                       AND StartDate <= ? AND EndDate >= ?");
               $stmt->execute([$productID, $currentDate, $currentDate]);
 
-
               $result = $stmt->fetch();
               $countOffer = $stmt->rowCount();
 
