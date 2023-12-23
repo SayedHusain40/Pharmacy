@@ -14,8 +14,8 @@ try {
     `product data`.Points,
     `view cart`.Qty,
     `view cart`.cartID,
-    `view cart`.ProductID,
-    (`product data`.Price * `view cart`.Qty) AS TotalPrice
+    `view cart`.ProductID
+    -- (`product data`.Price * `view cart`.Qty) AS TotalPrice
     FROM 
         `view cart`
     JOIN 
@@ -38,6 +38,8 @@ try {
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/all.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
   </head>
 
   <body>
@@ -74,7 +76,20 @@ try {
           <?php
           $TotalPrice = 0;
           while ($row = $data->fetch()) {
-            $TotalPrice = $TotalPrice + $row["TotalPrice"];
+            //check first if this product have a offer
+            date_default_timezone_set('Asia/Bahrain');
+            $currentDate = date("Y-m-d");
+            $discount = $db->prepare("SELECT DiscountedPrice FROM `offers data` WHERE ProductID = ? AND StartDate <= ? AND EndDate >= ?");
+            $discount->execute([$row["ProductID"], $currentDate, $currentDate]);
+            $DiscountedPrice = $discount->fetch();
+            $countOffer = $discount->rowCount();
+
+            $currentPrice = $row["Price"];
+            if ($countOffer > 0) {
+              $currentPrice = $DiscountedPrice["DiscountedPrice"];
+            }
+
+            $TotalPrice = $TotalPrice + $currentPrice * $row["Qty"];
           ?>
             <div class="itemsBox">
               <div> <img src="../images/<?php echo $row['Photo']; ?>" width="150px" /></div>
@@ -83,9 +98,29 @@ try {
                   <h3><?php echo $row['Name']; ?></h3>
                 </div>
                 <div class="quantity">Quantity: <?php echo $row['Qty']; ?></div>
-                <div class="price">Price: BHD <?php echo $row['Price']; ?></div>
+
+                <div class="price">
+                  <?php
+                  if ($countOffer === 0) {
+                  ?>
+                    <p class="card-text nowPrice"><b><?php echo "BHD" . $row["Price"] ?></b></p>
+                  <?php
+                  } else {
+                  ?>
+                    <p class="card-text discountPrice">
+                      <span>
+                        <span class="originalPrice"> <del><?php echo "BHD" . $row["Price"] ?></del> </span>
+                        <span class="line"></span>
+                      </span>
+                      <span class="nowPrice"> <b><?php echo "BHD" . $currentPrice ?></b> </span>
+                    </p>
+                  <?php
+                  }
+                  ?>
+                </div>
+
                 <div class="points"><?php echo $row['Qty'] . " x " . $row['Points'] . " = " . $row['Qty'] * $row['Points'] . " Points"; ?></div>
-                <div class="totalPrice">Total Price: BHD <?php echo $row["TotalPrice"]; ?></div>
+                <div class="totalPrice">Total Price: BHD <?php echo $currentPrice * $row["Qty"]; ?></div>
                 <div>
                   <form action="./EditCart.php" method="post">
                     <input type="hidden" name="cartID" value="<?php echo $row["cartID"] ?>">
@@ -169,7 +204,6 @@ try {
 
       <script src="../js/editWishList.js"></script>
       <script>
-
         //for hiding susscfuly meesage
         let iconX = document.getElementById('iconX');
         let successBox = document.getElementById('successBox');
