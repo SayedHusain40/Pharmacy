@@ -344,7 +344,6 @@ try {
         const quantity = quantityInput.value;
         const maxValue = parseInt(quantityInput.getAttribute('max'));
 
-        // Validate the quantity against the maximum allowed value before adding to cart
         if (!isValidQuantity(quantity, maxValue)) {
           alert(`Please enter a valid quantity (From 1 up to ${maxValue})`);
           return;
@@ -357,7 +356,6 @@ try {
         const data = `quantity=${quantity}&productID=${productID}`;
         xhr.send(data);
 
-        // Call the displaySuccessMessage function after the item is added to the cart
         xhr.onreadystatechange = function() {
           if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
