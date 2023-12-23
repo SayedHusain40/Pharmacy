@@ -164,8 +164,92 @@ background-color: rgba(255, 255, 255, 0.5);
         <button class="favorite-button"> <a href="../ManageWishList/ViewWishList.php"><i class="far fa-heart"></i></a> </button>
         <button class="shopping-cart-button"><a href="../ManageShoppingCart/ViewShoppingCart.php"> <i class="fas fa-shopping-cart"></i> </a> </button>
         ';
+              } else if ($_SESSION['user_role'] == 'Supplier') { 
+                echo '
+                <li class="nav-item active">
+                <a class="nav-link" href="../Interface/HomePage' . $_SESSION['user_role'] . '.php">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+              <a class="nav-link" href="../Account/Profile.php">My Profile</a>
+              </li>
+              <li class="nav-item dropdown mr-5">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+            Reports
+          </a>
+          <div class="dropdown-menu">
+          <a class="dropdown-item" href="../.php">Medicine Report</a>
+          <a class="dropdown-item" href="../.php">Current Inventory Report</a>
+          <a class="dropdown-item" href="../.php">Customer Order Details Report</a> 
+          <a class="dropdown-item" href="../.php">Top Selling Medicines Report</a> 
+          <a class="dropdown-item" href="../.php">Order Report</a>
+          </div>
+          </li>
+          <li class="nav-item dropdown mr-5">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+            Manage Items
+          </a>
+          <div class="dropdown-menu">
+          <a class="dropdown-item" href="../ManageProduct/SViewProductList.php">View Products</a>
+          <a class="dropdown-item" href="../ManageProduct/SAddProduct.php">Add Product</a>
+          <a class="dropdown-item" href="../ManageProduct/SEditProduct.php">Edit Product</a>
+          </div>
+          </li>
+          <li class="nav-item dropdown mr-5">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+            Manage Orders
+          </a>
+          <div class="dropdown-menu">
+          <a class="dropdown-item" href="../ManageOrders/SViewOrder.php">View Order</a>
+          <a class="dropdown-item" href="../ManageOrders/SAddOrder.php">Add Order</a>
+          <a class="dropdown-item" href="../ManageOrders/SEditOrder.php">Edit Order</a>
+          </div>
+</li>
+              <li class="nav-item dropdown mr-5">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                Products
+              </a>
+              <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Medicine</a>
+              <a class="dropdown-item" href="#">Minerals</a>
+              <a class="dropdown-item" href="#">Vitamins</a>
+              <a class="dropdown-item" href="#">Supplements</a>
+              <a class="dropdown-item" href="#">Common Conditions</a>
+              <a class="dropdown-item" href="#">Skin Care</a>
+              <a class="dropdown-item" href="#">Oral Care</a>
+              <a class="dropdown-item" href="#">Bath & Shower</a>
+              <a class="dropdown-item" href="#">Hair Wash & Care</a>
+              <a class="dropdown-item" href="#">Body Supports</a>
+              <a class="dropdown-item" href="#">Feminine Hygiene</a>
+              <a class="dropdown-item" href="#">Mens Grooming</a>
+              <a class="dropdown-item" href="#">Deodorants</a>
+              <a class="dropdown-item" href="#">Health Accessories</a>
+              <a class="dropdown-item" href="#">First Aid</a>
+              <a class="dropdown-item" href="#">Diagnostics & Monitoring</a>
+              <a class="dropdown-item" href="#">Baby Skin Care & Accessories</a>
+              </div>
+              </li>
+              <li class="nav-item">
+          <a class="nav-link" href="../Interface/ShopByCategories.php">Shop by Categories</a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="../Interface/ShopByBrand.php">Shop by Brand</a>
+          </li>
+              <li class="nav-item">
+              <a class="nav-link" href="#">My Orders</a>
+              </li>
+              <li class="nav-item">
+              <a class="nav-link" href="#"> Offers</a>
+              </li>
+              <li class="nav-item">
+              <a class="nav-link" href="../Interface/AboutUs.php">About Us</a>
+              </li>
+              <button class="favorite-button"> <a href="../ManageWishList/ViewWishList.php"><i class="far fa-heart"></i></a> </button>
+              <button class="shopping-cart-button"><a href="../ManageShoppingCart/ViewShoppingCart.php"> <i class="fas fa-shopping-cart"></i> </a> </button>
+              ';
+              
+              
               }
-            } else {
+            }   else {
               echo '<li class="nav-item active">
       <a class="nav-link" href="../Interface/HomePage.php">Home <span class="sr-only">(current)</span></a>
     </li>
