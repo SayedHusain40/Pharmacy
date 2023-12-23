@@ -1,4 +1,5 @@
 <?php
+session_start();
 // SEditProduct.php
 
 // Retrieve the product ID from the AJAX request
@@ -9,10 +10,17 @@ $productId = $_POST['productId'];
 
 // Example response with dummy product data
 $product = [
-    'productId' => $productId,
-    'productName' => 'Product Name',
-    'productPrice' => '10.99',
-    'productDescription' => 'Product Description',
+    'name' => 'Product Name',
+    'type' => 'Product Type',
+    'requires_prescription' => true,
+    'description' => 'Product Description',
+    'expire_date' => '2023-12-31',
+    'quantity' => 10,
+    'availability' => true,
+    'price' => 19.99,
+    'points' => 100,
+    'brand' => 'Product Brand',
+    'alternate' => 'Alternate Product',
     // Add more product details as needed
 ];
 
@@ -23,11 +31,10 @@ $response = json_encode($product);
 echo $response;
 ?>
 <form action="../ManageProduct/update_product.php" method="POST" enctype="multipart/form-data">
-
     <div class="form-group">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" class="form-control" value="<?php echo $product['name']; ?>" disabled>
-</div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" class="form-control" value="<?php echo $product['name']; ?>" disabled>
+    </div>
 
 <div class="form-group">
     <label for="type">Type:</label>
@@ -84,7 +91,7 @@ echo $response;
     <input type="text" id="alternate" name="alternate" class="form-control" required value="<?php echo $product['alternate']; ?>" disabled>
 </div>
 
-    <button type="button" onclick="enableEditMode()" class="btn btn-primary">Edit</button>
+<button type="button" onclick="enableEditMode()" class="btn btn-primary">Edit</button>
     <button type="submit" id="updateBtn" class="btn btn-primary" style="display: none;">Update</button>
     <button type="button" onclick="cancelEdit()" class="btn btn-secondary" style="display: none;">Cancel</button>
 </form>
@@ -99,7 +106,6 @@ echo $response;
 
         // Show the Update and Cancel buttons, hide the Edit button
         document.getElementById('updateBtn').style.display = 'block';
-        document.getElementById('updateBtn').disabled = false;
         document.getElementById('cancelBtn').style.display = 'block';
         document.getElementById('editBtn').style.display = 'none';
     }
