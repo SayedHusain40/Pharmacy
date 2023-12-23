@@ -74,6 +74,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 
     <section>
         <form action="" method="POST" enctype="multipart/form-data">
+    
     <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" class="form-control" required>
