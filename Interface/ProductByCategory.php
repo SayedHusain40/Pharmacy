@@ -31,7 +31,7 @@ try {
         padding: 5px 0;
         padding-left: 38px;
         width: 200px;
-        font-size: 20px;
+        font-size: 16px;
         margin-bottom: 10px;
         padding-right: 6px;
         width: 100%;
