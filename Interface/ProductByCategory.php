@@ -134,7 +134,7 @@ try {
           <div style="max-width: 300px;">
             <span>
               <span class="SearchSpan">
-                <input type="search" id="searchInput" placeholder="Search">
+                <input type="search" id="searchInput" placeholder="Search for products by name">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </span>
             </span>
