@@ -23,6 +23,19 @@ try {
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/all.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      input#searchInput {
+        outline: none;
+        border: 1px solid;
+        border-radius: 12px;
+        padding: 5px 0;
+        padding-left: 30px;
+        width: 200px;
+        font-size: 20px;
+        margin-left: 10px;
+        padding-right: 6px;
+      }
+    </style>
   </head>
 
   <body>
@@ -95,7 +108,11 @@ try {
         </div>
         <div class="content">
           <div class="headerContainer">
-            <h2 class="title"> <?php echo $categoryName ?></h2>
+            <h2 class="title"> <?php echo $categoryName ?>
+              <span>
+                <input type="search" id="searchInput" placeholder="Search">
+              </span>
+            </h2>
             <i class="fa-solid fa-sliders" id="filterIcon"></i>
           </div>
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -149,13 +166,13 @@ try {
                     } else {
                     ?>
                       <div class="HeartDiv">
-                        <a href="#" tabindex="0" data-bs-toggle="modal" data-bs-target="#alertModal">
+                        <a href="#" tabindex="0" data-bs-toggle="modal" data-bs-target="#alertModal_<?php echo $productID ?>">
                           <i class="fa-regular fa-heart" id="HeartIcon2"></i>
                         </a>
                       </div>
 
                       <!-- Modal -->
-                      <div class="modal" id="alertModal" tabindex="-1">
+                      <div class="modal" id="alertModal_<?php echo $productID ?>" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -224,12 +241,12 @@ try {
                       }
                     } else {
                       ?>
-                      <button type="button" class="btn btn-outline-primary w-100 d-block mx-auto" data-bs-toggle="modal" data-bs-target="#cartModal">
+                      <button type="button" class="btn btn-outline-primary w-100 d-block mx-auto" data-bs-toggle="modal" data-bs-target="#cartModal_<?php echo $productID ?>">
                         Add to Cart
                       </button>
 
                       <!-- Modal -->
-                      <div class="modal" id="cartModal" tabindex="-1">
+                      <div class="modal" id="cartModal_<?php echo $productID ?>" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -272,6 +289,7 @@ try {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="../js/editWishList.js"></script>
+
     <script>
       //for open filter div
       const filterDiv = document.getElementById('showFilterDiv');
@@ -368,6 +386,26 @@ try {
       }
 
       document.getElementById("outOfStock").disabled = true;
+    </script>
+    <script>
+      //for Search
+      const searchInput = document.getElementById('searchInput');
+      const cols = document.querySelectorAll('.col'); // Select elements with class name 'col'
+
+      searchInput.addEventListener('input', function(event) {
+        const searchQuery = event.target.value.toLowerCase(); // Get the input value in lowercase
+
+        cols.forEach(col => {
+          const productName = col.querySelector('.card-title').textContent.toLowerCase();
+
+          // Check if the product name includes the search query
+          if (productName.includes(searchQuery)) {
+            col.style.display = 'block';
+          } else {
+            col.style.display = 'none';
+          }
+        });
+      });
     </script>
   </body>
 
