@@ -7,7 +7,29 @@
   <title>Shopping By Categories</title>
   <link rel="stylesheet" href="../css/main.css" />
   <link rel="stylesheet" href="../css/all.min.css" />
-  <!-- <link rel="stylesheet" href="../css/add.css" /> -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .SearchSpanG {
+      position: relative;
+    }
+
+    .SearchSpanG i {
+      position: absolute;
+      left: 19px;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .SearchSpanG #searchInputG {
+      border: 1px solid;
+      border-radius: 12px;
+      padding: 3px 0;
+      padding-left: 33px;
+      width: 100%;
+      padding-right: 8px;
+      outline: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -24,6 +46,14 @@
       </ol>
     </nav>
     <h3>Shopping By Category</h3>
+  </div>
+  <div style="max-width: 300px; margin-left: 20px; margin-bottom: 10px;">
+    <span>
+      <span class="SearchSpanG">
+        <input type="search" id="searchInputG" placeholder="Search for Categories by name">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </span>
+    </span>
   </div>
   <div class="categoryContainer">
     <a href="../Interface/ProductByCategory.php?Category=Medicine">
@@ -163,6 +193,26 @@
       </div>
     </a>
   </div>
+
+  <script>
+    // for  category search
+    function searchCategories() {
+      const input = document.getElementById('searchInputG');
+      const filter = input.value.toUpperCase();
+      const categories = document.querySelectorAll('.categoryContainer a');
+
+      categories.forEach(category => {
+        const categoryName = category.querySelector('p').textContent.toUpperCase();
+        if (categoryName.includes(filter)) {
+          category.style.display = 'block';
+        } else {
+          category.style.display = 'none';
+        }
+      });
+    }
+
+    document.getElementById('searchInputG').addEventListener('input', searchCategories);
+  </script>
 
 </body>
 

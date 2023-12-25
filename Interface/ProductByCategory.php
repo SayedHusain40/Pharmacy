@@ -23,41 +23,6 @@ try {
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/all.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      input#searchInput {
-        outline: none;
-        border: 1px solid;
-        border-radius: 12px;
-        padding: 5px 0;
-        padding-left: 38px;
-        width: 200px;
-        font-size: 16px;
-        margin-bottom: 10px;
-        padding-right: 6px;
-        width: 100%;
-      }
-
-      .SearchSpan {
-        position: relative;
-      }
-
-      .SearchSpan i {
-        position: absolute;
-        left: 20px;
-        color: black;
-        top: 41%;
-        transform: translate(-50%, -50%);
-        font-size: 18px;
-      }
-
-      .filter .closeFilter {
-        position: absolute;
-        right: 21px;
-        font-size: 25px;
-        color: #EC407A;
-        cursor: pointer;
-      }
-    </style>
   </head>
 
   <body>
