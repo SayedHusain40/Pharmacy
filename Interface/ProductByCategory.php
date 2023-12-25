@@ -29,11 +29,33 @@ try {
         border: 1px solid;
         border-radius: 12px;
         padding: 5px 0;
-        padding-left: 30px;
+        padding-left: 38px;
         width: 200px;
         font-size: 20px;
-        margin-left: 10px;
+        margin-bottom: 10px;
         padding-right: 6px;
+        width: 100%;
+      }
+
+      .SearchSpan {
+        position: relative;
+      }
+
+      .SearchSpan i {
+        position: absolute;
+        left: 20px;
+        color: black;
+        top: 41%;
+        transform: translate(-50%, -50%);
+        font-size: 18px;
+      }
+
+      .filter .closeFilter {
+        position: absolute;
+        right: 21px;
+        font-size: 25px;
+        color: #EC407A;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -53,6 +75,8 @@ try {
       </nav>
       <div class="containerProducts">
         <div class="filter" id="showFilterDiv">
+          <i class="closeFilter fa-solid fa-circle-xmark"></i>
+          <h2>Filter</h2>
           <h5>Shopping by Category</h5>
           <div class=" dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -107,12 +131,16 @@ try {
 
         </div>
         <div class="content">
-          <div class="headerContainer">
-            <h2 class="title"> <?php echo $categoryName ?>
-              <span>
+          <div style="max-width: 300px;">
+            <span>
+              <span class="SearchSpan">
                 <input type="search" id="searchInput" placeholder="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
               </span>
-            </h2>
+            </span>
+          </div>
+          <div class="headerContainer">
+            <h2 class="title" style="width: fit-content;"> <?php echo $categoryName ?></h2>
             <i class="fa-solid fa-sliders" id="filterIcon"></i>
           </div>
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -294,7 +322,11 @@ try {
       //for open filter div
       const filterDiv = document.getElementById('showFilterDiv');
       const filterIcon = document.getElementById('filterIcon');
+      const closeFilter = document.querySelector('.filter .closeFilter');
       filterIcon.addEventListener('click', function() {
+        filterDiv.classList.toggle('open');
+      });
+      closeFilter.addEventListener('click', function() {
         filterDiv.classList.toggle('open');
       });
 

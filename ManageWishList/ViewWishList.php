@@ -291,11 +291,11 @@ try {
       }
 
       document.getElementById("outOfStock").disabled = true;
-
-
+    </script>
+    <script>
       //remove Items
       function removeFromWishlist(clickedElement) {
-        const productBox = clickedElement.closest('.col'); // Find the parent container of the product box
+        const productBox = clickedElement.closest('.col');
         const wishlistId = clickedElement.closest('.wishlist-action').dataset.wishlistId;
 
         const xhr = new XMLHttpRequest();
@@ -319,12 +319,10 @@ try {
       }
       // Get all the x icons
       const xIcons = document.querySelectorAll('.fa-circle-xmark');
-
-      // Iterate through each icon and add a click event listener
       xIcons.forEach(icon => {
         icon.addEventListener('click', function(event) {
-          event.preventDefault(); // Prevent the default click behavior (if any)
-          removeFromWishlist(this); // Pass the clicked icon element to the function
+          event.preventDefault();
+          removeFromWishlist(this);
         });
       });
     </script>

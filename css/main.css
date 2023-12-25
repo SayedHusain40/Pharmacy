@@ -600,11 +600,13 @@
   align-items: center;
   font-size: 30px;
 }
-.containerProducts .headerContainer i {
+.containerProducts .headerContainer i#filterIcon,
+.filter .closeFilter {
   display: none;
 }
 @media (max-width: 900px) {
-  .containerProducts .headerContainer i {
+  .containerProducts .headerContainer i#filterIcon,
+  .filter .closeFilter {
     display: block;
     cursor: pointer;
   }
