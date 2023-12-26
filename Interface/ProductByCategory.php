@@ -49,22 +49,22 @@ try {
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="ProductByCategory.php?Category=Medicine">Medicine</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Personal care">Minerals</a>
-              <a class="dropdown-item" href="#">Vitamins</a>
-              <a class="dropdown-item" href="#">Supplements</a>
-              <a class="dropdown-item" href="#">Common Conditions</a>
-              <a class="dropdown-item" href="#">Skin Care</a>
-              <a class="dropdown-item" href="#">Oral Care</a>
-              <a class="dropdown-item" href="#">Bath & Shower</a>
-              <a class="dropdown-item" href="#">Hair Wash & Care</a>
-              <a class="dropdown-item" href="#">Body Supports</a>
-              <a class="dropdown-item" href="#">Feminine Hygiene</a>
-              <a class="dropdown-item" href="#">Mens Grooming</a>
-              <a class="dropdown-item" href="#">Deodorants</a>
-              <a class="dropdown-item" href="#">Health Accessories</a>
-              <a class="dropdown-item" href="#">First Aid</a>
-              <a class="dropdown-item" href="#">Diagnostics & Monitoring</a>
-              <a class="dropdown-item" href="#">Baby Skin Care & Accessories</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Minerals">Minerals</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Vitamins">Vitamins</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Supplements">Supplements</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Common Conditions">Common Conditions</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Skin Care">Skin Care</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Oral Care">Oral Care</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Bath & Shower">Bath & Shower</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Hair Wash & Care">Hair Wash & Care</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Body Supports">Body Supports</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Feminine Hygiene">Feminine Hygiene</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Mens Grooming">Mens Grooming</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Deodorants">Deodorants</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Health Accessories">Health Accessories</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=First Aid">First Aid</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Diagnostics & Monitoring">Diagnostics & Monitoring</a>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=Baby Skin Care & Accessories">Baby Skin Care & Accessories</a>
             </ul>
           </div>
 
