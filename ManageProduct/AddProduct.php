@@ -74,7 +74,25 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 
     <div class="form-group">
         <label for="type">Type:</label>
-        <input type="text" id="type" name="type" class="form-control" required>
+        <select id="type" name="type" class="form-control" required>
+  <option value="Medicine">Medicine</option>
+  <option value="Minerals">Minerals</option>
+  <option value="Vitamins">Vitamins</option>
+  <option value="Supplements">Supplements</option>
+  <option value="Common Conditions">Common Conditions</option>
+  <option value="Skin Care">Skin Care</option>
+  <option value="Oral Care">Oral Care</option>
+  <option value="Bath & Shower">Bath & Shower</option>
+  <option value="Hair Wash & Care">Hair Wash & Care</option>
+  <option value="Body Supports">Body Supports</option>
+  <option value="Feminine Hygiene">Feminine Hygiene</option>
+  <option value="Mens Grooming">Mens Grooming</option>
+  <option value="Deodorants">Deodorants</option>
+  <option value="Health Accessories">Health Accessories</option>
+  <option value="First Aid">First Aid</option>
+  <option value="Diagnostics & Monitoring">Diagnostics & Monitoring</option>
+  <option value="Baby Skin Care & Accessories">Baby Skin Care & Accessories</option>
+</select>
     </div>
 
     <div class="form-group">
