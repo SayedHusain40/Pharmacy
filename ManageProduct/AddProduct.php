@@ -63,6 +63,10 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 </head>
 <body>
     <header>
+    <!-- Added logo #E -->
+    <div class="logo">
+      <img class="logo" src="../Images/logo.png" alt="">
+    </div>
         <h1>Add Product</h1>
     </header>
 <div class="container">
@@ -145,8 +149,9 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
         <label for="alternate">Alternate:</label>
         <input type="text" id="alternate" name="alternate" class="form-control" required>
     </div>
-
-    <button type="submit" class="btn btn-primary">Add Product</button>
+    <div class="Add">
+    <button type="submit">Add Product</button>
+    </div>
 </form>
     </section>
 </body>
