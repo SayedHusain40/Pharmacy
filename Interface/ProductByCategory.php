@@ -147,9 +147,9 @@ try {
             <h5>Price Range</h5>
             <div>
               <div>
-                <input type="number" name="minPrice" id="minPrice" style="width: 70px;" min="<?php echo $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['minPrice']) ? $_GET['minPrice'] : $minPrice ?>">
+                Min: <input type="number" name="minPrice" id="minPrice" style="width: 70px;" min="<?php echo $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['minPrice']) ? $_GET['minPrice'] : $minPrice ?>">
                 -
-                <input type="number" name="maxPrice" id="maxPrice" style="width: 70px;" min="<?php echo isset($_GET['minPrice']) ? $_GET['minPrice'] : $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['maxPrice']) ? $_GET['maxPrice'] : $maxPrice ?>">
+                Max: <input type="number" name="maxPrice" id="maxPrice" style="width: 70px;" min="<?php echo isset($_GET['minPrice']) ? $_GET['minPrice'] : $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['maxPrice']) ? $_GET['maxPrice'] : $maxPrice ?>">
               </div>
               <div style="margin-top: 5px;">
                 <input type="hidden" name="Category" value="<?php echo $categoryName; ?>">
@@ -343,7 +343,7 @@ try {
       <?php
       } else {
       ?>
-        <h3 style="width: 100%; margin: 10px">Not Found</h3>
+        <h3 style="width: 100%; margin: 10px">Not Found Products</h3>
       <?php
       }
       ?>

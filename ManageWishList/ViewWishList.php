@@ -220,7 +220,14 @@ try {
     <?php
     } else {
     ?>
-      <h1>Not Found Products</h1>
+      <h1 class='cartEmpty'>Your Wish List is Empty</h1>
+      <div class="cart-image">
+        <img src="../images/cart.jpeg" alt="">
+      </div>
+
+      <div class="start-shopping">
+        <a href="../Interface/HomePageCustomer.php"><button>Start Shopping</button></a>
+      </div>
     <?php
     }
     ?>

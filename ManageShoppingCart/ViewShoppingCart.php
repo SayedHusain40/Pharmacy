@@ -273,13 +273,12 @@ try {
     <?php
     } else {
     ?>
-      <h1 class='cartEmpty'>Your Shopping Cart is Empty</h1>
-      <div class="cart-image">
-        <img src="../images/cart.jpeg" alt="">
+      <div class="cart-image" style="margin-top: 0px;">
+        <img src="../images/no-wish-list.png" alt="">
       </div>
 
       <div class="start-shopping">
-        <a href="../Interface/HomePage.php"><button>Start Shopping</button></a>
+        <a href="../Interface/HomePageCustomer.php"><button>Start Shopping</button></a>
       </div>
     <?php
     }

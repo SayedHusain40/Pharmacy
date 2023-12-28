@@ -500,12 +500,12 @@
   padding: 0 20px;
   width: 65%;
 }
-@media (max-width: 900px) {
+@media (max-width: 1075px) {
   .containerProducts .filter {
     display: none;
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 1075px) {
   .containerProducts .filter.open {
     display: block;
     position: absolute;
@@ -613,7 +613,7 @@
 .filter .closeFilter {
   display: none;
 }
-@media (max-width: 900px) {
+@media (max-width: 1075px) {
   .containerProducts .headerContainer i#filterIcon,
   .filter .closeFilter {
     display: block;
