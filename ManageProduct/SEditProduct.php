@@ -31,6 +31,12 @@ if (isset($_GET['ProductID'])) {
 
         // Display the product details on the page or perform any other desired actions
         echo '<form action="../ManageProduct/update_product.php" method="POST" enctype="multipart/form-data">
+        <h1> #'. $productId ,$productName .' </h1>
+        <div class="form-group">
+        <label for="photo">Photo:</label>
+        <img src="../images/' . $photo . '" alt="Product Image" class="product-image" id="product-image">
+        <input type="file" id="photo" name="photo" class="form-control" disabled>
+    </div>
     <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" class="form-control" value="' . $productName . '" disabled>
@@ -97,11 +103,6 @@ if (isset($_GET['ProductID'])) {
     <div class="form-group">
         <label for="brand">Brand:</label>
         <input type="text" id="brand" name="brand" class="form-control" value="' . $brand . '" disabled>
-    </div>
-    
-    <div class="form-group">
-        <label for="photo">Photo:</label>
-        <input type="file" id="photo" name="photo" class="form-control" disabled>
     </div>
     
     <div class="form-group">
