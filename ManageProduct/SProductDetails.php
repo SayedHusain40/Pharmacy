@@ -34,7 +34,7 @@ if (isset($_GET['ProductID'])) {
         <h1> #'. $productId ,$productName .' </h1>
         <div class="form-group">
         <label for="photo">Photo:</label>
-        <img src="../Simages/' . $photo . '" alt="Product Image" class="product-image" id="product-image">
+        <img src="../Simages/' . $photo . '" alt="Product Image" class="product-image" id="product-image" width="150px" height="170px">
         <input type="file" id="photo" name="photo" class="form-control" disabled>
     </div>
     <div class="form-group">

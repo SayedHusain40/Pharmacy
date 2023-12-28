@@ -54,7 +54,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="number" class="quantity-input" value="1" min="1">
                 <button class="quantity-button plus"><i class="fas fa-plus"></i></button>
             </div>
-            <a href="../ManageProduct/EditProduct.php?ProductID=' . $productId . '" name="ProductID[]" class="btn btn-light">Start</a> 
+            <a href="../ManageProduct/ProductDetails.php?ProductID=' . $productId . '" name="ProductID[]" class="btn btn-light">Start</a> 
             <button class="add-to-cart-button" data-product-id="' . $productId . '">Add to Cart</button>
         </div>
     </div>
