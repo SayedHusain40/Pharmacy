@@ -59,12 +59,13 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
     <link rel="stylesheet" href="../css/.css">
+    <link rel="stylesheet" href="../css/product.css" />
 </head>
 <body>
     <header>
         <h1>Add Product</h1>
     </header>
-
+<div class="container">
     <section>
         <form action="" method="POST" enctype="multipart/form-data">
     <div class="form-group">
@@ -150,3 +151,4 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     </section>
 </body>
 </html>
+</div>

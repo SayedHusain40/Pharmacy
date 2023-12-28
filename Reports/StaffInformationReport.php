@@ -36,7 +36,7 @@ $staff = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <th>Academic Degree</th>
                             <th>Mobile Number</th>
                             <th>Email</th>
-                            <th>Employee Position</th>
+                            <th>Staff Position</th>
                         </tr>
 
 
@@ -54,7 +54,7 @@ foreach ($staff as $staff) {
     $AcademicDegree = $staff['AcademicDegree'];
     $MobileNumber = $staff['MobileNumber'];
     $Email = $staff['Email'];
-    $EmployeePosition = $staff['EmployeePosition'];
+    $StaffPosition = $staff['StaffPosition'];
 
 ?>
         <tr>
@@ -68,7 +68,7 @@ foreach ($staff as $staff) {
             <td><?php echo $AcademicDegree ?></td>
             <td><?php echo $MobileNumber ?></td>
             <td><?php echo $Email ?></td>
-            <td><?php echo $EmployeePosition ?></td>
+            <td><?php echo $StaffPosition ?></td>
 
         <tr>
         <?php } ?>
