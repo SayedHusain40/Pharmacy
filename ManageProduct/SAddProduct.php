@@ -1,13 +1,6 @@
 <?php
 session_start();
 
-// Check if the user is logged in. Redirect to the login page if not.
-//if (!isset($_SESSION['Username'])) {
-  //  header("Location: login.php");
-   // exit();
-// }
-
-// Include any necessary database connection or configuration files
 include '../Connection/init.php'; // Replace with your own database configuration file
 
 // Handle the form submission
@@ -27,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $alternate = $_POST['alternate'];
 
     // Validate and sanitize the input (implement your own validation logic)
-    // Handle the uploaded photo
+
  // Handle the uploaded photo
 $photo = null;
 if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
@@ -39,7 +32,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     // Check if the file extension is allowed
     if (in_array($photoFileExt, $allowedExtensions)) {
         $newPhotoFileName = uniqid() . '.' . $photoFileExt;
-        $photoDestination = '../images/' . $newPhotoFileName;
+        $photoDestination = '../Simages/' . $newPhotoFileName;
 
         // Move the uploaded file to the desired location
         if (move_uploaded_file($photoTmpPath, $photoDestination)) {
@@ -49,7 +42,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 }
 
     // Insert the product data into the database
-    $stmt = $db->prepare("INSERT INTO `product data` (Name, Type, RequiresPrescription, Description, ExpireDate, Quantity, Availability, Price, Points, Brand, Photo, Alternate)
+    $stmt = $db->prepare("INSERT INTO `sproduct data` (Name, Type, RequiresPrescription, Description, ExpireDate, Quantity, Availability, Price, Points, Brand, Photo, Alternate)
                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([$name, $type, $requiresPrescription, $description, $expireDate, $quantity, $availability, $price, $points, $brand, $photo, $alternate]);
 
@@ -74,7 +67,6 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 
     <section>
         <form action="" method="POST" enctype="multipart/form-data">
-    
     <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" class="form-control" required>
@@ -82,7 +74,25 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 
     <div class="form-group">
         <label for="type">Type:</label>
-        <input type="text" id="type" name="type" class="form-control" required>
+        <select id="type" name="type" class="form-control" required>
+  <option value="Medicine">Medicine</option>
+  <option value="Minerals">Minerals</option>
+  <option value="Vitamins">Vitamins</option>
+  <option value="Supplements">Supplements</option>
+  <option value="Common Conditions">Common Conditions</option>
+  <option value="Skin Care">Skin Care</option>
+  <option value="Oral Care">Oral Care</option>
+  <option value="Bath & Shower">Bath & Shower</option>
+  <option value="Hair Wash & Care">Hair Wash & Care</option>
+  <option value="Body Supports">Body Supports</option>
+  <option value="Feminine Hygiene">Feminine Hygiene</option>
+  <option value="Mens Grooming">Mens Grooming</option>
+  <option value="Deodorants">Deodorants</option>
+  <option value="Health Accessories">Health Accessories</option>
+  <option value="First Aid">First Aid</option>
+  <option value="Diagnostics & Monitoring">Diagnostics & Monitoring</option>
+  <option value="Baby Skin Care & Accessories">Baby Skin Care & Accessories</option>
+</select>
     </div>
 
     <div class="form-group">
