@@ -97,13 +97,15 @@ usort($orders, 'sortByDateDesc');
 
           if ($Status === 'Payment Pending' && $paymentMethod !== '') {
             ?>
-            <tr>
+          <tr>
               <td><?php echo $OrderID ?></td>
               <td><?php echo $OrderDetails ?></td>
               <td><?php echo "BHD $TotalPrice" ?></td>
               <td><?php echo $paymentMethod ?></td>
               <td><?php echo $Status ?></td>
-              <td><i class="fas fa-sync"></i></td>
+              <td> <a href="#" class="update-icon" data-order-id="<?php echo $order['OrderID']; ?>">
+            <i class="fas fa-sync"></i>
+          </a></td>
               <td><?php echo $OrderDate ?></td>
               <td><i class="fas fa-info-circle"></i></td>
             </tr>
@@ -138,13 +140,19 @@ usort($orders, 'sortByDateDesc');
 
           if ($Status === 'Payment Confirmed' && $paymentMethod !== '') {
             ?>
-            <tr>
+         <tr>
               <td><?php echo $OrderID ?></td>
               <td><?php echo $OrderDetails ?></td>
               <td><?php echo "BHD $TotalPrice" ?></td>
               <td><?php echo $paymentMethod ?></td>
-              <td><?php echo $Status ?></td>
-              <td><i class="fas fa-sync"></i></td>
+              <td><select name="status">
+  <option value="Pending" <?php echo ($Status === 'Pending') ? 'selected' : '' ?>>Pending</option>
+  <option value="Processing" <?php echo ($Status === 'Processing') ? 'selected' : '' ?>>Processing</option>
+  <option value="Completed" <?php echo ($Status === 'Completed') ? 'selected' : '' ?>>Completed</option>
+</select></td>
+              <td> <a href="#" class="update-icon" data-order-id="<?php echo $order['OrderID']; ?>">
+            <i class="fas fa-sync"></i>
+          </a></td>
               <td><?php echo $OrderDate ?></td>
               <td><i class="fas fa-info-circle"></i></td>
             </tr>
