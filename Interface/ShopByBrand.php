@@ -10,29 +10,19 @@ include '../header.php';
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shopping By Brands</title>
-  <link href="path/to/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="path/to/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .brandContainer {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .brandContainer p {
-      width: fit-content;
+    .container p {
       background-color: #E0E0E0;
-      padding: 20px 0;
-      width: 210px;
+      text-align: center;
+      margin: 10px 20px;
+      padding: 20px;
       border-radius: 10px;
       font-size: 20px;
-      margin: 0;
       color: black;
-      text-align: center;
     }
 
-    .brandContainer p:hover {
+    .container p:hover {
       box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.9) 0px 0px 0px 1px;
     }
   </style>
@@ -60,38 +50,35 @@ include '../header.php';
   </div>
 
   <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div class="brandContainer">
-          <?php
-          try {
-            require("../Connection/init.php");
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-6 categoryContainer">
+      <?php
+      try {
+        require("../Connection/init.php");
 
-            $data = $db->prepare("SELECT DISTINCT Brand FROM `product data`");
-            $data->execute();
+        $data = $db->prepare("SELECT DISTINCT Brand FROM `product data`");
+        $data->execute();
 
-            while ($row = $data->fetch(PDO::FETCH_ASSOC)) {
-          ?>
-              <a href="" style="text-decoration: none;">
-                <p id="brand_<?php echo $row['Brand']; ?>"><?php echo $row['Brand']; ?></p>
-              </a>
-          <?php
-            }
-            $db = null;
-          } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-          }
-          ?>
-        </div>
-      </div>
+        while ($row = $data->fetch(PDO::FETCH_ASSOC)) {
+      ?>
+          <a href="" style="text-decoration: none; outline:none;">
+            <p id="brand_<?php echo $row['Brand']; ?>"><?php echo $row['Brand']; ?></p>
+          </a>
+      <?php
+        }
+        $db = null;
+      } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+      }
+      ?>
     </div>
   </div>
 
+  <script src="path/to/bootstrap5/js/bootstrap.bundle.min.js"></script>
   <script>
     function searchBrands() {
       const input = document.getElementById('searchInputG');
       const filter = input.value.toLowerCase(); // Convert search input to lowercase
-      const brands = document.querySelectorAll('.brandContainer a');
+      const brands = document.querySelectorAll('.categoryContainer a');
 
       brands.forEach(brand => {
         const brandName = brand.textContent.toLowerCase(); // Convert name of brand to lowercase
@@ -106,7 +93,6 @@ include '../header.php';
 
     document.getElementById('searchInputG').addEventListener('input', searchBrands);
   </script>
-
 </body>
 
 </html>
