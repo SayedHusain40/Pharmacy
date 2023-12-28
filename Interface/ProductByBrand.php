@@ -7,23 +7,28 @@ try {
     $Brand = $_GET["Brand"];
   }
 
-  $sortingOrder = isset($_GET['sort']) ? $_GET['sort'] : 'asc';
+  // Default sorting order by ProductID when sort is not provided
+  if (!isset($_GET['sort']) || $_GET['sort'] == "Default") {
+    $sortingOrder = "ProductID";
+  } else {
+    $sortingOrder = "Price " . $_GET['sort'];
+  }
 
   // for viewing products with sorting by price
   if (isset($_GET['Category'])) {
     $selectedCategory = $_GET['Category'];
 
-    $query = "SELECT * FROM `product data` WHERE Brand = ? AND Type = ? ORDER BY Price $sortingOrder";
+    $query = "SELECT * FROM `product data` WHERE Brand = ? AND Type = ? ORDER BY $sortingOrder";
     $exc = [$Brand, $selectedCategory];
   } else if (isset($_GET['minPrice']) && isset($_GET['maxPrice'])) {
     // Retrieve the min and max prices from the submitted form
     $minPriceFilter = $_GET['minPrice'];
     $maxPriceFilter = $_GET['maxPrice'];
 
-    $query = "SELECT * FROM `product data` WHERE Brand = ? AND Price BETWEEN ? AND ? ORDER BY Price $sortingOrder";
+    $query = "SELECT * FROM `product data` WHERE Brand = ? AND Price BETWEEN ? AND ? ORDER BY $sortingOrder";
     $exc = [$Brand, $minPriceFilter, $maxPriceFilter];
   } else {
-    $query = "SELECT * FROM `product data` WHERE Brand = ? ORDER BY Price $sortingOrder";
+    $query = "SELECT * FROM `product data` WHERE Brand = ? ORDER BY $sortingOrder";
     $exc = [$Brand];
   }
 
@@ -76,6 +81,7 @@ try {
             <h5>Sort by:</h5>
           </label>
           <select id="sort" name="sort" onchange="sortProducts(this)">
+            <option value="Default" <?php if (!isset($_GET["sort"]) || $_GET["sort"] === "") echo "selected" ?>>Default sorting</option>
             <option value="asc" <?php if (isset($_GET["sort"]) && $_GET["sort"] === "asc") echo "selected" ?>>Lowest Price</option>
             <option value="desc" <?php if (isset($_GET["sort"]) && $_GET["sort"] === "desc") echo "selected" ?>>Highest Price</option>
           </select>
@@ -460,7 +466,7 @@ try {
       function sortProducts(select) {
         const selectedOption = select.value;
 
-        window.location.href = `ProductByCategory.php?Category=<?php echo $Brand ?>&sort=${selectedOption}`;
+        window.location.href = `ProductByBrand.php?Brand=<?php echo $Brand ?>&sort=${selectedOption}`;
       }
     </script>
     <script>
