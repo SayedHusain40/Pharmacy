@@ -16,7 +16,6 @@ if (isset($_POST['orderId']) && isset($_POST['status'])) {
 
   // Return a response if needed
   echo "Status updated successfully!";
-  exit(); // Exit the script after updating the status
 } 
 } catch (PDOException $e) { 
     die("Error: " . $e->getMessage());
