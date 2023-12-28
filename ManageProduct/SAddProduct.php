@@ -32,7 +32,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     // Check if the file extension is allowed
     if (in_array($photoFileExt, $allowedExtensions)) {
         $newPhotoFileName = uniqid() . '.' . $photoFileExt;
-        $photoDestination = '../images/' . $newPhotoFileName;
+        $photoDestination = '../Simages/' . $newPhotoFileName;
 
         // Move the uploaded file to the desired location
         if (move_uploaded_file($photoTmpPath, $photoDestination)) {
@@ -42,12 +42,12 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 }
 
     // Insert the product data into the database
-    $stmt = $db->prepare("INSERT INTO `product data` (Name, Type, RequiresPrescription, Description, ExpireDate, Quantity, Availability, Price, Points, Brand, Photo, Alternate)
+    $stmt = $db->prepare("INSERT INTO `sproduct data` (Name, Type, RequiresPrescription, Description, ExpireDate, Quantity, Availability, Price, Points, Brand, Photo, Alternate)
                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([$name, $type, $requiresPrescription, $description, $expireDate, $quantity, $availability, $price, $points, $brand, $photo, $alternate]);
 
     // Redirect to a success page or perform any other necessary actions
-    header("Location: ../ManageProduct/ViewProduct.php");
+    header("Location: ../ManageProduct/SViewProductList.php");
     exit();
 }
 ?>

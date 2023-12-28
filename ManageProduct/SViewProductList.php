@@ -3,7 +3,7 @@ session_start();
 
 include '../Connection/init.php';
 
-$stmt = $db->prepare("SELECT * FROM `product data`");
+$stmt = $db->prepare("SELECT * FROM `sproduct data`");
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -45,7 +45,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="card h-100">
         <div class="product-card" data-product-id="1">
             <div class="card-image">
-                <img src="../images/' . $photo . '" alt="Product Image" class="product-image" id="product-image">
+                <img src="../Simages/' . $photo . '" alt="Product Image" class="product-image" id="product-image">
             </div>
             <div class="product-name">Product Name: ' . $productName . '</div>
             <div class="product-price">Price: BHD ' . $price . '</div>
@@ -64,32 +64,5 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-   $(document).ready(function() {
-  $('.Container').on('click', '.view-details-btn', function(e) {
-    e.preventDefault(); // Prevent the default behavior of the link
-
-    var productId = $(this).data('product-id');
-    retrieveProductDetails(productId);
-  });
-});
-
-function retrieveProductDetails(productId) {
-  $.post('../ManageProduct/SEditProduct.php', { productId: productId })
-    .done(function(response) {
-      // Handle the response from the server
-      var product = JSON.parse(response);
-
-      // Update the product details on the page
-      var productDetailsHtml = '<h2>' + product.name + '</h2>'; // Example: Displaying the product name
-      productDetailsHtml += '<p>' + product.description + '</p>'; // Example: Displaying the product description
-
-      $('.product-details[data-product-id="' + productId + '"]').html(productDetailsHtml);
-    })
-    .fail(function() {
-      console.log('Error occurred while retrieving product details.');
-    });
-}
-  </script>
 </body>
 </html>
