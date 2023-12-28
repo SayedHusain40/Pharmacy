@@ -142,17 +142,7 @@ try {
     header("Location: HomePageCustomer.php");
     ob_end_flush();
     exit();
-  ?>
 
-    <!-- <div class="MessagePaid">
-      <i class="fa-solid fa-circle-check"></i> Thank You for Your Purchase
-    </div>
-
-    <div class="MessagePaid-btn">
-      <a href="../Interface/HomePageCustomer.php"><button>Return Home Page</button></a>
-    </div> -->
-  <?php
-    // exit();
   } else {
 
     $totalPrice = $_SESSION['TotalPrice'];

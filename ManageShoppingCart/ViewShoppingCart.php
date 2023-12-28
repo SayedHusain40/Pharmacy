@@ -230,6 +230,22 @@ try {
 
 
 
+        // for update Quantity
+        function updateQuantity() {
+          var form = document.getElementById('updateForm');
+          var formData = new FormData(form);
+
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {}
+            };
+
+            xhr.open('POST', form.action, true);
+            xhr.send(formData);
+          }
+        }
+      </script>
+      <script>
         const deliveryRadio = document.querySelector('input[type=radio][value=delivery]');
         const pickUpRadio = document.querySelector('input[type=radio][value=pick-up]');
         const DivDeliveryCost = document.getElementById('deliveryCost');
@@ -252,22 +268,6 @@ try {
             DivDeliveryCost.style.display = 'none';
           }
         });
-
-
-        // for update Quantity
-        function updateQuantity() {
-          var form = document.getElementById('updateForm');
-          var formData = new FormData(form);
-
-          xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-              if (xhr.status === 200) {}
-            };
-
-            xhr.open('POST', form.action, true);
-            xhr.send(formData);
-          }
-        }
       </script>
 
     <?php

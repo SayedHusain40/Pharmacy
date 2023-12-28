@@ -51,13 +51,12 @@ try {
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="../Interface/HomePageCustomer.php">Home Page</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+            <li class="breadcrumb-item active" aria-current="page">View Wish List</li>
           </ol>
         </nav>
-        <h3>Your Shopping Cart</h3>
+        <h3>Your Wish List</h3>
       </div>
       <div class="containerProducts">
-
         <div class="content">
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
             <?php
