@@ -104,7 +104,7 @@ usort($orders, 'sortByDateDesc');
               <td><?php echo "BHD $TotalPrice" ?></td>
               <td><?php echo $paymentMethod ?></td>
               <td><?php echo $Status ?></td>
-              <td><a href="../ManageOrders/update_order.php" class="update-icon" ><button class="update-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">  <i class="fas fa-sync"></i> </a></td>
+              <td><a href="../ManageOrders/update_order.php" class="update-icon" ><button class="update-icon" name="orderId[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">  <i class="fas fa-sync"></i> </a></td>
               <td><?php echo $OrderDate ?></td>
               <td><i class="fas fa-info-circle"></i></td>
             </tr>
@@ -150,7 +150,7 @@ usort($orders, 'sortByDateDesc');
                     <option value="Completed" <?php echo ($Status === 'Completed') ? 'selected' : '' ?>>Completed</option>
                 </select>
             </td>
-            <td><a href="../ManageOrders/update_order.php?OrderID=" class="update-icon" ><button class="update-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">  <i class="fas fa-sync"></i> </a></td>
+            <td><a href="../ManageOrders/update_order.php" class="update-icon" ><button class="update-icon" name="orderId" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">  <i class="fas fa-sync"></i> </a></td>
             <td><?php echo $OrderDate ?></td>
             <td><i class="fas fa-info-circle"></i></td>
         </tr>
@@ -167,7 +167,7 @@ usort($orders, 'sortByDateDesc');
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 function updateStatus(button) {
-  var OrderID = button.getAttribute("data-order-id");
+  var orderId = button.getAttribute("data-order-id");
   var selectElement = button.parentNode.parentNode.querySelector("select[name='status']");
   var status = selectElement.value;
 
@@ -181,7 +181,7 @@ function updateStatus(button) {
       console.log(xhr.responseText);
     }
   };
-  xhr.send("OrderID=" + orderId + "&status=" + status);
+  xhr.send("orderId=" + orderId + "&status=" + status);
 }
   function toggleTable() {
     var sorting = document.getElementById("Sorting").value;
