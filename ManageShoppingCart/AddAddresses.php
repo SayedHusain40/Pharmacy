@@ -80,7 +80,7 @@ try {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My AAddresses</title>
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/all.min.css" />
   </head>
@@ -134,7 +134,7 @@ try {
 
           <div>
             <label>House</label>
-            <input type="text" name="House" placeholder="House" value="<?php echo $result["House"] ?>">
+            <input type="text" name="House" placeholder="House" value="<?php echo  $result["House"] ?>">
             <?php if (isset($errors['houseRequired'])) : ?>
               <p class="MainErrorSAddresses"><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['houseRequired']; ?></span></p>
             <?php endif; ?>
