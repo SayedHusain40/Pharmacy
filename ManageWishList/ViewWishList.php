@@ -51,13 +51,12 @@ try {
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="../Interface/HomePageCustomer.php">Home Page</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+            <li class="breadcrumb-item active" aria-current="page">View Wish List</li>
           </ol>
         </nav>
-        <h3>Your Shopping Cart</h3>
+        <h3>Your Wish List</h3>
       </div>
       <div class="containerProducts">
-
         <div class="content">
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
             <?php
@@ -220,7 +219,14 @@ try {
     <?php
     } else {
     ?>
-      <h1>Not Found Products</h1>
+      <h1 class='cartEmpty'>Your Wish List is Empty</h1>
+      <div class="cart-image">
+        <img src="../images/cart.jpeg" alt="">
+      </div>
+
+      <div class="start-shopping">
+        <a href="../Interface/HomePageCustomer.php"><button>Start Shopping</button></a>
+      </div>
     <?php
     }
     ?>
@@ -291,11 +297,11 @@ try {
       }
 
       document.getElementById("outOfStock").disabled = true;
-
-
+    </script>
+    <script>
       //remove Items
       function removeFromWishlist(clickedElement) {
-        const productBox = clickedElement.closest('.col'); // Find the parent container of the product box
+        const productBox = clickedElement.closest('.col');
         const wishlistId = clickedElement.closest('.wishlist-action').dataset.wishlistId;
 
         const xhr = new XMLHttpRequest();
@@ -319,12 +325,10 @@ try {
       }
       // Get all the x icons
       const xIcons = document.querySelectorAll('.fa-circle-xmark');
-
-      // Iterate through each icon and add a click event listener
       xIcons.forEach(icon => {
         icon.addEventListener('click', function(event) {
-          event.preventDefault(); // Prevent the default click behavior (if any)
-          removeFromWishlist(this); // Pass the clicked icon element to the function
+          event.preventDefault();
+          removeFromWishlist(this);
         });
       });
     </script>

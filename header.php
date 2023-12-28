@@ -9,20 +9,23 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/main.css" />
   <style>
-    .logo{
-max-width: 100px;
-}
-.logo2{
-max-width: 160px;
-}
-.navbar-brand {
-margin-left: 5px;
-margin-top: 5px;
-padding: 5px;
-background-color: rgba(255, 255, 255, 0.5);
-}
+    .logo {
+      max-width: 100px;
+    }
+
+    .logo2 {
+      max-width: 160px;
+    }
+
+    .navbar-brand {
+      margin-left: 5px;
+      margin-top: 5px;
+      padding: 5px;
+      background-color: rgba(255, 255, 255, 0.5);
+    }
   </style>
 </head>
+
 <body>
   <header>
     <div>
@@ -127,23 +130,23 @@ background-color: rgba(255, 255, 255, 0.5);
           Products
         </a>
         <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Medicine</a>
-        <a class="dropdown-item" href="#">Minerals</a>
-        <a class="dropdown-item" href="#">Vitamins</a>
-        <a class="dropdown-item" href="#">Supplements</a>
-        <a class="dropdown-item" href="#">Common Conditions</a>
-        <a class="dropdown-item" href="#">Skin Care</a>
-        <a class="dropdown-item" href="#">Oral Care</a>
-        <a class="dropdown-item" href="#">Bath & Shower</a>
-        <a class="dropdown-item" href="#">Hair Wash & Care</a>
-        <a class="dropdown-item" href="#">Body Supports</a>
-        <a class="dropdown-item" href="#">Feminine Hygiene</a>
-        <a class="dropdown-item" href="#">Mens Grooming</a>
-        <a class="dropdown-item" href="#">Deodorants</a>
-        <a class="dropdown-item" href="#">Health Accessories</a>
-        <a class="dropdown-item" href="#">First Aid</a>
-        <a class="dropdown-item" href="#">Diagnostics & Monitoring</a>
-        <a class="dropdown-item" href="#">Baby Skin Care & Accessories</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Medicine">Medicine</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Minerals">Minerals</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Vitamins">Vitamins</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Supplements">Supplements</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Common Conditions">Common Conditions</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Skin Care">Skin Care</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Oral Care">Oral Care</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Bath & Shower">Bath & Shower</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Hair Wash & Care">Hair Wash & Care</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Body Supports">Body Supports</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Feminine Hygiene">Feminine Hygiene</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Mens Grooming">Mens Grooming</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Deodorants">Deodorants</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Health Accessories">Health Accessories</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=First Aid">First Aid</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Diagnostics & Monitoring">Diagnostics & Monitoring</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Baby Skin Care & Accessories">Baby Skin Care & Accessories</a>
         </div>
         </li>
         <li class="nav-item">
@@ -164,7 +167,7 @@ background-color: rgba(255, 255, 255, 0.5);
         <button class="favorite-button"> <a href="../ManageWishList/ViewWishList.php"><i class="far fa-heart"></i></a> </button>
         <button class="shopping-cart-button"><a href="../ManageShoppingCart/ViewShoppingCart.php"> <i class="fas fa-shopping-cart"></i> </a> </button>
         ';
-              } else if ($_SESSION['user_role'] == 'Supplier') { 
+              } else if ($_SESSION['user_role'] == 'Supplier') {
                 echo '
                 <li class="nav-item active">
                 <a class="nav-link" href="../Interface/HomePage' . $_SESSION['user_role'] . '.php">Home <span class="sr-only">(current)</span></a>
@@ -246,10 +249,8 @@ background-color: rgba(255, 255, 255, 0.5);
               <button class="favorite-button"> <a href="../ManageWishList/ViewWishList.php"><i class="far fa-heart"></i></a> </button>
               <button class="shopping-cart-button"><a href="../ManageShoppingCart/ViewShoppingCart.php"> <i class="fas fa-shopping-cart"></i> </a> </button>
               ';
-              
-              
               }
-            }   else {
+            } else {
               echo '<li class="nav-item active">
       <a class="nav-link" href="../Interface/HomePage.php">Home <span class="sr-only">(current)</span></a>
     </li>
@@ -258,23 +259,23 @@ background-color: rgba(255, 255, 255, 0.5);
       Products
     </a>
     <div class="dropdown-menu">
-    <a class="dropdown-item" href="#">Medicine</a>
-    <a class="dropdown-item" href="#">Minerals</a>
-    <a class="dropdown-item" href="#">Vitamins</a>
-    <a class="dropdown-item" href="#">Supplements</a>
-    <a class="dropdown-item" href="#">Common Conditions</a>
-    <a class="dropdown-item" href="#">Skin Care</a>
-    <a class="dropdown-item" href="#">Oral Care</a>
-    <a class="dropdown-item" href="#">Bath & Shower</a>
-    <a class="dropdown-item" href="#">Hair Wash & Care</a>
-    <a class="dropdown-item" href="#">Body Supports</a>
-    <a class="dropdown-item" href="#">Feminine Hygiene</a>
-    <a class="dropdown-item" href="#">Mens Grooming</a>
-    <a class="dropdown-item" href="#">Deodorants</a>
-    <a class="dropdown-item" href="#">Health Accessories</a>
-    <a class="dropdown-item" href="#">First Aid</a>
-    <a class="dropdown-item" href="#">Diagnostics & Monitoring</a>
-    <a class="dropdown-item" href="#">Baby Skin Care & Accessories</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Medicine">Medicine</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Minerals">Minerals</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Vitamins">Vitamins</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Supplements">Supplements</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Common Conditions">Common Conditions</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Skin Care">Skin Care</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Oral Care">Oral Care</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Bath & Shower">Bath & Shower</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Hair Wash & Care">Hair Wash & Care</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Body Supports">Body Supports</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Feminine Hygiene">Feminine Hygiene</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Mens Grooming">Mens Grooming</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Deodorants">Deodorants</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Health Accessories">Health Accessories</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=First Aid">First Aid</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Diagnostics & Monitoring">Diagnostics & Monitoring</a>
+        <a class="dropdown-item" href="./ProductByCategory.php?Category=Baby Skin Care & Accessories">Baby Skin Care & Accessories</a>
     </div>
     </li>
     <li class="nav-item">

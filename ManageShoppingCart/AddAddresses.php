@@ -2,6 +2,11 @@
 
 try {
   session_start();
+  ob_start();
+  if(isset($_GET["totalPrice"])) {
+    $_SESSION['TotalPrice'] = $_GET["TotalPrice"];
+    $_SESSION['paymentMethod'] = $_GET["paymentMethod"];
+  }
   include "../header.php";
   //Assume 
   $userID = $_SESSION["user_id"];
@@ -61,7 +66,8 @@ try {
       $stmt->execute([$mobileNumber, $email, $area, $house, $street, $block, $userID]);
 
       $_SESSION['updateAddress_success'] = "true";
-      header("Location: {$_SERVER['PHP_SELF']}?TotalPrice=$totalPrice&paymentMethod=$paymentMethod");
+      header("Location: AddAddresses.php");
+      ob_end_flush();
       exit();
     }
   }
@@ -74,7 +80,7 @@ try {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My AAddresses</title>
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/all.min.css" />
   </head>
@@ -128,7 +134,7 @@ try {
 
           <div>
             <label>House</label>
-            <input type="text" name="House" placeholder="House" value="<?php echo $result["House"] ?>">
+            <input type="text" name="House" placeholder="House" value="<?php echo  $result["House"] ?>">
             <?php if (isset($errors['houseRequired'])) : ?>
               <p class="MainErrorSAddresses"><i class="fa-solid fa-circle-exclamation"></i><span><?php echo $errors['houseRequired']; ?></span></p>
             <?php endif; ?>

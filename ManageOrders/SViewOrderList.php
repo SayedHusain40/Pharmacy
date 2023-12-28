@@ -104,7 +104,7 @@ usort($orders, 'sortByDateDesc');
               <td><?php echo "BHD $TotalPrice" ?></td>
               <td><?php echo $paymentMethod ?></td>
               <td><?php echo $Status ?></td>
-              <td> <a href="#" class="update-icon" data-order-id="<?php echo $order['OrderID']; ?>">
+              <td> <a href="../ManageOrders/update_order.php" name="OrderID[]" class="update-icon" data-order-id="<?php echo $order['OrderID']; ?>">
             <i class="fas fa-sync"></i>
           </a></td>
               <td><?php echo $OrderDate ?></td>
@@ -146,17 +146,20 @@ usort($orders, 'sortByDateDesc');
               <td><?php echo $OrderDetails ?></td>
               <td><?php echo "BHD $TotalPrice" ?></td>
               <td><?php echo $paymentMethod ?></td>
-              <td><select name="status">
-  <option value="Pending" <?php echo ($Status === 'Pending') ? 'selected' : '' ?>>Pending</option>
-  <option value="Processing" <?php echo ($Status === 'Processing') ? 'selected' : '' ?>>Processing</option>
-  <option value="Completed" <?php echo ($Status === 'Completed') ? 'selected' : '' ?>>Completed</option>
-</select></td>
-              <td> <a href="#" class="update-icon" data-order-id="<?php echo $order['OrderID']; ?>">
-            <i class="fas fa-sync"></i>
-          </a></td>
-              <td><?php echo $OrderDate ?></td>
-              <td><i class="fas fa-info-circle"></i></td>
-            </tr>
+              <td>            <select name="status" data-order-id="<?php echo $OrderID; ?>">
+                    <option value="Pending" <?php echo ($Status === 'Pending') ? 'selected' : '' ?>>Pending</option>
+                    <option value="Processing" <?php echo ($Status === 'Processing') ? 'selected' : '' ?>>Processing</option>
+                    <option value="Completed" <?php echo ($Status === 'Completed') ? 'selected' : '' ?>>Completed</option>
+                </select>
+            </td>
+            <td>
+                <a href="../ManageOrders/update_order.php" name="OrderID[]" class="update-icon" data-order-id="<?php echo $OrderID; ?>">
+                    <i class="fas fa-sync"></i>
+                </a>
+            </td>
+            <td><?php echo $OrderDate ?></td>
+            <td><i class="fas fa-info-circle"></i></td>
+        </tr>
             <?php
           }
         }
@@ -167,40 +170,39 @@ usort($orders, 'sortByDateDesc');
   </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  // Add event listeners to update icons
-  var updateIcons = document.getElementsByClassName('update-icon');
-  for (var i = 0; i < updateIcons.length; i++) {
-    updateIcons[i].addEventListener('click', updateOrder);
-  }
+ $(document).ready(function() {
+    // Update status when the update-icon is clicked
+    $(".update-icon").click(function() {
+        var orderID = $(this).data($OrderID);
+        var newStatus = $(this).closest("tr").find("select[name='status']").val();
 
-  // Update order function
-  function updateOrder(event) {
-    event.preventDefault();
-    var orderId = event.target.getAttribute('data-order-id');
-
-    // Perform the update operation
-    // You can implement the update logic here, such as making an AJAX request to a PHP script
-    // that updates the order in the database. Below is an example of how to update using AJAX.
-
-    // Make an AJAX request to update the order
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'update_order.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-        if (xhr.status === 200) {
-          // Update was successful
-          console.log('Order with ID ' + orderId + ' updated successfully!');
-        } else {
-          // Update failed
-          console.error('Error updating order with ID ' + orderId);
-        }
-      }
-    };
-    xhr.send('order_id=' + encodeURIComponent(orderId));
-  }
-
+        // Send an AJAX request to update_order.php
+        $.ajax({
+            url: "../ManageOrders/update_order.php",
+            type: "POST",
+            data: {
+                orderID: orderID,
+                newStatus: newStatus
+            },
+            dataType: "json",
+            success: function(response) {
+                if (response.success) {
+                    console.log("Order updated successfully");
+                    // You can add further logic here to update the UI or show a success message
+                } else {
+                    console.log("Failed to update order");
+                    // You can handle the failure case here, such as showing an error message
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("AJAX request error:", error);
+                // Handle the AJAX request error here, such as showing an error message
+            }
+        });
+    });
+});
   function toggleTable() {
     var sorting = document.getElementById("Sorting").value;
 
