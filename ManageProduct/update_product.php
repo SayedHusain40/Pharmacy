@@ -1,60 +1,115 @@
 <?php
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve the product ID and other form data
-    $productId = $_POST['product_id'];
-    $quantity = $_POST['quantity'];
-    $availability = isset($_POST['availability']) ? 1 : 0;
-    $price = $_POST['price'];
-    $points = $_POST['points'];
-    $brand = $_POST['brand'];
-    $alternate = $_POST['alternate'];
-    // Add any additional fields you want to update
+session_start();
 
-    // Perform validation and update the product in the database
-    // Replace this with your own validation and database update logic
-    if (validateFormData($quantity, $price, $points, $brand, $alternate)) {
-        if (updateProduct($productId, $quantity, $availability, $price, $points, $brand, $alternate)) {
-            // Product updated successfully
-            echo "Product updated successfully!";
+include '../Connection/init.php';
+
+// Check if the product_id key exists in the POST data
+if (isset($_POST['ProductID'])) {
+    $productId = $_POST['ProductID'];
+
+    // Retrieve the product details based on the product_id
+    $stmt = $db->prepare("SELECT * FROM `product data` WHERE ProductID = :productId");
+    $stmt->bindParam(':productId', $productId);
+    $stmt->execute();
+    $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Check if the product exists
+    if ($product) {
+        // Retrieve the updated form data
+        $name = $_POST['name'];
+        $type = $_POST['type'];
+        $requiresPrescription = isset($_POST['requires_prescription']) ? 1 : 0;
+        $description = $_POST['description'];
+        $expireDate = $_POST['expire_date'];
+        $quantity = $_POST['quantity'];
+        $availability = isset($_POST['availability']) ? 1 : 0;
+        $price = $_POST['price'];
+        $points = isset($_POST['points']) ? $_POST['points'] : null;
+        $brand = isset($_POST['brand']) ? $_POST['brand'] : null;
+        $photo = isset($_POST['photo']) ? $_POST['photo'] : null;
+        $alternate = $_POST['alternate'];
+        // Add any additional fields you want to update
+         // Handle the uploaded photo
+$photo = null;
+if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    $photoTmpPath = $_FILES['photo']['tmp_name'];
+    $photoFileName = $_FILES['photo']['name'];
+    $photoFileExt = strtolower(pathinfo($photoFileName, PATHINFO_EXTENSION));
+    $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+    // Check if the file extension is allowed
+    if (in_array($photoFileExt, $allowedExtensions)) {
+        $newPhotoFileName = uniqid() . '.' . $photoFileExt;
+        $photoDestination = '../images/' . $newPhotoFileName;
+
+        // Move the uploaded file to the desired location
+        if (move_uploaded_file($photoTmpPath, $photoDestination)) {
+            $photo = $photoDestination;
+        }
+    }
+}
+
+        // Perform validation on the form data
+        if (validateFormData($name, $type, $requiresPrescription, $description, $expireDate, $quantity, $availability, $price, $points, $brand, $photo, $alternate)) {
+         // Update the product fields in the database
+            $updateStmt = $db->prepare("UPDATE `product data` SET Name = :name, Type = :type, RequiresPrescription = :requiresPrescription, Description = :description, ExpireDate = :expireDate, Quantity = :quantity, Availability = :availability, Price = :price, Points = :points, Brand = :brand, Photo = :photo, Alternate = :alternate WHERE ProductID = :productId");
+            $updateStmt->bindParam(':name', $name);
+            $updateStmt->bindParam(':type', $type);
+            $updateStmt->bindParam(':requiresPrescription', $requiresPrescription);
+            $updateStmt->bindParam(':description', $description);
+            $updateStmt->bindParam(':expireDate', $expireDate);
+            $updateStmt->bindParam(':quantity', $quantity);
+            $updateStmt->bindParam(':availability', $availability);
+            $updateStmt->bindParam(':price', $price);
+            $updateStmt->bindParam(':points', $points);
+            $updateStmt->bindParam(':brand', $brand);
+            $updateStmt->bindParam(':photo', $photo);
+            $updateStmt->bindParam(':alternate', $alternate);
+            $updateStmt->bindParam(':productId', $productId);
+
+            if ($updateStmt->execute()) {
+                // Product updated successfully
+                echo "Product updated successfully!";
+            } else {
+                // Failed to update product
+                echo "Failed to update product.";
+            }
         } else {
-            // Failed to update product
-            echo "Failed to update product.";
+            // Invalid form data
+            echo "Invalid form data.";
         }
     } else {
-        // Invalid form data
-        echo "Invalid form data.";
+        // Product not found
+        echo 'Product not found.';
     }
+} else {
+    // product_id key is missing in the POST data
+    echo 'Invalid request.';
 }
 
-// Function to validate form data (replace with your own validation logic)
-function validateFormData($quantity, $price, $points, $brand, $alternate) {
-    // Example validation: check if required fields are not empty
-    if (empty($quantity) || empty($price) || empty($brand) || empty($alternate)) {
+function validateFormData($name, $type, $requiresPrescription, $description, $expireDate, $quantity, $availability, $price, $points, $brand, $photo, $alternate) {
+    // Check if required fields are not empty
+    if (empty($name) || empty($type) || empty($quantity) || empty($price) || empty($brand) || empty($alternate)) {
         return false;
     }
-    return true;
-}
 
-// Function to update the product in the database (replace with your own database update logic)
-function updateProduct($productId, $quantity, $availability, $price, $points, $brand, $alternate) {
-    // Example database update: perform the necessary database query to update the product
-    // Replace this with your own database update logic
-    // $query = "UPDATE products SET quantity = :quantity, availability = :availability, price = :price, points = :points, brand = :brand, alternate = :alternate WHERE id = :id";
-    // Execute the query and update the product in the database using the provided values
-    // Make sure to use prepared statements or sanitize the input to prevent SQL injection
-    // Example using PDO:
-    // $stmt = $pdo->prepare($query);
-    // $stmt->bindParam(':quantity', $quantity);
-    // $stmt->bindParam(':availability', $availability);
-    // $stmt->bindParam(':price', $price);
-    // $stmt->bindParam(':points', $points);
-    // $stmt->bindParam(':brand', $brand);
-    // $stmt->bindParam(':alternate', $alternate);
-    // $stmt->bindParam(':id', $productId);
-    // return $stmt->execute();
+    // Validate quantity
+    if (!is_numeric($quantity) || $quantity <= 0) {
+        return false;
+    }
 
-    // Placeholder return statement for demonstration purposes
+    // Validate price
+    if (!is_numeric($price) || $price <= 0) {
+        return false;
+    }
+
+    // Validate points (if provided)
+    if (!empty($points) && (!is_numeric($points) || $points < 0)) {
+        return false;
+    }
+
+    // Add more validation rules for other fields if needed
+
     return true;
 }
 ?>
