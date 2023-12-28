@@ -7,23 +7,32 @@ try {
     $categoryName = $_GET["Category"];
   }
 
-  $sortingOrder = isset($_GET['sort']) ? $_GET['sort'] : 'asc';
+  if (isset($_GET["Category"])) {
+    $categoryName = $_GET["Category"];
+  }
+  // Default sorting order by ProductID when sort is not provided
+  if (!isset($_GET['sort']) || $_GET['sort'] == "Default") {
+    $sortingOrder = "ProductID";
+  } else {
+    $sortingOrder = "Price " . $_GET['sort'];
+  }
+
 
   // for viewing products with sorting by price
   if (isset($_GET['Brand'])) {
     $selectedBrand = $_GET['Brand'];
 
-    $query = "SELECT * FROM `product data` WHERE Type = ? AND Brand = ? ORDER BY Price $sortingOrder";
+    $query = "SELECT * FROM `product data` WHERE Type = ? AND Brand = ? ORDER BY $sortingOrder";
     $exc = [$categoryName, $selectedBrand];
   } else if (isset($_GET['minPrice']) && isset($_GET['maxPrice'])) {
     // Retrieve the min and max prices from the submitted form
     $minPriceFilter = $_GET['minPrice'];
     $maxPriceFilter = $_GET['maxPrice'];
 
-    $query = "SELECT * FROM `product data` WHERE Type = ? AND Price BETWEEN ? AND ? ORDER BY Price $sortingOrder";
+    $query = "SELECT * FROM `product data` WHERE Type = ? AND Price BETWEEN ? AND ? ORDER BY $sortingOrder";
     $exc = [$categoryName, $minPriceFilter, $maxPriceFilter];
   } else {
-    $query = "SELECT * FROM `product data` WHERE Type = ? ORDER BY Price $sortingOrder";
+    $query = "SELECT * FROM `product data` WHERE Type = ? ORDER BY $sortingOrder";
     $exc = [$categoryName];
   }
 
@@ -77,8 +86,9 @@ try {
             <h5>Sort by:</h5>
           </label>
           <select id="sort" name="sort" onchange="sortProducts(this)">
-            <option value="asc" <?php if (isset($_GET["sort"]) && $_GET["sort"]==="asc") echo "selected" ?>>Lowest Price</option>
-            <option value="desc" <?php if (isset($_GET["sort"]) && $_GET["sort"]==="desc") echo "selected" ?>>Highest Price</option>
+            <option value="Default" <?php if (!isset($_GET["sort"]) || $_GET["sort"] === "") echo "selected" ?>>Default sorting</option>
+            <option value="asc" <?php if (isset($_GET["sort"]) && $_GET["sort"] === "asc") echo "selected" ?>>Lowest Price</option>
+            <option value="desc" <?php if (isset($_GET["sort"]) && $_GET["sort"] === "desc") echo "selected" ?>>Highest Price</option>
           </select>
         </div>
 
@@ -108,7 +118,7 @@ try {
           </ul>
         </div>
 
-        <h5>Brands Available</h5>
+        <h5>Brands</h5>
         <div class=" dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             <?php
