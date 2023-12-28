@@ -7,11 +7,29 @@ try {
     $categoryName = $_GET["Category"];
   }
 
-  //query for view products
-  $data = $db->prepare("SELECT * FROM `product data` WHERE Type = ?");
-  $data->execute([$categoryName]);
-  $count = $data->rowCount();
+  $sortingOrder = isset($_GET['sort']) ? $_GET['sort'] : 'asc';
 
+  // for viewing products with sorting by price
+  if (isset($_GET['Brand'])) {
+    $selectedBrand = $_GET['Brand'];
+
+    $query = "SELECT * FROM `product data` WHERE Type = ? AND Brand = ? ORDER BY Price $sortingOrder";
+    $exc = [$categoryName, $selectedBrand];
+  } else if (isset($_GET['minPrice']) && isset($_GET['maxPrice'])) {
+    // Retrieve the min and max prices from the submitted form
+    $minPriceFilter = $_GET['minPrice'];
+    $maxPriceFilter = $_GET['maxPrice'];
+
+    $query = "SELECT * FROM `product data` WHERE Type = ? AND Price BETWEEN ? AND ? ORDER BY Price $sortingOrder";
+    $exc = [$categoryName, $minPriceFilter, $maxPriceFilter];
+  } else {
+    $query = "SELECT * FROM `product data` WHERE Type = ? ORDER BY Price $sortingOrder";
+    $exc = [$categoryName];
+  }
+
+  $data = $db->prepare($query);
+  $data->execute($exc);
+  $count = $data->rowCount();
 ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -23,78 +41,134 @@ try {
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/all.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      input[type='range']::-webkit-slider-runnable-track {
+        background-color: #3498db;
+        height: 9px;
+      }
+
+      input[type='range']::-moz-range-track {
+        background-color: #3498db;
+        height: 9px;
+      }
+    </style>
   </head>
 
   <body>
     <?php
     include "../header.php";
 
-    if ($count > 0) {
+
     ?>
-      <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="navContainerProducts">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="HomePageCustomer.php">Home Page</a></li>
-          <li class="breadcrumb-item"><a href="ShopByCategories.php">Shopping By Category</a></li>
-          <li class="breadcrumb-item active" aria-current="page"><?php echo $categoryName ?></li>
-        </ol>
-      </nav>
-      <div class="containerProducts">
-        <div class="filter" id="showFilterDiv">
-          <i class="closeFilter fa-solid fa-circle-xmark"></i>
-          <h2>Filter</h2>
-          <h5>Shopping by Category</h5>
-          <div class=" dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <?php echo $categoryName ?>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Medicine">Medicine</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Minerals">Minerals</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Vitamins">Vitamins</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Supplements">Supplements</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Common Conditions">Common Conditions</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Skin Care">Skin Care</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Oral Care">Oral Care</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Bath & Shower">Bath & Shower</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Hair Wash & Care">Hair Wash & Care</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Body Supports">Body Supports</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Feminine Hygiene">Feminine Hygiene</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Mens Grooming">Mens Grooming</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Deodorants">Deodorants</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Health Accessories">Health Accessories</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=First Aid">First Aid</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Diagnostics & Monitoring">Diagnostics & Monitoring</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Baby Skin Care & Accessories">Baby Skin Care & Accessories</a>
-            </ul>
-          </div>
-
-          <h5>Shopping by Brand</h5>
-          <div class=" dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              Brand
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Medicine">Medicine</a>
-              <a class="dropdown-item" href="ProductByCategory.php?Category=Personal care">Minerals</a>
-              <a class="dropdown-item" href="#">Vitamins</a>
-              <a class="dropdown-item" href="#">Supplements</a>
-              <a class="dropdown-item" href="#">Common Conditions</a>
-              <a class="dropdown-item" href="#">Skin Care</a>
-              <a class="dropdown-item" href="#">Oral Care</a>
-              <a class="dropdown-item" href="#">Bath & Shower</a>
-              <a class="dropdown-item" href="#">Hair Wash & Care</a>
-              <a class="dropdown-item" href="#">Body Supports</a>
-              <a class="dropdown-item" href="#">Feminine Hygiene</a>
-              <a class="dropdown-item" href="#">Mens Grooming</a>
-              <a class="dropdown-item" href="#">Deodorants</a>
-              <a class="dropdown-item" href="#">Health Accessories</a>
-              <a class="dropdown-item" href="#">First Aid</a>
-              <a class="dropdown-item" href="#">Diagnostics & Monitoring</a>
-              <a class="dropdown-item" href="#">Baby Skin Care & Accessories</a>
-            </ul>
-          </div>
-
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb" class="navContainerProducts">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="HomePageCustomer.php">Home Page</a></li>
+        <li class="breadcrumb-item"><a href="ShopByCategories.php">Shopping By Category</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><?php echo $categoryName ?></li>
+      </ol>
+    </nav>
+    <div class="containerProducts">
+      <div class="filter" id="showFilterDiv">
+        <i class="closeFilter fa-solid fa-circle-xmark"></i>
+        <h2 style="margin-bottom: 30px;">Filter</h2>
+        <div class="sort-options">
+          <label for="sort">
+            <h5>Sort by:</h5>
+          </label>
+          <select id="sort" name="sort" onchange="sortProducts(this)">
+            <option value="asc">Lowest Price</option>
+            <option value="desc">Highest Price</option>
+          </select>
         </div>
+        <h5>Shopping by Category</h5>
+        <div class=" dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php echo $categoryName ?>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Medicine">Medicine</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Minerals">Minerals</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Vitamins">Vitamins</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Supplements">Supplements</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Common Conditions">Common Conditions</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Skin Care">Skin Care</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Oral Care">Oral Care</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Bath & Shower">Bath & Shower</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Hair Wash & Care">Hair Wash & Care</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Body Supports">Body Supports</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Feminine Hygiene">Feminine Hygiene</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Mens Grooming">Mens Grooming</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Deodorants">Deodorants</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Health Accessories">Health Accessories</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=First Aid">First Aid</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Diagnostics & Monitoring">Diagnostics & Monitoring</a>
+            <a class="dropdown-item" href="ProductByCategory.php?Category=Baby Skin Care & Accessories">Baby Skin Care & Accessories</a>
+          </ul>
+        </div>
+
+        <h5>Brands Available</h5>
+        <div class=" dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php
+            if (isset($_GET['Brand'])) {
+              $selectedBrand = $_GET['Brand'];
+              echo $selectedBrand;
+            } else {
+              echo 'Brand';
+            }
+            ?>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="ProductByCategory.php?Category=<?php echo $categoryName ?>">All Brands</a>
+            <?php
+            $brandData = $db->prepare("SELECT DISTINCT Brand FROM `product data` WHERE Type = ?");
+            $brandData->execute([$categoryName]);
+            while ($brands = $brandData->fetch()) {
+              $brand = $brands["Brand"];
+            ?>
+              <a class="dropdown-item" href="ProductByCategory.php?Category=<?php echo $categoryName ?>&Brand=<?php echo $brand ?>"><?php echo $brand ?></a>
+            <?php
+            }
+            ?>
+          </ul>
+        </div>
+        <?Php
+        //  retrieve minimum and maximum prices for current category
+        $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Type = ?";
+        $minMaxData = $db->prepare($minMaxQuery);
+        $minMaxData->execute([$categoryName]);
+        $minMaxResult = $minMaxData->fetch(PDO::FETCH_ASSOC);
+
+        $minPrice = $minMaxResult['MinPrice'];
+        $maxPrice = $minMaxResult['MaxPrice'];
+        ?>
+        <div>
+          <form action="ProductByCategory.php" method="GET">
+            <h5>Price Range</h5>
+            <div>
+              <div>
+                Min: <input type="number" name="minPrice" id="minPrice" style="width: 70px;" min="<?php echo $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['minPrice']) ? $_GET['minPrice'] : $minPrice ?>">
+                -
+                Max: <input type="number" name="maxPrice" id="maxPrice" style="width: 70px;" min="<?php echo isset($_GET['minPrice']) ? $_GET['minPrice'] : $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['maxPrice']) ? $_GET['maxPrice'] : $maxPrice ?>">
+              </div>
+              <div style="margin-top: 5px;">
+                <input type="hidden" name="Category" value="<?php echo $categoryName; ?>">
+                <input type="submit" class="btn btn-primary" value="Apply">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div style="margin: 20px 0;">
+          <a href="ProductByCategory.php?Category=<?php echo $categoryName; ?>" style="text-decoration: none;">
+            <button type="button" class="btn btn-outline-primary mx-auto d-block" style="width: 50%;">Reset All</button>
+          </a>
+        </div>
+      </div>
+
+      <?php
+      if ($count > 0) {
+      ?>
         <div class="content">
           <div style="max-width: 300px;">
             <span>
@@ -113,6 +187,7 @@ try {
             while ($row = $data->fetch()) {
               $productID = $row["ProductID"];
               $Quantity = $row["Quantity"];
+              $Brand = $row["Brand"];
 
               date_default_timezone_set('Asia/Bahrain');
               $currentDate = date("Y-m-d");
@@ -190,7 +265,7 @@ try {
                     }
                     ?>
 
-                    <span><?php echo $categoryName ?></span>
+                    <span><?php echo $categoryName . ", " . $Brand ?></span>
                     <h5 class="card-title"><?php echo $name ?></h5>
                     <?php
                     if ($countOffer === 0) {
@@ -264,21 +339,15 @@ try {
             ?>
           </div>
         </div>
-      </div>
-    <?php
-    } else {
-    ?>
-      <h1 class='cartEmpty'>Not Found</h1>
-      <!-- <div class="cart-image">
-        <img src="../images/cart.jpeg" alt="">
-      </div>
 
-      <div class="start-shopping">
-        <a href="../Interface/HomePage.php"><button>Start Shopping</button></a>
-      </div> -->
-    <?php
-    }
-    ?>
+      <?php
+      } else {
+      ?>
+        <h3 style="width: 100%; margin: 10px">Not Found Products</h3>
+      <?php
+      }
+      ?>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="../js/editWishList.js"></script>
@@ -383,6 +452,13 @@ try {
       }
 
       document.getElementById("outOfStock").disabled = true;
+
+      // Function to sort products based on user selection
+      function sortProducts(select) {
+        const selectedOption = select.value;
+
+        window.location.href = `ProductByCategory.php?Category=<?php echo $categoryName ?>&sort=${selectedOption}`;
+      }
     </script>
     <script>
       //for Search
@@ -403,6 +479,29 @@ try {
           }
         });
       });
+
+      //validation range price
+      function updateMaxPrice() {
+        const minPriceInput = document.getElementById('minPrice');
+        const maxPriceInput = document.getElementById('maxPrice');
+
+        // Ensure the max price is not less than the min price
+        if (parseInt(maxPriceInput.value) < parseInt(minPriceInput.value)) {
+          maxPriceInput.value = minPriceInput.value;
+        }
+      }
+
+      function validatePriceRange() {
+        const minPriceInput = document.getElementById('minPrice');
+        const maxPriceInput = document.getElementById('maxPrice');
+
+        // Ensure the max price is not less than the min price
+        if (parseInt(maxPriceInput.value) < parseInt(minPriceInput.value)) {
+          alert("Maximum price cannot be less than minimum price!");
+          return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+      }
     </script>
   </body>
 
