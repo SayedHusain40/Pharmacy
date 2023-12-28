@@ -81,7 +81,7 @@
   <script>
     function searchCategories() {
       const input = document.getElementById('searchInputG');
-      const filter = input.value.toLowerCase(); // Convert search input to lowercase
+      const filter = input.value.trim().toLowerCase(); // Convert search input to lowercase
       const categories = document.querySelectorAll('.col');
 
       categories.forEach(category => {

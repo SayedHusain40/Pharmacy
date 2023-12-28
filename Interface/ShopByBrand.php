@@ -59,9 +59,10 @@ include '../header.php';
         $data->execute();
 
         while ($row = $data->fetch(PDO::FETCH_ASSOC)) {
+          $Brand = $row['Brand'];
       ?>
-          <a href="" style="text-decoration: none; outline:none;">
-            <p id="brand_<?php echo $row['Brand']; ?>"><?php echo $row['Brand']; ?></p>
+          <a href="ProductByBrand.php?Brand=<?php echo $Brand ?>" style="text-decoration: none; outline:none;">
+            <p id="brand_<?php echo $Brand ?>"><?php echo $Brand ?></p>
           </a>
       <?php
         }
@@ -77,7 +78,7 @@ include '../header.php';
   <script>
     function searchBrands() {
       const input = document.getElementById('searchInputG');
-      const filter = input.value.toLowerCase(); // Convert search input to lowercase
+      const filter = input.value.trim().toLowerCase(); // Convert search input to lowercase
       const brands = document.querySelectorAll('.categoryContainer a');
 
       brands.forEach(brand => {
