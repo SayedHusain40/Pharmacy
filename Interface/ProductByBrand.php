@@ -76,8 +76,8 @@ try {
             <h5>Sort by:</h5>
           </label>
           <select id="sort" name="sort" onchange="sortProducts(this)">
-            <option value="asc">Lowest Price</option>
-            <option value="desc">Highest Price</option>
+            <option value="asc" <?php if (isset($_GET["sort"]) && $_GET["sort"] === "asc") echo "selected" ?>>Lowest Price</option>
+            <option value="desc" <?php if (isset($_GET["sort"]) && $_GET["sort"] === "desc") echo "selected" ?>>Highest Price</option>
           </select>
         </div>
 

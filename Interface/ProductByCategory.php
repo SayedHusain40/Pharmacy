@@ -71,15 +71,17 @@ try {
       <div class="filter" id="showFilterDiv">
         <i class="closeFilter fa-solid fa-circle-xmark"></i>
         <h2 style="margin-bottom: 30px;">Filter</h2>
+
         <div class="sort-options">
           <label for="sort">
             <h5>Sort by:</h5>
           </label>
           <select id="sort" name="sort" onchange="sortProducts(this)">
-            <option value="asc">Lowest Price</option>
-            <option value="desc">Highest Price</option>
+            <option value="asc" <?php if (isset($_GET["sort"]) && $_GET["sort"]==="asc") echo "selected" ?>>Lowest Price</option>
+            <option value="desc" <?php if (isset($_GET["sort"]) && $_GET["sort"]==="desc") echo "selected" ?>>Highest Price</option>
           </select>
         </div>
+
         <h5>Shopping by Category</h5>
         <div class=" dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -121,8 +123,8 @@ try {
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <a class="dropdown-item" href="ProductByCategory.php?Category=<?php echo $categoryName ?>">All Brands</a>
             <?php
-            $brandData = $db->prepare("SELECT DISTINCT Brand FROM `product data` WHERE Type = ?");
-            $brandData->execute([$categoryName]);
+            $brandData = $db->prepare("SELECT DISTINCT Brand FROM `product data`");
+            $brandData->execute();
             while ($brands = $brandData->fetch()) {
               $brand = $brands["Brand"];
             ?>
