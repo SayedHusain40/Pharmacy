@@ -153,7 +153,7 @@ try {
               </div>
               <div style="margin-top: 5px;">
                 <input type="hidden" name="Category" value="<?php echo $categoryName; ?>">
-                <input type="submit" value="Apply">
+                <input type="submit" class="btn btn-primary" value="Apply">
               </div>
             </div>
           </form>
