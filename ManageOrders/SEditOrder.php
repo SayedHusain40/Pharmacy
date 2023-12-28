@@ -73,49 +73,6 @@ usort($orders, 'sortByDateDesc');
         <option value="Completed">Completed</option>
         <option value="CompletedDate">Completed & Latest Date</option> <!-- New option -->
       </select><br>
-      <h1 class="inline-elements" id="pendingHeading">+ Processing</h1>
-      <table id="pendingTable" style="border-bottom: 2px solid #2E97A7;">
-        <tr>
-          <th>Order ID</th>
-          <th>Order Details</th>
-          <th>Total Price</th>
-          <th>Payment Method</th>
-          <th>Status</th>
-          <th>Update</th>
-          <th>Order Date</th>
-          <th>Details</th>
-        </tr>
-        <tbody>
-        <?php
-        foreach ($orders as $order) {
-          $OrderID = $order['OrderID'];
-          $TotalPrice = $order['TotalPrice'];
-          $paymentMethod = $order['PaymentMethod'];
-          $Status = $order['Status'];
-          $OrderDate = $order['OrderDate'];
-          $OrderDetails = $order['OrderDetails'];
-
-          if ($Status === 'Payment Pending' && $paymentMethod !== '') {
-            ?>
-          <tr>
-              <td><?php echo $OrderID ?></td>
-              <td><?php echo $OrderDetails ?></td>
-              <td><?php echo "BHD $TotalPrice" ?></td>
-              <td><?php echo $paymentMethod ?></td>
-              <td><?php echo $Status ?></td>
-              <td> <a href="#" class="update-icon" data-order-id="<?php echo $order['OrderID']; ?>">
-            <i class="fas fa-sync"></i>
-          </a></td>
-              <td><?php echo $OrderDate ?></td>
-              <td><i class="fas fa-info-circle"></i></td>
-            </tr>
-            <?php
-          }
-        }
-        ?>
-        </tbody>
-      </table>
-      <br>
       <h1 class="inline-elements" id="completedHeading">+ Completed</h1>
       <table id="completedTable" class="hidden" style="border-bottom: 2px solid #2E97A7;">
         <tr>

@@ -10,6 +10,7 @@ function sortByDateDesc($a, $b) {
     return $dateB - $dateA;
 }
 
+// Fetch the orders from the database
 $stmt = $db->prepare("SELECT * FROM `order data`");
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -17,14 +18,22 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Sort the orders by date in descending order
 usort($orders, 'sortByDateDesc');
 
+// Fetch all unique statuses from the database
+$stmt = $db->prepare("SELECT DISTINCT `Status` FROM `order data`");
+$stmt->execute();
+$statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Status</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <style>
-    .Container {
+       .Container {
       display: flex;
       justify-content: center;
     }
@@ -63,8 +72,9 @@ usort($orders, 'sortByDateDesc');
     }
   </style>
 </head>
+
 <body>
-<div class="Container">
+  <div class="container">
   <div class="row">
     <div class="col-xl-12">
     <label class="inline-elements" for="Sorting">Sort by:</label>
@@ -74,116 +84,94 @@ usort($orders, 'sortByDateDesc');
         <option value="Completed">Completed</option>
         <option value="CompletedDate">Completed & Latest Date</option> <!-- New option -->
       </select><br>
-      <h1 class="inline-elements" id="pendingHeading">+ Processing</h1>
-      <table id="pendingTable" style="border-bottom: 2px solid #2E97A7;">
-        <tr>
-          <th>Order ID</th>
-          <th>Order Details</th>
-          <th>Total Price</th>
-          <th>Payment Method</th>
-          <th>Status</th>
-          <th>Update</th>
-          <th>Order Date</th>
-          <th>Details</th>
-        </tr>
-        <tbody>
-        <?php
-        foreach ($orders as $order) {
-          $OrderID = $order['OrderID'];
-          $TotalPrice = $order['TotalPrice'];
-          $paymentMethod = $order['PaymentMethod'];
-          $Status = $order['Status'];
-          $OrderDate = $order['OrderDate'];
-          $OrderDetails = $order['OrderDetails'];
+    <div class="content">
+      <?php
+      foreach ($statuses as $status) {
+        $filteredOrders = array_filter($orders, function ($order) use ($status) {
+          return $order['Status'] === $status && $order['PaymentMethod'] !== '';
+        });
 
-          if ($Status === 'Payment Pending' && $paymentMethod !== '') {
-            ?>
+        if (!empty($filteredOrders)) {
+          echo '<h1 class="inline-elements">' . $status . '</h1>';
+          echo '<table class="hidden" style="border-bottom: 2px solid #2E97A7;">';
+          echo '<tr>
+                  <th>Order ID</th>
+                  <th>Order Details</th>
+                  <th>Total Price</th>
+                  <th>Payment Method</th>
+                  <th>Status</th>
+                  <th>Update</th>
+                  <th>Order Date</th>
+                  <th>Details</th>
+                </tr>';
+          echo '<tbody>';
+
+          foreach ($filteredOrders as $order) {
+            $OrderID = $order['OrderID'];
+            $TotalPrice = $order['TotalPrice'];
+            $paymentMethod = $order['PaymentMethod'];
+            $Status = $order['Status'];
+            $OrderDate = $order['OrderDate'];
+            $OrderDetails = $order['OrderDetails'];
+      ?>
+
             <tr>
               <td><?php echo $OrderID ?></td>
               <td><?php echo $OrderDetails ?></td>
               <td><?php echo "BHD $TotalPrice" ?></td>
               <td><?php echo $paymentMethod ?></td>
-              <td><?php echo $Status ?></td>
-              <td><a href="../ManageOrders/update_order.php" class="update-icon" ><button class="update-icon" name="orderId[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">  <i class="fas fa-sync"></i> </a></td>
+              <td>
+                <select name="status" data-order-id="<?php echo $OrderID; ?>">
+                  <?php
+                  foreach ($statuses as $statusOption) {
+                    echo '<option value="' . $statusOption . '" ' . ($Status === $statusOption ? 'selected' : '') . '>' . $statusOption . '</option>';
+                  }
+                  ?>
+                </select>
+              </td>
+              <td>
+                <button class="update-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">
+                  <i class="fas fa-sync"></i>
+                </button>
+              </td>
               <td><?php echo $OrderDate ?></td>
               <td><i class="fas fa-info-circle"></i></td>
             </tr>
-            <?php
-          }
-        }
-        ?>
-        </tbody>
-      </table>
-      <br>
-      <h1 class="inline-elements" id="completedHeading">+ Completed</h1>
-      <table id="completedTable" class="hidden" style="border-bottom: 2px solid #2E97A7;">
-        <tr>
-          <th>Order ID</th>
-          <th>Order Details</th>
-          <th>Total Price</th>
-          <th>Payment Method</th>
-          <th>Status</th>
-          <th>Update</th>
-          <th>Order Date</th>
-          <th>Details</th>
-        </tr>
-        <tbody>
-        <?php
-        foreach ($orders as $order) {
-          $OrderID = $order['OrderID'];
-          $TotalPrice = $order['TotalPrice'];
-          $paymentMethod = $order['PaymentMethod'];
-          $Status = $order['Status'];
-          $OrderDate = $order['OrderDate'];
-          $OrderDetails = $order['OrderDetails'];
 
-          if ($Status === 'Payment Confirmed' && $paymentMethod !== '') {
-            ?>
-            <tr>
-              <td><?php echo $OrderID ?></td>
-              <td><?php echo $OrderDetails ?></td>
-              <td><?php echo "BHD $TotalPrice" ?></td>
-              <td><?php echo $paymentMethod ?></td>
-              <td>            <select name="status" data-order-id="<?php echo $OrderID; ?>">
-                    <option value="Pending" <?php echo ($Status === 'Pending') ? 'selected' : '' ?>>Pending</option>
-                    <option value="Processing" <?php echo ($Status === 'Processing') ? 'selected' : '' ?>>Processing</option>
-                    <option value="Completed" <?php echo ($Status === 'Completed') ? 'selected' : '' ?>>Completed</option>
-                </select>
-            </td>
-            <td><a href="../ManageOrders/update_order.php" class="update-icon" ><button class="update-icon" name="orderId" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">  <i class="fas fa-sync"></i> </a></td>
-            <td><?php echo $OrderDate ?></td>
-            <td><i class="fas fa-info-circle"></i></td>
-        </tr>
-            <?php
+      <?php
           }
+
+          echo '</tbody>';
+          echo '</table>';
         }
-        ?>
-        </tbody>
-      </table>
+      }
+      ?>
     </div>
   </div>
-</div>
+    </div>
+    </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-function updateStatus(button) {
-  var orderId = button.getAttribute("data-order-id");
-  var selectElement = button.parentNode.parentNode.querySelector("select[name='status']");
-  var status = selectElement.value;
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    function updateStatus(button) {
+      var orderId = button.getAttribute("data-order-id");
+      var selectElement = button.parentNode.parentNode.querySelector("select[name='status']");
+      var status = selectElement.value;
 
-  // Send an AJAX request to update the status
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "../ManageOrders/update_order.php", true);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      // Update the UI or perform any other necessary actions
-      console.log(xhr.responseText);
+      // Send an AJAX request to update the status
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "status_order.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          // Update the UI or perform any other necessary actions
+          console.log(xhr.responseText);
+        }
+      };
+      xhr.send("orderId=" + orderId + "&status=" + status);
     }
-  };
-  xhr.send("orderId=" + orderId + "&status=" + status);
-}
-  function toggleTable() {
+
+    function toggleTable() {
     var sorting = document.getElementById("Sorting").value;
 
     if (sorting === "Processing") {
@@ -235,7 +223,8 @@ function updateStatus(button) {
   document.getElementById("pendingHeading").classList.remove("hidden");
   document.getElementById("completedTable").classList.remove("hidden");
   document.getElementById("completedHeading").classList.remove("hidden");
-</script>
+  </script>
 
 </body>
+
 </html>

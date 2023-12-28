@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(isset($_SESSION["user_id"])) {
+
+
 try {
   require("../Connection/init.php");
   include "../header.php";
@@ -339,5 +342,8 @@ try {
   $db = null;
 } catch (PDOException $e) {
   echo "Error: " . $e->getMessage();
+}
+}else {
+  include "../Account/Login.php";
 }
 ?>
