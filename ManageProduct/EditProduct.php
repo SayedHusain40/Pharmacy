@@ -28,30 +28,31 @@ if (isset($_POST['ProductID'])) {
         $brand = isset($_POST['brand']) ? $_POST['brand'] : null;
         $photo = isset($_POST['photo']) ? $_POST['photo'] : null;
         $alternate = $_POST['alternate'];
-        // Add any additional fields you want to update
-         // Handle the uploaded photo
-$photo = null;
-if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-    $photoTmpPath = $_FILES['photo']['tmp_name'];
-    $photoFileName = $_FILES['photo']['name'];
-    $photoFileExt = strtolower(pathinfo($photoFileName, PATHINFO_EXTENSION));
-    $allowedExtensions = ['jpg', 'jpeg', 'png'];
 
-    // Check if the file extension is allowed
-    if (in_array($photoFileExt, $allowedExtensions)) {
-        $newPhotoFileName = uniqid() . '.' . $photoFileExt;
-        $photoDestination = '../images/' . $newPhotoFileName;
+        // Handle the uploaded photo
+        $photo = $product['Photo']; // Use the existing photo as a fallback
 
-        // Move the uploaded file to the desired location
-        if (move_uploaded_file($photoTmpPath, $photoDestination)) {
-            $photo = $photoDestination;
+        if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+            $photoTmpPath = $_FILES['photo']['tmp_name'];
+            $photoFileName = $_FILES['photo']['name'];
+            $photoFileExt = strtolower(pathinfo($photoFileName, PATHINFO_EXTENSION));
+            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+            // Check if the file extension is allowed
+            if (in_array($photoFileExt, $allowedExtensions)) {
+                $newPhotoFileName = uniqid() . '.' . $photoFileExt;
+                $photoDestination = '../images/' . $newPhotoFileName;
+
+                // Move the uploaded file to the desired location
+                if (move_uploaded_file($photoTmpPath, $photoDestination)) {
+                    $photo = $photoDestination;
+                }
+            }
         }
-    }
-}
 
         // Perform validation on the form data
         if (validateFormData($name, $type, $requiresPrescription, $description, $expireDate, $quantity, $availability, $price, $points, $brand, $photo, $alternate)) {
-         // Update the product fields in the database
+            // Update the product fields in the database
             $updateStmt = $db->prepare("UPDATE `product data` SET Name = :name, Type = :type, RequiresPrescription = :requiresPrescription, Description = :description, ExpireDate = :expireDate, Quantity = :quantity, Availability = :availability, Price = :price, Points = :points, Brand = :brand, Photo = :photo, Alternate = :alternate WHERE ProductID = :productId");
             $updateStmt->bindParam(':name', $name);
             $updateStmt->bindParam(':type', $type);
@@ -68,8 +69,11 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
             $updateStmt->bindParam(':productId', $productId);
 
             if ($updateStmt->execute()) {
-                // Product updated successfully
-                echo "Product updated successfully!";
+                // Product update is successful
+// Redirect back to the previous page with success parameter
+$redirectUrl = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'default_url.php';
+header('Location: ' . $redirectUrl);
+exit();
             } else {
                 // Failed to update product
                 echo "Failed to update product.";
@@ -88,7 +92,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 }
 
 function validateFormData($name, $type, $requiresPrescription, $description, $expireDate, $quantity, $availability, $price, $points, $brand, $photo, $alternate) {
-    // Check if required fields are not empty
+    // Check if requiredfields are not empty
     if (empty($name) || empty($type) || empty($quantity) || empty($price) || empty($brand) || empty($alternate)) {
         return false;
     }
