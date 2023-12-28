@@ -1,31 +1,23 @@
 <?php
 session_start();
-// Retrieve the order ID sent from the client-side
-$orderID = $_POST['OrderID'];
-
-
 try {
 
     include '../Connection/init.php';
-    // Prepare and execute the SQL query to update the order
-    $sql = "UPDATE `order data` SET status = 'completed' WHERE OrderID = :orderID";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(':orderID', $orderID);
-    $stmt->execute();
 
-    // Check if the update was successful
-    if ($stmt->rowCount() > 0) {
-        $response = array('success' => true, 'message' => 'Order updated successfully');
-    } else {
-        $response = array('success' => false, 'message' => 'Failed to update order');
-    }
-} catch (PDOException $e) {
-    $response = array('success' => false, 'message' => 'Database error: ' . $e->getMessage());
+if (isset($_POST['orderId']) && isset($_POST['status'])) {
+  $orderId = $_POST['orderId'];
+  $status = $_POST['status'];
+
+  // Update the status in the database
+  $stmt = $db->prepare("UPDATE `order data` SET Status = :status WHERE OrderID = :orderId");
+  $stmt->bindParam(':status', $status);
+  $stmt->bindParam(':orderId', $orderId);
+  $stmt->execute();
+
+  // Return a response if needed
+  echo "Status updated successfully!";
+} 
+} catch (PDOException $e) { 
+    die("Error: " . $e->getMessage());
 }
-
-// Close the database connection
-$db = null;
-
-// Return the JSON response to the client
-echo json_encode($response);
 ?>
