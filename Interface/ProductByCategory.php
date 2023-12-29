@@ -3,42 +3,62 @@ session_start();
 try {
   require("../Connection/init.php");
 
+  // Check if the Reset All button was clicked and unset session 
+  if (isset($_GET['ResetAll'])) {
+    unset($_SESSION['sortingOrder']);
+    header('Location: ProductByCategory.php');
+    exit;
+  }
+
+
+
+  // Check and store selected filters in session 
   if (isset($_GET["Category"])) {
-    $categoryName = $_GET["Category"];
+    $_SESSION['categoryName'] = $_GET["Category"];
   }
 
-  if (isset($_GET["Category"])) {
-    $categoryName = $_GET["Category"];
-  }
-  // Default sorting order by ProductID when sort is not provided
-  if (!isset($_GET['sort']) || $_GET['sort'] == "Default") {
-    $sortingOrder = "ProductID";
-  } else {
-    $sortingOrder = "Price " . $_GET['sort'];
+  if (isset($_GET['sort'])) {
+    if ($_GET['sort'] === "Default") {
+      unset($_SESSION['sortingOrder']); // Remove the sorting order session variable for "Default"
+    } else {
+      $_SESSION['sortingOrder'] = "Price " . $_GET['sort']; // Set the sorting order session for other options
+    }
   }
 
 
-  // for viewing products with sorting by price
+  // Initialize the base query
+  $query = "SELECT * FROM `product data` WHERE Type = ?";
+
+  // Use session variables if they exist
+  $categoryName = isset($_SESSION['categoryName']) ? $_SESSION['categoryName'] : null;
+  $sortingOrder = isset($_SESSION['sortingOrder']) ? $_SESSION['sortingOrder'] : "ProductID";
+
+  // Initialize the parameters array
+  $exc = [$categoryName];
+
+  // Add conditions based on the filters
   if (isset($_GET['Brand'])) {
     $selectedBrand = $_GET['Brand'];
+    $query .= " AND Brand = ?";
+    $exc[] = $selectedBrand;
+  }
 
-    $query = "SELECT * FROM `product data` WHERE Type = ? AND Brand = ? ORDER BY $sortingOrder";
-    $exc = [$categoryName, $selectedBrand];
-  } else if (isset($_GET['minPrice']) && isset($_GET['maxPrice'])) {
+  if (isset($_GET['minPrice']) && isset($_GET['maxPrice'])) {
     // Retrieve the min and max prices from the submitted form
     $minPriceFilter = $_GET['minPrice'];
     $maxPriceFilter = $_GET['maxPrice'];
-
-    $query = "SELECT * FROM `product data` WHERE Type = ? AND Price BETWEEN ? AND ? ORDER BY $sortingOrder";
-    $exc = [$categoryName, $minPriceFilter, $maxPriceFilter];
-  } else {
-    $query = "SELECT * FROM `product data` WHERE Type = ? ORDER BY $sortingOrder";
-    $exc = [$categoryName];
+    $query .= " AND Price BETWEEN ? AND ?";
+    $exc[] = $minPriceFilter;
+    $exc[] = $maxPriceFilter;
   }
 
+  $query .= " ORDER BY $sortingOrder";
+
+  // Prepare and execute the query
   $data = $db->prepare($query);
   $data->execute($exc);
   $count = $data->rowCount();
+
 ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -86,9 +106,15 @@ try {
             <h5>Sort by:</h5>
           </label>
           <select id="sort" name="sort" onchange="sortProducts(this)">
-            <option value="Default" <?php if (!isset($_GET["sort"]) || $_GET["sort"] === "") echo "selected" ?>>Default sorting</option>
-            <option value="asc" <?php if (isset($_GET["sort"]) && $_GET["sort"] === "asc") echo "selected" ?>>Lowest Price</option>
-            <option value="desc" <?php if (isset($_GET["sort"]) && $_GET["sort"] === "desc") echo "selected" ?>>Highest Price</option>
+            <option value="Default" <?php if (!isset($_GET["sort"]) || $_GET["sort"] === "") echo "selected" ?>>
+              Default sorting
+            </option>
+            <option value="asc" <?php if (isset($_SESSION['sortingOrder']) && $_SESSION['sortingOrder'] === 'Price asc') echo "selected" ?>>
+              Lowest Price
+            </option>
+            <option value="desc" <?php if (isset($_SESSION['sortingOrder']) && $_SESSION['sortingOrder'] === 'Price desc') echo "selected" ?>>
+              Highest Price
+            </option>
           </select>
         </div>
 
@@ -146,11 +172,20 @@ try {
         </div>
         <?Php
         //  retrieve minimum and maximum prices for current category
-        $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Type = ?";
-        $minMaxData = $db->prepare($minMaxQuery);
-        $minMaxData->execute([$categoryName]);
-        $minMaxResult = $minMaxData->fetch(PDO::FETCH_ASSOC);
+        if (isset($_GET['Brand'])) {
+          // If a brand is selected, fetch min and max prices for that brand within the category
+          $selectedBrand = $_GET['Brand'];
+          $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Type = ? AND Brand = ?";
+          $minMaxData = $db->prepare($minMaxQuery);
+          $minMaxData->execute([$categoryName, $selectedBrand]);
+        } else {
+          // If no specific brand is selected, fetch min and max prices for the entire category
+          $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Type = ?";
+          $minMaxData = $db->prepare($minMaxQuery);
+          $minMaxData->execute([$categoryName]);
+        }
 
+        $minMaxResult = $minMaxData->fetch(PDO::FETCH_ASSOC);
         $minPrice = $minMaxResult['MinPrice'];
         $maxPrice = $minMaxResult['MaxPrice'];
         ?>
@@ -161,10 +196,15 @@ try {
               <div>
                 Min: <input type="number" name="minPrice" id="minPrice" style="width: 70px;" min="<?php echo $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['minPrice']) ? $_GET['minPrice'] : $minPrice ?>">
                 -
-                Max: <input type="number" name="maxPrice" id="maxPrice" style="width: 70px;" min="<?php echo isset($_GET['minPrice']) ? $_GET['minPrice'] : $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['maxPrice']) ? $_GET['maxPrice'] : $maxPrice ?>">
+                Max: <input type="number" name="maxPrice" id="maxPrice" style="width: 70px;" min="<?php echo $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['maxPrice']) ? $_GET['maxPrice'] : $maxPrice ?>">
               </div>
               <div style="margin-top: 5px;">
                 <input type="hidden" name="Category" value="<?php echo $categoryName; ?>">
+                <?php
+                if (isset($_GET['Brand'])) {
+                  echo '<input type="hidden" name="Brand" value="' . $_GET['Brand'] . '">';
+                }
+                ?>
                 <input type="submit" class="btn btn-primary" value="Apply">
               </div>
             </div>
@@ -172,9 +212,16 @@ try {
         </div>
 
         <div style="margin: 20px 0;">
-          <a href="ProductByCategory.php?Category=<?php echo $categoryName; ?>" style="text-decoration: none;">
-            <button type="button" class="btn btn-outline-primary mx-auto d-block" style="width: 50%;">Reset All</button>
-          </a>
+          <form action="ProductByCategory.php" method="GET">
+            <input type="hidden" name="ResetAll" value="true">
+            <input type="hidden" name="Category" value="<?php echo $categoryName; ?>">
+            <?php
+            if (isset($_GET['Brand'])) {
+              echo '<input type="hidden" name="Brand" value="' . $_GET['Brand'] . '">';
+            }
+            ?>
+            <button type="submit" class="btn btn-outline-primary mx-auto d-block" style="width: 50%;">Reset All</button>
+          </form>
         </div>
       </div>
 
