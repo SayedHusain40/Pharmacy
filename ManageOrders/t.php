@@ -6,6 +6,11 @@ include '../Connection/init.php';
 $stmt = $db->prepare("SELECT * FROM `order data`");
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch all unique statuses from the database
+$stmt = $db->prepare("SELECT DISTINCT `Status` FROM `order data`");
+$stmt->execute();
+$statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +22,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <title>Order Status</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <style>
-     .Container {
+        .Container {
       display: flex;
       justify-content: center;
     }
@@ -50,7 +55,6 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
       display: inline-block;
       margin-right: 10px; /* Adjust the margin as needed */
     }
-
     button.update-icon {
   background: none;
   border: none;
@@ -72,9 +76,9 @@ button.update-icon span {
 
 <body>
   <div class="container">
-    <div class="content">
+  <div class="row">
+    <div class="col-xl-12">
       <?php
-      $statuses = array('Pending', 'Processing', 'Completed'); // Add more statuses if needed
       foreach ($statuses as $status) {
         $filteredOrders = array_filter($orders, function ($order) use ($status) {
           return $order['Status'] === $status && $order['PaymentMethod'] !== '';
@@ -110,16 +114,19 @@ button.update-icon span {
               <td><?php echo "BHD $TotalPrice" ?></td>
               <td><?php echo $paymentMethod ?></td>
               <td>
-                <select name="status" data-order-id="<?php echo $OrderID; ?>">
-                  <option value="Pending" <?php echo ($Status === 'Pending') ? 'selected' : '' ?>>Pending</option>
-                  <option value="Processing" <?php echo ($Status === 'Processing') ? 'selected' : '' ?>>Processing</option>
-                  <option value="Completed" <?php echo ($Status === 'Completed') ? 'selected' : '' ?>>Completed</option>
-                </select>
-              </td>
+  <select name="status" data-order-id="<?php echo $OrderID; ?>">
+    <?php
+    $allStatuses = array('Pending', 'Processing', 'Completed'); // Add more statuses if needed
+    foreach ($allStatuses as $statusOption) {
+      echo '<option value="' . $statusOption . '" ' . ($Status === $statusOption ? 'selected' : '') . '>' . $statusOption . '</option>';
+    }
+    ?>
+  </select>
+</td>
               <td>
-                <button class="update-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">
-                  <i class="fas fa-sync"></i>
-                </button>
+              <button class="update-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">
+  <i class="fas fa-sync"></i>
+</button>
               </td>
               <td><?php echo $OrderDate ?></td>
               <td><i class="fas fa-info-circle"></i></td>
@@ -134,6 +141,7 @@ button.update-icon span {
       }
       ?>
     </div>
+  </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

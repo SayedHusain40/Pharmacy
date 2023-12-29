@@ -66,6 +66,23 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
       display: inline-block;
       margin-right: 10px; /* Adjust the margin as needed */
     }
+
+    button.update-icon {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+button.update-icon i {
+  color: #2E97A7;
+}
+button.update-icon i:hover {
+  color: #2E97;
+}
+
+button.update-icon span {
+  display: none;
+}
   </style>
 </head>
 
@@ -126,11 +143,9 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 </select>
               </td>
               <td>
-              <a href="../ManageOrders/update_order.php" class="update-icon" data-order-id="<?php echo $order['OrderID']; ?>">
                 <button class="update-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">
                   <i class="fas fa-sync"></i>
                 </button>
-                </a>
               </td>
               <td><?php echo $OrderDate ?></td>
               <td><i class="fas fa-info-circle"></i></td>
@@ -159,7 +174,7 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
       // Send an AJAX request to update the status
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", "status_order.php", true);
+      xhr.open("POST", "../ManageOrders/update_order.php", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
