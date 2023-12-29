@@ -66,10 +66,6 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
       display: inline-block;
       margin-right: 10px; /* Adjust the margin as needed */
     }
-
-    .hidden {
-      display: none;
-    }
   </style>
 </head>
 
@@ -92,8 +88,8 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
         });
 
         if (!empty($filteredOrders)) {
-          echo '<h1 class="inline-elements">' . $status . '</h1>';
-          echo '<table class="hidden" style="border-bottom: 2px solid #2E97A7;">';
+          echo '<h1 class="inline-elements" > + ' . $status . '</h1>';
+          echo '<table style="border-bottom: 2px solid #2E97A7;">';
           echo '<tr>
                   <th>Order ID</th>
                   <th>Order Details</th>
@@ -130,9 +126,11 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
                 </select>
               </td>
               <td>
+              <a href="../ManageOrders/update_order.php" class="update-icon" data-order-id="<?php echo $order['OrderID']; ?>">
                 <button class="update-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">
                   <i class="fas fa-sync"></i>
                 </button>
+                </a>
               </td>
               <td><?php echo $OrderDate ?></td>
               <td><i class="fas fa-info-circle"></i></td>
@@ -142,7 +140,8 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
           }
 
           echo '</tbody>';
-          echo '</table>';
+          echo '</table> 
+          <br>';
         }
       }
       ?>
