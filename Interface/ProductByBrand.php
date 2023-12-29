@@ -3,35 +3,56 @@ session_start();
 try {
   require("../Connection/init.php");
 
+  // Check if the Reset All button was clicked and unset session 
+  if (isset($_GET['ResetAll'])) {
+    unset($_SESSION['sortingOrder']);
+    header('Location: ProductByBrand.php');
+    exit;
+  }
+
+  // Check and store selected filters in session 
   if (isset($_GET["Brand"])) {
-    $Brand = $_GET["Brand"];
+    $_SESSION['brandName'] = $_GET["Brand"];
   }
 
-  // Default sorting order by ProductID when sort is not provided
-  if (!isset($_GET['sort']) || $_GET['sort'] == "Default") {
-    $sortingOrder = "ProductID";
-  } else {
-    $sortingOrder = "Price " . $_GET['sort'];
+  if (isset($_GET['sort'])) {
+    if ($_GET['sort'] === "Default") {
+      unset($_SESSION['sortingOrder']); // Remove the sorting order session variable for "Default"
+    } else {
+      $_SESSION['sortingOrder'] = "Price " . $_GET['sort']; // Set the sorting order session variable for other options
+    }
   }
 
-  // for viewing products with sorting by price
+
+  // Initialize the base query
+  $query = "SELECT * FROM `product data` WHERE Brand = ?";
+
+  // Use session variables if they exist
+  $brandName = isset($_SESSION['brandName']) ? $_SESSION['brandName'] : null;
+  $sortingOrder = isset($_SESSION['sortingOrder']) ? $_SESSION['sortingOrder'] : "ProductID";
+
+  // Initialize the parameters array
+  $exc = [$brandName];
+
+  // Add conditions based on the filters
   if (isset($_GET['Category'])) {
     $selectedCategory = $_GET['Category'];
+    $query .= " AND Type = ?";
+    $exc[] = $selectedCategory;
+  }
 
-    $query = "SELECT * FROM `product data` WHERE Brand = ? AND Type = ? ORDER BY $sortingOrder";
-    $exc = [$Brand, $selectedCategory];
-  } else if (isset($_GET['minPrice']) && isset($_GET['maxPrice'])) {
+  if (isset($_GET['minPrice']) && isset($_GET['maxPrice'])) {
     // Retrieve the min and max prices from the submitted form
     $minPriceFilter = $_GET['minPrice'];
     $maxPriceFilter = $_GET['maxPrice'];
-
-    $query = "SELECT * FROM `product data` WHERE Brand = ? AND Price BETWEEN ? AND ? ORDER BY $sortingOrder";
-    $exc = [$Brand, $minPriceFilter, $maxPriceFilter];
-  } else {
-    $query = "SELECT * FROM `product data` WHERE Brand = ? ORDER BY $sortingOrder";
-    $exc = [$Brand];
+    $query .= " AND Price BETWEEN ? AND ?";
+    $exc[] = $minPriceFilter;
+    $exc[] = $maxPriceFilter;
   }
 
+  $query .= " ORDER BY $sortingOrder";
+
+  // Prepare and execute the query
   $data = $db->prepare($query);
   $data->execute($exc);
   $count = $data->rowCount();
@@ -69,7 +90,7 @@ try {
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="HomePageCustomer.php">Home Page</a></li>
         <li class="breadcrumb-item"><a href="ShopByCategories.php">Shopping By Brand</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><?php echo $Brand ?></li>
+        <li class="breadcrumb-item active" aria-current="page"><?php echo $brandName ?></li>
       </ol>
     </nav>
     <div class="containerProducts">
@@ -81,9 +102,15 @@ try {
             <h5>Sort by:</h5>
           </label>
           <select id="sort" name="sort" onchange="sortProducts(this)">
-            <option value="Default" <?php if (!isset($_GET["sort"]) || $_GET["sort"] === "") echo "selected" ?>>Default sorting</option>
-            <option value="asc" <?php if (isset($_GET["sort"]) && $_GET["sort"] === "asc") echo "selected" ?>>Lowest Price</option>
-            <option value="desc" <?php if (isset($_GET["sort"]) && $_GET["sort"] === "desc") echo "selected" ?>>Highest Price</option>
+            <option value="Default" <?php if (!isset($_GET["sort"]) || $_GET["sort"] === "") echo "selected" ?>>
+              Default sorting
+            </option>
+            <option value="asc" <?php if (isset($_SESSION['sortingOrder']) && $_SESSION['sortingOrder'] === 'Price asc') echo "selected" ?>>
+              Lowest Price
+            </option>
+            <option value="desc" <?php if (isset($_SESSION['sortingOrder']) && $_SESSION['sortingOrder'] === 'Price desc') echo "selected" ?>>
+              Highest Price
+            </option>
           </select>
         </div>
 
@@ -91,7 +118,7 @@ try {
         <div class=" dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             <?php
-            echo $Brand;
+            echo $brandName;
             ?>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -120,34 +147,41 @@ try {
             ?>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>">All Categories</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Medicine">Medicine</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Minerals">Minerals</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Vitamins">Vitamins</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Supplements">Supplements</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Common Conditions">Common Conditions</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Skin Care">Skin Care</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Oral Care">Oral Care</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Bath & Shower">Bath & Shower</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Hair Wash & Care">Hair Wash & Care</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Body Supports">Body Supports</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Feminine Hygiene">Feminine Hygiene</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Mens Grooming">Mens Grooming</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Deodorants">Deodorants</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Health Accessories">Health Accessories</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=First Aid">First Aid</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Diagnostics & Monitoring">Diagnostics & Monitoring</a>
-            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $Brand ?>&Category=Baby Skin Care & Accessories">Baby Skin Care & Accessories</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>">All Categories</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Medicine">Medicine</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Minerals">Minerals</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Vitamins">Vitamins</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Supplements">Supplements</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Common Conditions">Common Conditions</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Skin Care">Skin Care</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Oral Care">Oral Care</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Bath & Shower">Bath & Shower</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Hair Wash & Care">Hair Wash & Care</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Body Supports">Body Supports</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Feminine Hygiene">Feminine Hygiene</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Mens Grooming">Mens Grooming</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Deodorants">Deodorants</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Health Accessories">Health Accessories</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=First Aid">First Aid</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Diagnostics & Monitoring">Diagnostics & Monitoring</a>
+            <a class="dropdown-item" href="ProductByBrand.php?Brand=<?php echo $brandName ?>&Category=Baby Skin Care & Accessories">Baby Skin Care & Accessories</a>
 
           </ul>
         </div>
         <?Php
         //  retrieve minimum and maximum prices for current Brand
-        $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Brand = ?";
-        $minMaxData = $db->prepare($minMaxQuery);
-        $minMaxData->execute([$Brand]);
+        if (isset($_GET['Category'])) {
+          // If a brand is selected, fetch min and max prices for that brand within the category
+          $selectedCategory = $_GET['Category'];
+          $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Brand = ? AND Type = ?";
+          $minMaxData = $db->prepare($minMaxQuery);
+          $minMaxData->execute([$brandName, $selectedCategory]);
+        } else {
+          $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Brand = ?";
+          $minMaxData = $db->prepare($minMaxQuery);
+          $minMaxData->execute([$brandName]);
+        }
         $minMaxResult = $minMaxData->fetch(PDO::FETCH_ASSOC);
-
         $minPrice = $minMaxResult['MinPrice'];
         $maxPrice = $minMaxResult['MaxPrice'];
         ?>
@@ -161,7 +195,7 @@ try {
                 Max: <input type="number" name="maxPrice" id="maxPrice" style="width: 70px;" min="<?php echo isset($_GET['minPrice']) ? $_GET['minPrice'] : $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['maxPrice']) ? $_GET['maxPrice'] : $maxPrice ?>">
               </div>
               <div style="margin-top: 5px;">
-                <input type="hidden" name="Brand" value="<?php echo $Brand; ?>">
+                <input type="hidden" name="Brand" value="<?php echo $brandName; ?>">
                 <input type="submit" class="btn btn-primary" value="Apply">
               </div>
             </div>
@@ -169,9 +203,16 @@ try {
         </div>
 
         <div style="margin: 20px 0;">
-          <a href="ProductByBrand.php?Brand=<?php echo $Brand; ?>" style="text-decoration: none;">
-            <button type="button" class="btn btn-outline-primary mx-auto d-block" style="width: 50%;">Reset All</button>
-          </a>
+          <form action="ProductByBrand.php" method="GET">
+            <input type="hidden" name="ResetAll" value="true">
+            <input type="hidden" name="Category" value="<?php echo $categoryName; ?>">
+            <?php
+            if (isset($_GET['Brand'])) {
+              echo '<input type="hidden" name="Brand" value="' . $_GET['Brand'] . '">';
+            }
+            ?>
+            <button type="submit" class="btn btn-outline-primary mx-auto d-block" style="width: 50%;">Reset All</button>
+          </form>
         </div>
       </div>
 
@@ -188,7 +229,7 @@ try {
             </span>
           </div>
           <div class="headerContainer">
-            <h2 class="title" style="width: fit-content;"> <?php echo $Brand ?></h2>
+            <h2 class="title" style="width: fit-content;"> <?php echo $brandName ?></h2>
             <i class="fa-solid fa-sliders" id="filterIcon"></i>
           </div>
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -274,7 +315,7 @@ try {
                     }
                     ?>
 
-                    <span><?php echo $Brand . ", " . $Type ?></span>
+                    <span><?php echo $brandName . ", " . $Type ?></span>
                     <h5 class="card-title"><?php echo $name ?></h5>
                     <?php
                     if ($countOffer === 0) {
@@ -466,7 +507,7 @@ try {
       function sortProducts(select) {
         const selectedOption = select.value;
 
-        window.location.href = `ProductByBrand.php?Brand=<?php echo $Brand ?>&sort=${selectedOption}`;
+        window.location.href = `ProductByBrand.php?Brand=<?php echo $brandName ?>&sort=${selectedOption}`;
       }
     </script>
     <script>
