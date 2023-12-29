@@ -2,7 +2,7 @@
 session_start();
 
 include '../Connection/init.php'; // Replace with your own database configuration file
-
+include "../header.php";
 // Handle the form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the form data
@@ -58,18 +58,19 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" 
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" 
+        crossorigin="anonymous">
     <link rel="stylesheet" href="../css/.css">
     <link rel="stylesheet" href="../css/product.css" />
 </head>
 <body>
     <header>
-    <!-- Added logo #E -->
-    <div class="logo">
-      <img class="logo" src="../Images/logo.png" alt="">
-    </div>
+
         <h1>Add Product</h1>
     </header>
 <div class="container">
+    <div class="form">
     <section>
         <form action="" method="POST" enctype="multipart/form-data">
     <div class="form-group">
@@ -156,4 +157,5 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     </section>
 </body>
 </html>
+</div>
 </div>
