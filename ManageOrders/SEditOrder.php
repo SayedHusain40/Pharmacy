@@ -56,10 +56,22 @@ usort($orders, 'sortByDateDesc');
       display: inline-block;
       margin-right: 10px; /* Adjust the margin as needed */
     }
+    button.update-icon {
+  background: none;
+  border: none;
+  padding: 0;
+}
 
-    .hidden {
-      display: none;
-    }
+button.update-icon i {
+  color: #2E97A7;
+}
+button.update-icon i:hover {
+  color: #2E97;
+}
+
+button.update-icon span {
+  display: none;
+}
   </style>
 </head>
 <body>

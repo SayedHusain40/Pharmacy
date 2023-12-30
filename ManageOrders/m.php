@@ -67,9 +67,22 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
       margin-right: 10px; /* Adjust the margin as needed */
     }
 
-    .hidden {
-      display: none;
-    }
+    button.update-icon {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+button.update-icon i {
+  color: #2E97A7;
+}
+button.update-icon i:hover {
+  color: #2E97;
+}
+
+button.update-icon span {
+  display: none;
+}
   </style>
 </head>
 
@@ -92,8 +105,8 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
         });
 
         if (!empty($filteredOrders)) {
-          echo '<h1 class="inline-elements">' . $status . '</h1>';
-          echo '<table class="hidden" style="border-bottom: 2px solid #2E97A7;">';
+          echo '<h1 class="inline-elements" > + ' . $status . '</h1>';
+          echo '<table style="border-bottom: 2px solid #2E97A7;">';
           echo '<tr>
                   <th>Order ID</th>
                   <th>Order Details</th>
@@ -142,7 +155,8 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
           }
 
           echo '</tbody>';
-          echo '</table>';
+          echo '</table> 
+          <br>';
         }
       }
       ?>
@@ -160,7 +174,7 @@ $statuses = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
       // Send an AJAX request to update the status
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", "status_order.php", true);
+      xhr.open("POST", "../ManageOrders/update_order.php", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
