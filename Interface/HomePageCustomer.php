@@ -23,6 +23,7 @@ try {
   </head>
 
   <body>
+    <a href="../ManageOrders/V.php"> VVVVVVVVVVVVVVVVVVVVVV </a>
     <?php
     //for display Successfully messages
     if (isset($_SESSION['payment_success'])) {
