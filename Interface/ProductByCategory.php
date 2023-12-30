@@ -51,7 +51,6 @@ try {
 
   $query .= " ORDER BY $sortingOrder";
 
-  // Prepare and execute the query
   $data = $db->prepare($query);
   $data->execute($exc);
   $count = $data->rowCount();
