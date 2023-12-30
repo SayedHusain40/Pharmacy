@@ -17,21 +17,19 @@ try {
 
   if (isset($_GET['sort'])) {
     if ($_GET['sort'] === "Default") {
-      unset($_SESSION['sortingOrder']); // Remove the sorting order session variable for "Default"
+      unset($_SESSION['sortingOrder']); // Remove the sorting order session for "Default"
     } else {
-      $_SESSION['sortingOrder'] = "Price " . $_GET['sort']; // Set the sorting order session variable for other options
+      $_SESSION['sortingOrder'] = "Price " . $_GET['sort']; // Set the sorting order session for other options
     }
   }
 
 
-  // Initialize the base query
   $query = "SELECT * FROM `product data` WHERE Brand = ?";
 
   // Use session variables if they exist
   $brandName = isset($_SESSION['brandName']) ? $_SESSION['brandName'] : null;
   $sortingOrder = isset($_SESSION['sortingOrder']) ? $_SESSION['sortingOrder'] : "ProductID";
 
-  // Initialize the parameters array
   $exc = [$brandName];
 
   // Add conditions based on the filters
@@ -52,7 +50,6 @@ try {
 
   $query .= " ORDER BY $sortingOrder";
 
-  // Prepare and execute the query
   $data = $db->prepare($query);
   $data->execute($exc);
   $count = $data->rowCount();
