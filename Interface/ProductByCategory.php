@@ -19,24 +19,21 @@ try {
 
   if (isset($_GET['sort'])) {
     if ($_GET['sort'] === "Default") {
-      unset($_SESSION['sortingOrder']); // Remove the sorting order session variable for "Default"
+      unset($_SESSION['sortingOrder']); // Remove the sorting order session for "Default"
     } else {
       $_SESSION['sortingOrder'] = "Price " . $_GET['sort']; // Set the sorting order session for other options
     }
   }
 
 
-  // Initialize the base query
   $query = "SELECT * FROM `product data` WHERE Type = ?";
 
-  // Use session variables if they exist
+
   $categoryName = isset($_SESSION['categoryName']) ? $_SESSION['categoryName'] : null;
   $sortingOrder = isset($_SESSION['sortingOrder']) ? $_SESSION['sortingOrder'] : "ProductID";
 
-  // Initialize the parameters array
   $exc = [$categoryName];
 
-  // Add conditions based on the filters
   if (isset($_GET['Brand'])) {
     $selectedBrand = $_GET['Brand'];
     $query .= " AND Brand = ?";
