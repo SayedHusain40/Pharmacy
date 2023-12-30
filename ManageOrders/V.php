@@ -4,8 +4,8 @@ include '../header.php';
 include '../Connection/init.php';
 
 // Get today's date and time
-$todayDate = date("Y-m-d");
-$currentTime = date("H:i:s");
+$CurrentDate = date("Y-m-d");
+$currentTime = date("h:i:s");
 
 // Get customer details
 $userID =  $_SESSION["user_id"];
@@ -43,7 +43,7 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <h1>Pharmacy - Order Details Report</h1>
-    <h3>Date: <?php echo $todayDate; ?></h3>
+    <h3>Date: <?php echo $CurrentDate; ?></h3>
     <h3>Time: <?php echo $currentTime; ?></h3>
 
     <h2>Customer Details</h2>
@@ -115,5 +115,6 @@ $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         </tr>
     <?php } ?>
 </table>
+
 </body>
 </html>
