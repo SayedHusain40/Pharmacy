@@ -5,7 +5,7 @@ include '../Connection/init.php';
 
 // Get today's date and time
 $todayDate = date("Y-m-d");
-$currentTime = date("H:i:s");
+$currentTime = date("h:i:s");
 
 // Get customer details
 $userID =  $_SESSION["user_id"];
