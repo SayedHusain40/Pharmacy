@@ -168,34 +168,3 @@ button.update-icon span {
 </body>
 
 </html>
-
-
-
-
-
-
-'Processing', 'Confirmed', 'Ready to Pickup', 'Out for Delivery', 'Completed'];
-
-
-<tbody>
-        <?php foreach ($processingData as $order): ?>
-            <tr>
-                <td><?php echo $order['OrderID']; ?></td>
-                <td><?php echo $order['OrderDetails']; ?></td>
-                <td><?php echo $order['TotalPrice']; ?></td>
-                <td><?php echo $order['PaymentMethod']; ?></td>
-                <td>
-                    <select name="status">
-                        <?php echo getStatusOptions($order['Status']); ?>
-                    </select>
-                </td>
-                <td>
-                    <button class="update-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">
-                        <i class="fas fa-sync"></i>
-                    </button>
-                </td>
-                <td><?php echo $order['OrderDate']; ?></td>
-                <td><i class="fas fa-info-circle"></i></td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
