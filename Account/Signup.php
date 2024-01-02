@@ -14,7 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone_code = test_input($_POST['phc']);
     $phone_number = test_input($_POST['phn']);
     $DOB =  test_input($_POST['dob']);
-    $Gender = test_input($_POST['gender']);
 
     $phone = $phone_code . $phone_number;
  
@@ -57,10 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else if (!preg_match("/^\+[1-9]\d{0,2}$/", $phone_code) || !preg_match("/^\s?\d{1,14}$/", $phone_number)) {
       $errors['phoneErr'] = "Please enter a valid phone number with country code.";
     }
-     // Validate Gender
-     if (empty($gender)) {
+    if ((isset($_POST['gender']) && !empty($_POST['gender']) ) || (!empty($_POST['gender']) && isset($_POST['gender']) )) {
+      $Gender = test_input($_POST['gender']);
+  } else {
       $errors['genderRequired'] = "Gender is required";
-    }
+  }
   
     // Validate DOB
     if (empty($DOB)) {

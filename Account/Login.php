@@ -75,37 +75,26 @@ if ($prepare->rowCount() > 0)
 </head>
 <body>
   <?php 
-  # include '../header.php';
+  include '../header.php';
   ?>
-  <br>
-  <header>
-    <div class="logo-container">
-      <img class="logo" src="../Images/logo.png" alt="Pharmacy Logo">
-    </div>
-  </header>
   <div class="container">
     <div class="login-form">
     <h1>Log in</h1>
       <form id="Login" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);  ?>">
       <fieldset class="fieldset-xl">
-      
-
-        <!-- Display the validation errors -->
-        <?php if (count($errors) > 0) : ?>
-        <div class="alert alert-danger">
-          <?php foreach ($errors as $error) : ?>
-            <p><?php echo $error; ?></p>
-          <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
-
         <div class="form-group">
           <label for="username">Username:</label> <br>
-          <input type="text" id="username" name="un" title="Enter a username!" value="<?php echo $user; ?>" class="form-control" placeholder="Enter your username" />
-        </div>
+          <input type="text" id="username" name="un" title="Enter a username!" value="<?php echo $user; ?>" class="form-control" placeholder="Enter your username" /> <br>
+          <small> <?php echo isset( $errors['userRequired'] ) ? '<i class="error-icon fas fa-exclamation-circle"></i> ' .   $errors['userRequired'] : ''; ?> </small>
+          <small> <?php echo isset( $errors['ErrorUserOrPass'] ) ? '<i class="error-icon fas fa-exclamation-circle"></i> ' .   $errors['ErrorUserOrPass'] : ''; ?> </small>
+          <small> <?php echo isset( $errors['NoResult']  ) ? '<i class="error-icon fas fa-exclamation-circle"></i> ' .   $errors['NoResult']  : ''; ?> </small>
+        </div> 
         <div class="form-group">
           <label for="password">Password:</label> <br>
-          <input type="password" id="password" name="ps" title="Enter a password!" value="<?php echo $password; ?>" class="form-control" placeholder="Enter your password" />
+          <input type="password" id="password" name="ps" title="Enter a password!" value="<?php echo $password; ?>" class="form-control" placeholder="Enter your password" /> <br>
+          <small> <?php echo isset($errors['passwordRequired']) ? '<i class="error-icon fas fa-exclamation-circle"></i> ' . $errors['passwordRequired'] : ''; ?> </small>
+          <small> <?php echo isset( $errors['ErrorUserOrPass'] ) ? '<i class="error-icon fas fa-exclamation-circle"></i> ' .   $errors['ErrorUserOrPass'] : ''; ?> </small>
+          <small> <?php echo isset( $errors['NoResult']  ) ? '<i class="error-icon fas fa-exclamation-circle"></i> ' .   $errors['NoResult']  : ''; ?> </small>
         </div>
         </br>
         <div class="form-button-wrapper">
@@ -114,7 +103,8 @@ if ($prepare->rowCount() > 0)
         <hr> 
         <div class="signup-container">
           <p>If you don't have an account?</p>
-          <a href="Signup.php" class="signup-link">Sign up</a>
+          <a href="Signup.php" class="signup-link">Sign up</a> <br>
+          <a href="../Interface/homepage.php">Continue as guest</a></p>
         </div>
           </fieldset>
       </form>

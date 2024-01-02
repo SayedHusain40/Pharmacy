@@ -86,9 +86,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       
         // Validate Gender
-        if (empty($gender)) {
-          $errors[] = "Gender is required";
-        }
+        if ((isset($_POST['gender']) && !empty($_POST['gender']) ) || (!empty($_POST['gender']) && isset($_POST['gender']) )) {
+          $Gender = test_input($_POST['gender']);
+      } else {
+          $errors['genderRequired'] = "Gender is required";
+      }
       
         // Validate DOB
         if (empty($DOB)) {
