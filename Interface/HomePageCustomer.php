@@ -61,10 +61,13 @@ try {
               $Photo = $row["Photo"];
               $Availability = $row["Availability"];
             ?>
+             
               <div class="col">
                 <div class="card card-color:red">
+                <a href="../ManageProduct/CustomerProduct.php?ProductID=' . $productId . '" name="ProductID[]">
                   <div class="cartImag">
-                    <img src="../images/<?php echo $Photo ?>" class="card-img-top w-50 mx-auto d-block">
+                    <a href="../ManageProduct/CProductdetails.php"> <img src="../images/<?php echo $Photo ?>" class="card-img-top w-50 mx-auto d-block"></a>
+            </a>
                   </div>
                   <div class="card-body">
                     <?php
@@ -195,6 +198,7 @@ try {
           </div>
         </div>
       </div>
+      
     <?php
     } else {
     ?>

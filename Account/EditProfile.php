@@ -1,8 +1,8 @@
 <?php
 session_start();
-//include '../Connection/init.php';
+include '../Connection/init.php';
 $errors = [];
-$fname = $lname = $user =  $email = $phone_code = $phone_number ='';
+$fname = $lname = $user = $password = $Cpassword = $email = $phone_code = $phone_number ='';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fname = test_input($_POST['fn']);
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }
     if (empty($password)){
         $errors['passwordRequired'] = "password is required!";}
-    else if (!preg_match("/^(?=.[A-Z])(?=.[a-z])(?=.[0-9])[A-Za-z0-9_#@%\\-]{8,24}$/", $password)){
+    else if (!preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9_#@%*\\-]{8,24}$/", $password)){
         $errors['passErr'] = "Please write a good password that includes at least 8 characters, a mixture of uppercase and lowercase letters, and a number. You can also use special characters like _#@%*-.";
     }
     if (empty($Cpassword)){
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $errors['phoneErr'] = "Please enter a valid phone number with country code.";
     }
       #for duplicated email & username 
-      $stmt = $db->prepare("SELECT Username, Email FROM user data WHERE Username = ? OR Email = ?");
+      $stmt = $db->prepare("SELECT `Username`, `Email` FROM `user data` WHERE `Username` = ? OR `Email` = ?");
       $stmt->execute([$user, $email]);
       $result = $stmt->fetch();
 
@@ -75,12 +75,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hps = password_hash($password, PASSWORD_DEFAULT);
     
             // Insert data into 'user data' table
-            $sql = $db->prepare("INSERT INTO 'user data' (Username, Password, Type, Email) VALUES (?, ?, 'Customer', ?)");
+            $sql = $db->prepare("INSERT INTO `user data` (Username, Password, Type, Email) VALUES (?, ?, 'Customer', ?)");
             $sql->execute([$user, $hps, $email]);
             $user_data_id = $db->lastInsertId(); // Retrieve the generated ID
     
             // Insert data into 'customer data' table
-            $sql = $db->prepare("INSERT INTO customer data (CustomerID, UserID, FirstName, LastName, MobileNumber, Email) VALUES (?, ?, ?, ?, ?,?)");
+            $sql = $db->prepare("INSERT INTO `customer data` (CustomerID, UserID, FirstName, LastName, MobileNumber, Email) VALUES (?, ?, ?, ?, ?,?)");
             $sql->execute([$customerId, $user_data_id, $fname, $lname, $phone, $email]);
     
             // Retrieve the generated customerId from the customer table
@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-lg-12 col-md-8 col-sm-10 col-12">
-    <h1>Edit Profile</h1>
+    <h1>Sign up</h1>
       <form id="Signup" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
         <fieldset class="fieldset-xl">
           <!-- Display the validation errors -->
@@ -135,52 +135,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
-                    <?php
-                    if(!isset($_SESSION['username']))
-                    {
-                    header ("location:login.php");
-                    }
-                    elseif($_SESSION[ 'usertype ']== 'admin' )
-                    {
-                    header ("location:login.php");
-                    }
-                            include '../Connection/init.php';
-
-                            //$stmt = $db->prepare("SELECT * FROM product data");
-                            $stmt->execute();
-                            $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            //require('connection.php');
-                            $rs=$dd->query("SELECT * FROM 'customer data'");
-                            $dd=null;
-                            //$_sql= ("SELECT * FROM 'user data' WHERE Usarname ");
-                            //$data-mysqli_connect (host, Suser, $password, $db);
-                            $name-$_SESSION['username'];
-                            $sal="SELECT * FROM user WHERE username='$name' ";
-                            $result=mysqli_query ($data,$sq1);
-                            $info=mysali_fetch_assoc($result);
-
-                    ?>
           <div class="form-group">
             <label for="fname">First Name:</label> <br>
-            <input type="text" class="form-control" id="fname" name="fn" title="Enter your first name!" value="<?php echo "{$info['fname']}"; ?>">
+            <input type="text" class="form-control" id="fname" name="fn" placeholder="Enter your first name" title="Enter your first name!" value="<?php echo $fname; ?>">
           </div>
           <div class="form-group">
             <label for="lname">Last Name:</label> <br>
-            <input type="text" class="form-control" id="lname" name="ln" placeholder="Enter your last name" title="Enter your last name!" value="<?php echo "{$info['lname']}"; ?>">
+            <input type="text" class="form-control" id="lname" name="ln" placeholder="Enter your last name" title="Enter your last name!" value="<?php echo $lname; ?>">
           </div>
           <div class="form-group">
             <label for="email">Email:</label> <br>
-            <input type="text" class="form-control" id="email" name="e" placeholder="Enter an email" title="Enter an email!" value="<?php echo "{$info['email']}"; ?>">
+            <input type="text" class="form-control" id="email" name="e" placeholder="Enter an email" title="Enter an email!" value="<?php echo $email; ?>">
           </div>
-          
+          <div class="form-group">
+            <label for="password">Password:</label> <br>
+            <input type="password" class="form-control" id="password" name="ps" placeholder="Enter a password" title="Enter a password!" value="<?php echo $password; ?>">
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirm Password:</label> <br>
+            <input type="password" class="form-control" id="confirm-password" name="cps" placeholder="Confirm the password" title="Confirm the password!" value="<?php echo $Cpassword; ?>">
+          </div>
           <div class="form-group">
             <label for="username">Username:</label> <br>
-            <input type="text" class="form-control" id="username" name="un" placeholder="Enter an username" title="Enter an username!" value="<?php echo "{$info['username']}"; ?>">
+            <input type="text" class="form-control" id="username" name="un" placeholder="Enter an username" title="Enter an username!" value="<?php echo $user; ?>">
           </div>
           <div class="form-group">
           <label for="phone_number">Phone Number:</label> <br>
-          <input type="text" class="form-control" id="phone_code" name="phc" placeholder="Enter code" title="Enter country code" value="<?php echo "{$info['phone_code']}"; ?>">
-          <input type="text" class="form-control" id="phone_number" name="phn" placeholder="Enter phone number" title="Enter phone number" value="<?php echo "{$info['lname']}"; ?>">
+          <input type="text" class="form-control" id="phone_code" name="phc" placeholder="Enter code" title="Enter country code" value="<?php echo $phone_code; ?>">
+          <input type="text" class="form-control" id="phone_number" name="phn" placeholder="Enter phone number" title="Enter phone number" value="<?php echo $phone_number; ?>">
           </div>
           <div class="G form-group">
           <label for="gender">Gender:</label> <br>
@@ -191,11 +173,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </div>
           <div class="form-group">
           <label for="dob">Date of Birth:</label> <br>
-          <input type="date" class="form-control" id="dob" name="dob" placeholder="Enter your date of birth" title="Enter your date of birth" value="<?php echo "{$info['lname']}"; ?>">
+          <input type="date" class="form-control" id="dob" name="dob" placeholder="Enter your date of birth" title="Enter your date of birth">
           </div>
-          
+          <div class="login-container">
+          <p> Already have an account?  <a href="login.php" class="login-link" style="text-decoration: underline;"> Log in </a> </p>
+        </div>
         <div class="form-button-wrapper1">
-          <input type="submit" name="Signupbtn" value="Uptate"/>
+          <input type="submit" name="Signupbtn" value="Signup"/>
         </div>
         </fieldset>
       </form>
