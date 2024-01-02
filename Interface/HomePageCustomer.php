@@ -61,7 +61,7 @@ try {
               $Photo = $row["Photo"];
               $Availability = $row["Availability"];
             ?>
-             
+            
               <div class="col">
                 <?php
               if (isset($_SESSION['un'])) {
