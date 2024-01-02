@@ -23,7 +23,6 @@ try {
   </head>
 
   <body>
-    <a href="../ManageOrders/V.php"> VVVVVVVVVVVVVVVVVVVVVV </a>
     <?php
     //for display Successfully messages
     if (isset($_SESSION['payment_success'])) {
@@ -62,10 +61,19 @@ try {
               $Photo = $row["Photo"];
               $Availability = $row["Availability"];
             ?>
+             
               <div class="col">
+                <?php
+              if (isset($_SESSION['un'])) {
+              if ($_SESSION['user_role'] == 'Customer') {
+                  echo '<a href="../ManageProduct/CustomerProduct.php?ProductID=' . $productID . '" name="ProductID[]">';
+              } else if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Staff') {
+                  echo '<a href="../ManageProduct/ProductDetails.php?ProductID=' . $productID . '" name="ProductID[]">';
+              }
+          } ?>
                 <div class="card card-color:red">
                   <div class="cartImag">
-                    <img src="../images/<?php echo $Photo ?>" class="card-img-top w-50 mx-auto d-block">
+                  <a href="../ManageProduct/CustomerProduct.php?ProductID=<?php echo $productID; ?>" name="ProductID[]"> <img src="../images/<?php echo $Photo ?>" class="card-img-top w-50 mx-auto d-block"></a>
                   </div>
                   <div class="card-body">
                     <?php
@@ -94,7 +102,10 @@ try {
                           <i class="fa-regular fa-heart" id="HeartIcon2"></i>
                         </a>
                       </div>
-
+                      <?php
+                      if (isset($_SESSION['un'])) {
+              echo '</a>';
+          } ?>
                       <!-- Modal -->
                       <div class="modal" id="alertModal" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
@@ -196,6 +207,7 @@ try {
           </div>
         </div>
       </div>
+      
     <?php
     } else {
     ?>
