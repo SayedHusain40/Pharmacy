@@ -53,14 +53,6 @@ catch (PDOException $e) {
     <h1>Sign up</h1>
       <form id="Signup" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
         <fieldset class="fieldset-xl">
-          <!-- Display the validation errors -->
-<?php if (count($errors) > 0) : ?>
-    <div class="alert alert-danger">
-        <?php foreach ($errors as $error) : ?>
-            <p><?php echo $error; ?></p>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
 <?php foreach ($user as $user) {
 $FirstName = $user['FirstName'];
 $LastName = $user['LastName'];
