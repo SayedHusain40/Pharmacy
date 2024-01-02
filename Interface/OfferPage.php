@@ -74,7 +74,7 @@ try {
     // Retrieve the min and max prices from the submitted form
     $minPriceFilter = $_GET['minPrice'];
     $maxPriceFilter = $_GET['maxPrice'];
-    $query .= " AND Price BETWEEN ? AND ?";
+    $query .= " AND DiscountedPrice BETWEEN ? AND ?";
     $exc[] = $minPriceFilter;
     $exc[] = $maxPriceFilter;
   }
@@ -241,18 +241,16 @@ try {
         </div>
         <?Php
         //  retrieve minimum and maximum prices for current category
-        if (isset($_GET['Brand'])) {
-          // If a brand is selected, fetch min and max prices for that brand within the category
-          $selectedBrand = $_GET['Brand'];
-          $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Type = ? AND Brand = ?";
-          $minMaxData = $db->prepare($minMaxQuery);
-          $minMaxData->execute([$categoryName, $selectedBrand]);
-        } else {
-          // If no specific brand is selected, fetch min and max prices for the entire category
-          $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Type = ?";
-          $minMaxData = $db->prepare($minMaxQuery);
-          $minMaxData->execute([$categoryName]);
-        }
+        $minMaxQuery = "SELECT 
+        MIN(`offers data`.DiscountedPrice) 
+        AS MinPrice, 
+        MAX(`offers data`.DiscountedPrice) 
+        AS MaxPrice 
+        FROM `product data` 
+        JOIN `offers data` 
+        ON `product data`.ProductID = `offers data`.ProductID";
+        $minMaxData = $db->prepare($minMaxQuery);
+        $minMaxData->execute();
 
         $minMaxResult = $minMaxData->fetch(PDO::FETCH_ASSOC);
         $minPrice = $minMaxResult['MinPrice'];
@@ -268,10 +266,15 @@ try {
                 Max: <input type="number" name="maxPrice" id="maxPrice" style="width: 70px;" min="<?php echo $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['maxPrice']) ? $_GET['maxPrice'] : $maxPrice ?>">
               </div>
               <div style="margin-top: 5px;">
-                <input type="hidden" name="Category" value="<?php echo $categoryName; ?>">
+                <!-- <input type="hidden" name="Category" value="<?php echo $categoryName; ?>"> -->
                 <?php
-                if (isset($_GET['Brand'])) {
-                  echo '<input type="hidden" name="Brand" value="' . $_GET['Brand'] . '">';
+                if (isset($_SESSION['categoryName'])) {
+                  echo '<input type="hidden" name="Category" value="' . $categoryName . '">';
+                }
+                ?>
+                <?php
+                if (isset($_SESSION['brandName'])) {
+                  echo '<input type="hidden" name="Brand" value="' . $brandName . '">';
                 }
                 ?>
                 <input type="submit" class="btn btn-primary" value="Apply">
