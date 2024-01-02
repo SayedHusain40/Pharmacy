@@ -6,6 +6,8 @@ try {
   // Check if the Reset All button was clicked and unset session 
   if (isset($_GET['ResetAll'])) {
     unset($_SESSION['sortingOrder']);
+    unset($_SESSION['brandName']);
+    unset($_SESSION['categoryName']);
     header('Location: OfferPage.php');
     exit;
   }
@@ -15,13 +17,13 @@ try {
     unset($_SESSION['brandName']);
     unset($_SESSION['categoryName']);
   }
-  // if (!isset($_GET["Brand"])) {
-  //   unset($_SESSION['brandName']);
-  // }
+  if (!isset($_GET["Brand"])) {
+    unset($_SESSION['brandName']);
+  }
 
-  // if (!isset($_GET["Category"])) {
-  //   unset($_SESSION['categoryName']);
-  // }
+  if (!isset($_GET["Category"])) {
+    unset($_SESSION['categoryName']);
+  }
 
   // if (!isset($_GET['sort'])) {
   //   unset($_SESSION['sortingOrder']);
@@ -240,17 +242,34 @@ try {
           </ul>
         </div>
         <?Php
-        //  retrieve minimum and maximum prices for current category
+        //  retrieve minimum and maximum prices 
         $minMaxQuery = "SELECT 
-        MIN(`offers data`.DiscountedPrice) 
-        AS MinPrice, 
-        MAX(`offers data`.DiscountedPrice) 
-        AS MaxPrice 
+        MIN(`offers data`.DiscountedPrice) AS MinPrice, 
+        MAX(`offers data`.DiscountedPrice) AS MaxPrice 
         FROM `product data` 
-        JOIN `offers data` 
-        ON `product data`.ProductID = `offers data`.ProductID";
-        $minMaxData = $db->prepare($minMaxQuery);
-        $minMaxData->execute();
+        JOIN `offers data` ON `product data`.ProductID = `offers data`.ProductID 
+        WHERE 1 ";
+
+        if (isset($_SESSION['categoryName']) && isset($_SESSION['brandName'])) {
+          // Both category and brand selected
+          $minMaxQuery .= "AND `product data`.Type = ? AND `product data`.Brand = ?";
+          $minMaxData = $db->prepare($minMaxQuery);
+          $minMaxData->execute([$categoryName, $brandName]);
+        } elseif (isset($_SESSION['categoryName'])) {
+          // Only category selected
+          $minMaxQuery .= "AND `product data`.Type = ?";
+          $minMaxData = $db->prepare($minMaxQuery);
+          $minMaxData->execute([$categoryName]);
+        } elseif (isset($_SESSION['brandName'])) {
+          // Only brand selected
+          $minMaxQuery .= "AND `product data`.Brand = ?";
+          $minMaxData = $db->prepare($minMaxQuery);
+          $minMaxData->execute([$brandName]);
+        } else {
+          // No specific selection
+          $minMaxData = $db->prepare($minMaxQuery);
+          $minMaxData->execute();
+        }
 
         $minMaxResult = $minMaxData->fetch(PDO::FETCH_ASSOC);
         $minPrice = $minMaxResult['MinPrice'];
@@ -266,7 +285,6 @@ try {
                 Max: <input type="number" name="maxPrice" id="maxPrice" style="width: 70px;" min="<?php echo $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['maxPrice']) ? $_GET['maxPrice'] : $maxPrice ?>">
               </div>
               <div style="margin-top: 5px;">
-                <!-- <input type="hidden" name="Category" value="<?php echo $categoryName; ?>"> -->
                 <?php
                 if (isset($_SESSION['categoryName'])) {
                   echo '<input type="hidden" name="Category" value="' . $categoryName . '">';
@@ -313,12 +331,12 @@ try {
           <div class="headerContainer">
             <p class="title" style="width: fit-content;">
               <?php
-              if (isset($categoryName) && isset($brandName)) {
+              if (isset($_SESSION['categoryName']) && isset($_SESSION['brandName'])) {
                 echo "Category: " . $categoryName . "<br>";
                 echo "Brand: " . $brandName;
-              } elseif (isset($categoryName)) {
+              } elseif (isset($_SESSION['categoryName'])) {
                 echo "Category: " . $categoryName;
-              } elseif (isset($brandName)) {
+              } elseif (isset($_SESSION['brandName'])) {
                 echo "Brand: " . $brandName;
               } else {
               }
