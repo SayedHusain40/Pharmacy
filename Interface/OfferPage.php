@@ -15,17 +15,17 @@ try {
     unset($_SESSION['brandName']);
     unset($_SESSION['categoryName']);
   }
-  if (!isset($_GET["Brand"])) {
-    unset($_SESSION['brandName']);
-  }
+  // if (!isset($_GET["Brand"])) {
+  //   unset($_SESSION['brandName']);
+  // }
 
-  if (!isset($_GET["Category"])) {
-    unset($_SESSION['categoryName']);
-  }
+  // if (!isset($_GET["Category"])) {
+  //   unset($_SESSION['categoryName']);
+  // }
 
-  if (!isset($_GET['sort'])) {
-    unset($_SESSION['sortingOrder']);
-  }
+  // if (!isset($_GET['sort'])) {
+  //   unset($_SESSION['sortingOrder']);
+  // }
 
 
   if (isset($_GET["Brand"])) {
@@ -40,13 +40,15 @@ try {
     if ($_GET['sort'] === "Default") {
       unset($_SESSION['sortingOrder']); // Remove the sorting order session for "Default"
     } else {
-      $_SESSION['sortingOrder'] = "Price " . $_GET['sort']; // Set the sorting order session for other options
+      $_SESSION['sortingOrder'] = "DiscountedPrice " . $_GET['sort']; // Set the sorting order session for other options
     }
   }
 
 
-  $query = "SELECT * FROM `product data` WHERE 1";
-
+  $query = "SELECT `product data`.*, `offers data`.DiscountedPrice 
+          FROM `product data`
+          JOIN `offers data` ON `product data`.ProductID = `offers data`.ProductID
+          WHERE 1";
 
   $categoryName = isset($_SESSION['categoryName']) ? $_SESSION['categoryName'] : null;
   $brandName = isset($_SESSION['brandName']) ? $_SESSION['brandName'] : null;
@@ -135,16 +137,16 @@ try {
             <option value="Default" <?php if (!isset($_GET["sort"]) || $_GET["sort"] === "") echo "selected" ?>>
               Default sorting
             </option>
-            <option value="asc" <?php if (isset($_SESSION['sortingOrder']) && $_SESSION['sortingOrder'] === 'Price asc') echo "selected" ?>>
+            <option value="asc" <?php if (isset($_SESSION['sortingOrder']) && $_SESSION['sortingOrder'] === 'DiscountedPrice asc') echo "selected" ?>>
               Lowest Price
             </option>
-            <option value="desc" <?php if (isset($_SESSION['sortingOrder']) && $_SESSION['sortingOrder'] === 'Price desc') echo "selected" ?>>
+            <option value="desc" <?php if (isset($_SESSION['sortingOrder']) && $_SESSION['sortingOrder'] === 'DiscountedPrice desc') echo "selected" ?>>
               Highest Price
             </option>
           </select>
         </div>
 
-        <h5>Shopping by Category</h5>
+        <h5>Category</h5>
         <div class=" dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             <?php
@@ -605,8 +607,28 @@ try {
       // Function to sort products based on user selection
       function sortProducts(select) {
         const selectedOption = select.value;
+        let url = 'OfferPage.php';
 
-        window.location.href = `OfferPage.php?Category=<?php echo $categoryName ?>&sort=${selectedOption}`;
+        const categoryName = '<?php echo isset($_SESSION['categoryName']) ? $categoryName : '' ?>';
+        const brandName = '<?php echo isset($_SESSION['brandName']) ? $brandName : '' ?>';
+
+        if (categoryName !== '' || brandName !== '') {
+          url += '?';
+          if (categoryName !== '') {
+            url += `Category=${categoryName}`;
+            if (brandName !== '') {
+              url += `&`;
+            }
+          }
+          if (brandName !== '') {
+            url += `Brand=${brandName}`;
+          }
+          url += `&sort=${selectedOption}`;
+        } else {
+          url += `?sort=${selectedOption}`;
+        }
+
+        window.location.href = url;
       }
     </script>
     <script>
