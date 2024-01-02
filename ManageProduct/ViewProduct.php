@@ -73,26 +73,34 @@ $selectedProductIds = isset($_POST['ProductID']) ? $_POST['ProductID'] : [];
           $brand = $product['Brand'];
           $photo = $product['Photo'];
           $alternate = $product['Alternate'];
-          echo '
-          <a href="../ManageProduct/ProductDetails.php?ProductID=' . $productId . '" name="ProductID[]">
-           <div class="card h-100">
+          
+          if (isset($_SESSION['un'])) {
+              if ($_SESSION['user_role'] == 'Customer') {
+                  echo '<a href="../ManageProduct/CProductDetails.php?ProductID=' . $productId . '" name="ProductID[]">';
+              } else if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Staff') {
+                  echo '<a href="../ManageProduct/ProductDetails.php?ProductID=' . $productId . '" name="ProductID[]">';
+              }
+          }
+          
+          echo '<div class="card h-100">
               <div class="product-card" data-product-id="1">
-              <input type="checkbox" name="ProductID[]" value="'. $productId .'" />
+                  <input type="checkbox" name="ProductID[]" value="<?php echo $productId; ?>" />
                   <div class="card-image">
-                      <img src="../images/' . $photo . '" alt="Product Image" class="product-image" id="product-image">
+                      <img src="../images/<?php echo $photo; ?>" alt="Product Image" class="product-image" id="product-image">
                   </div>
-                  <div class="product-name">Product Name: ' . $productName . '</div>
-                  <div class="product-price">Price: BHD ' . $price . '</div>
+                  <div class="product-name">Product Name: <?php echo $productName; ?></div>
+                  <div class="product-price">Price: BHD <?php echo $price; ?></div>
                   <div class="quantity">
                       <button class="quantity-button minus"><i class="fas fa-minus"></i></button>
                       <input type="number" class="quantity-input" value="1" min="1">
                       <button class="quantity-button plus"><i class="fas fa-plus"></i></button>
                   </div>
-                  <button class="add-to-cart-button" data-product-id="' . $productId . '">Add to Cart</button>
+                  <button class="add-to-cart-button" data-product-id="<?php echo $productId; ?>">Add to Cart</button>
               </div>
-            </div>
-          </a>
-          ';
+          </div>';
+          if (isset($_SESSION['un'])) {
+              echo '</a>';
+          }
         }
         ?>
       </div>
