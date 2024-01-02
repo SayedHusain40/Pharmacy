@@ -1,4 +1,3 @@
-const form = document.getElementById('Signup');
 const fname = document.getElementById('fname');
 const lname = document.getElementById('lname');
 const email = document.getElementById('email');
@@ -32,21 +31,9 @@ function GetXmlHttpObject() {
 }
 
 // Show input error message
-function showError(input, message) {
+  function showError(input, message) {
     const formGroup = input.parentElement;
-    formGroup.classList.add('error');
-  
-    // Remove any existing error icon
-    const errorIcon = formGroup.querySelector('.error-icon');
-    if (errorIcon) {
-      formGroup.removeChild(errorIcon);
-    }
-  
-    // Create and append the error icon element
-    const icon = document.createElement('i');
-    icon.className = 'error-icon fas fa-exclamation-circle';
-    formGroup.appendChild(icon);
-  
+    formGroup.className = 'form-group error';
     const small = formGroup.querySelector('small');
     small.innerText = message;
   }
@@ -203,16 +190,6 @@ function checkPasswordsMatch(input1, input2) {
         }
       }
 
-      //Check gender
-      function checkGender(input1, input2) {
-        if ((!input1.checked && input2.checked) || (input1.checked && !input2.checked)) {
-            showSuccess(input1, input2);
-          return 0;
-        } else {
-          showError(input1, 'Please select a gender');
-          return 1;
-        }
-      }
    // Check Date of Birth
 function checkDOB(input) {
     let errors = 0;
@@ -292,23 +269,25 @@ function getFieldName(input) {
 
     
 
+const form = document.getElementById('Signup');
+
 form.addEventListener('submit', function(e) {
-    e.preventDefault(); // prevents auto-submit
-    let allErrors = 0;
-    allErrors += checkFName(fname);
-    allErrors += checkLName(lname);
-    allErrors += checkEmail(email);
-    allErrors += checkUserName(username);
-    allErrors += checkPassword(password);
-    allErrors += checkCPassword(Cpassword);
-    allErrors += checkPhone(phone_code, phone_number);
-    allErrors += checkDOB(dob);
-    allErrors += uniqueUserName(username);
-    allErrors += uniqueEmail(email);
-    allErrors += checkPasswordsMatch(password, Cpassword);
-    allErrors += checkGender(Mgender, Fgender);
-    
-    // If all requirements are successful, submit the form
-    if (allErrors === 0)
-      form.submit();
-  });
+  e.preventDefault(); // prevents auto-submit
+
+  let allErrors = 0;
+  allErrors += checkFName(fname);
+  allErrors += checkLName(lname);
+  allErrors += checkEmail(email);
+  allErrors += checkUserName(username);
+  allErrors += checkPassword(password);
+  allErrors += checkCPassword(Cpassword);
+  allErrors += checkPhone(phone_code, phone_number); // Pass both phone_code and phone_number as separate arguments
+  allErrors += checkDOB(dob);
+  allErrors += uniqueUserName(username);
+  allErrors += uniqueEmail(email);
+  allErrors += checkPasswordsMatch(password, Cpassword);
+
+  // If all requirements are successful, submit the form
+  if (allErrors === 0)
+    form.submit();
+});
