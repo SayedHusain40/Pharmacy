@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+:root {
+  --success-color: #2ecc71;
+  --error-color: #e74c3c;
+}
+* {
+  box-sizing: border-box;
+}
 html{
     height: 100%;
     background-image: url('../images/medical-banner-with-stethoscope.jpg');
@@ -173,10 +182,34 @@ footer{
         color: white;
       }
 
-      .form-group small {
-        margin-top: 0px;
+
+      .form-group.success input {
+        border-color: var(--success-color);
+      }
+    
+      .form-group.error input {
+        border-color: var(--error-color);
+      }
+      .form-group span {
+        margin-left: 60px; 
         position: absolute;
+        bottom: 55;
+        left: 0;
+        display: none;
+      }
+      .form-group small {
+        color: var(--error-color);
+        position: absolute;
+        bottom: 55;
+        left: 0;
+        visibility: hidden;
         font-weight: bold;
+      }
+    
+      .form-group.error small {
+        visibility: visible;
+      }
+
+      small {
         margin-left: 60px;
-        color: #E51A92;
       }
