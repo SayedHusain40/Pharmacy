@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+$errors = [];
 include '../Connection/init.php'; // Replace with your own database configuration file
 // Handle the form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -17,6 +17,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $brand = isset($_POST['brand']) ? $_POST['brand'] : null;
     $photo = isset($_POST['photo']) ? $_POST['photo'] : null;
     $alternate = $_POST['alternate'];
+
+        #for duplicated email & username 
+        $stmt = $db->prepare("SELECT * FROM `product data` WHERE `Name` = ?");
+        $stmt->execute([$name]);
+        $result = $stmt->fetch();
+  
+        if ($result) {
+        if ($name === $result['Name']) {
+        $errors['duplicateName'] = "Product Name already exists!";
+        }
+        }
 
     // Validate and sanitize the input (implement your own validation logic)
 
@@ -39,15 +50,26 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
         }
     }
 }
-
+if (count($errors) === 0) {
+    try {
+        require('../Connection/db.php');
     // Insert the product data into the database
     $stmt = $db->prepare("INSERT INTO `product data` (Name, Type, RequiresPrescription, Description, ExpireDate, Quantity, Availability, Price, Points, Brand, Photo, Alternate)
                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([$name, $type, $requiresPrescription, $description, $expireDate, $quantity, $availability, $price, $points, $brand, $photo, $alternate]);
 
-    // Redirect to a success page or perform any other necessary actions
+   
+    if ($stmt->rowCount() === 1) {
+         // Redirect to a success page or perform any other necessary actions
     header("Location: ../ManageProduct/ViewProduct.php");
     exit();
+    } else {
+        $errors['Err'] = "Something went wrong while inserting data";
+    }
+} catch (PDOException $e) {
+    die("Error: " . $e->getMessage());
+}
+}
 }
 ?>
 
@@ -60,23 +82,31 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" 
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" 
         crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/.css">
     <link rel="stylesheet" href="../css/product.css" />
+
+    <style>
+        small {
+            margin-top: -26px;
+            font-weight: bold;
+            margin-left: 60px;
+            color: #E51A92;
+        }
+    </style>
 </head>
 <body>
     <header>
-    <?php include "../header.php"; ?>
+        <?php include "../header.php"; ?>
         <h1>Add Product</h1>
     </header>
-<div class="container">
-    <div class="form">
-    <section>
-        <form action="" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" />
-    <span id="product-validation"></span>
-</div>
+    <div class="container">
+        <div class="form">
+            <section>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" />
+                        <small> <?php echo isset($errors['duplicateName']) ? '<i class="error-icon fas fa-exclamation-circle"></i> ' . $errors['duplicateName'] : ''; ?> </small>
+                    </div>
 
     <div class="form-group">
         <label for="type">Type:</label>
@@ -178,34 +208,7 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     </section>
 
     
-<script>
-    const productNameInput = document.getElementById('name');
-    const productValidationSpan = document.getElementById('product-validation');
 
-    productNameInput.addEventListener('input', () => {
-        const productName = productNameInput.value.trim();
-        if (productName !== '') {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '../ManageProduct/check_product.php'); // Replace with the URL to the server-side PHP script
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.addEventListener('readystatechange', () => {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        const response = xhr.responseText;
-                        productValidationSpan.textContent = response;
-                    } else {
-                        productValidationSpan.textContent = 'Error occurred.';
-                    }
-                }
-            });
-            const formData = new FormData();
-            formData.append('name', productName);
-            xhr.send(formData);
-        } else {
-            productValidationSpan.textContent = '';
-        }
-    });
-</script>
 </body>
 </html>
 </div>
