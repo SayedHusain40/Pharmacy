@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/Pdetails.css" />
+</head>
+<body>
+    
+
+
 <?php
 session_start();
 
@@ -40,7 +52,7 @@ if (isset($_GET['ProductID'])) {
             <div class="form-group">
             <label for="photo">Photo:</label>
             <img src="../images/' . $photo . '" alt="Product Image" class="product-image" id="product-image" width="150px" height="170px">
-            <input type="file" id="photo" name="photo" class="form-control" disabled>
+            
         </div>
         <div class="form-group">
             <label for="name">Name:</label>
@@ -115,9 +127,7 @@ if (isset($_GET['ProductID'])) {
             <input type="text" id="alternate" name="alternate" class="form-control" required value="' . $alternate . '" disabled>
         </div>
         
-        <button type="button" onclick="enableEditMode(' . $productId . ')" class="btn btn-primary">Edit</button>
-        <button type="submit" name="ProductID" value="'. $productId.'" id="' . $updateBtnId . '" class="btn btn-primary" style="display: none;">Update</button>
-        <button type="button" onclick="cancelEdit(' . $productId . ')" class="btn btn-secondary" id="' . $cancelBtnId . '" style="display: none;">Cancel</button>
+        
         </form>'; // Add a horizontal line between each product
         } else {
             // Product not found
@@ -129,3 +139,6 @@ if (isset($_GET['ProductID'])) {
     echo 'Invalid request.';
 }
 ?>
+
+</body>
+</html>
