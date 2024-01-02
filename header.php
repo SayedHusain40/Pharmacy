@@ -158,8 +158,8 @@
         <li class="nav-item">
         <a class="nav-link" href="#">My Orders</a>
         </li>
-        <li class="nav-item">
-        <a class="nav-link" href="#">Offers</a>
+        <li class="nav-item">   
+        <a class="nav-link" href="OfferPage.php">Offers</a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="../Interface/AboutUs.php">About Us</a>
@@ -241,7 +241,7 @@
               <a class="nav-link" href="#">My Orders</a>
               </li>
               <li class="nav-item">
-              <a class="nav-link" href="#"> Offers</a>
+              <a class="nav-link" href="OfferPage.php"> Offers</a>
               </li>
               <li class="nav-item">
               <a class="nav-link" href="../Interface/AboutUs.php">About Us</a>
@@ -285,7 +285,7 @@
     <a class="nav-link" href="../Interface/ShopByBrand.php">Shop by Brand</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="#">Offers</a>
+    <a class="nav-link" href="OfferPage.php">Offers</a>
     </li>
     <li class="nav-item">
     <a class="nav-link" href="../Interface/AboutUs.php">About Us</a>
