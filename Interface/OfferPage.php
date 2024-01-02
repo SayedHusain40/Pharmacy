@@ -3,10 +3,84 @@ session_start();
 try {
   require("../Connection/init.php");
 
-  $query = "SELECT * FROM `product data`";
+  // Check if the Reset All button was clicked and unset session 
+  if (isset($_GET['ResetAll'])) {
+    unset($_SESSION['sortingOrder']);
+    header('Location: OfferPage.php');
+    exit;
+  }
+  // Check if not conditions unset all session 
+  if (!isset($_GET["Brand"]) && !isset($_GET["Category"]) && !isset($_GET['sort'])) {
+    unset($_SESSION['sortingOrder']);
+    unset($_SESSION['brandName']);
+    unset($_SESSION['categoryName']);
+  }
+  if (!isset($_GET["Brand"])) {
+    unset($_SESSION['brandName']);
+  }
+
+  if (!isset($_GET["Category"])) {
+    unset($_SESSION['categoryName']);
+  }
+
+  if (!isset($_GET['sort'])) {
+    unset($_SESSION['sortingOrder']);
+  }
+
+
+  if (isset($_GET["Brand"])) {
+    $_SESSION['brandName'] = $_GET["Brand"];
+  }
+  if (isset($_GET["Category"])) {
+    $_SESSION['categoryName'] = $_GET["Category"];
+  }
+
+
+  if (isset($_GET['sort'])) {
+    if ($_GET['sort'] === "Default") {
+      unset($_SESSION['sortingOrder']); // Remove the sorting order session for "Default"
+    } else {
+      $_SESSION['sortingOrder'] = "Price " . $_GET['sort']; // Set the sorting order session for other options
+    }
+  }
+
+
+  $query = "SELECT * FROM `product data` WHERE 1";
+
+
+  $categoryName = isset($_SESSION['categoryName']) ? $_SESSION['categoryName'] : null;
+  $brandName = isset($_SESSION['brandName']) ? $_SESSION['brandName'] : null;
+  $sortingOrder = isset($_SESSION['sortingOrder']) ? $_SESSION['sortingOrder'] : "ProductID";
+
+  $exc = [];
+
+
+  // Add conditions based on the filters
+  if (isset($_GET['Category'])) {
+    $selectedCategory = $_GET['Category'];
+    $query .= " AND Type = ?";
+    $exc[] = $selectedCategory;
+  }
+
+  if (isset($_GET['Brand'])) {
+    $selectedBrand = $_GET['Brand'];
+    $query .= " AND Brand = ?";
+    $exc[] = $selectedBrand;
+  }
+
+  if (isset($_GET['minPrice']) && isset($_GET['maxPrice'])) {
+    // Retrieve the min and max prices from the submitted form
+    $minPriceFilter = $_GET['minPrice'];
+    $maxPriceFilter = $_GET['maxPrice'];
+    $query .= " AND Price BETWEEN ? AND ?";
+    $exc[] = $minPriceFilter;
+    $exc[] = $maxPriceFilter;
+  }
+
+  $query .= " ORDER BY $sortingOrder";
 
   $data = $db->prepare($query);
-  $data->execute();
+  $data->execute($exc);
   $count = $data->rowCount();
 
 ?>
@@ -42,13 +116,181 @@ try {
     <div class="HeaderTitle">
       <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="../Interface/HomePageAdmin.php">Home Page</a></li>
+          <li class="breadcrumb-item"><a href="../Interface/HomePageCustomer.php">Home Page</a></li>
           <li class="breadcrumb-item active" aria-current="page">Offers</li>
         </ol>
       </nav>
       <h3>Offers</h3>
     </div>
     <div class="containerProducts">
+      <div class="filter" id="showFilterDiv">
+        <i class="closeFilter fa-solid fa-circle-xmark"></i>
+        <h2 style="margin-bottom: 30px;">Filter</h2>
+
+        <div class="sort-options">
+          <label for="sort">
+            <h5>Sort by:</h5>
+          </label>
+          <select id="sort" name="sort" onchange="sortProducts(this)">
+            <option value="Default" <?php if (!isset($_GET["sort"]) || $_GET["sort"] === "") echo "selected" ?>>
+              Default sorting
+            </option>
+            <option value="asc" <?php if (isset($_SESSION['sortingOrder']) && $_SESSION['sortingOrder'] === 'Price asc') echo "selected" ?>>
+              Lowest Price
+            </option>
+            <option value="desc" <?php if (isset($_SESSION['sortingOrder']) && $_SESSION['sortingOrder'] === 'Price desc') echo "selected" ?>>
+              Highest Price
+            </option>
+          </select>
+        </div>
+
+        <h5>Shopping by Category</h5>
+        <div class=" dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php
+            if (isset($_GET['Category'])) {
+              $selectedCategory = $_GET['Category'];
+              echo $selectedCategory;
+            } else {
+              echo 'All Category';
+            }
+            ?>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <?php
+            if (isset($_SESSION['brandName'])) {
+              $brandName = $_SESSION['brandName'];
+            ?>
+              <a class="dropdown-item" href="OfferPage.php?Brand=<?php echo $brandName ?>">All Category</a>
+            <?php
+            } else {
+            ?>
+              <a class="dropdown-item" href="OfferPage.php">All Category</a>
+              <?php
+            }
+
+
+            $categories = [
+              "Medicine", "Minerals", "Vitamins", "Supplements", "Common Conditions",
+              "Skin Care", "Oral Care", "Bath & Shower", "Hair Wash & Care", "Body Supports",
+              "Feminine Hygiene", "Mens Grooming", "Deodorants", "Health Accessories",
+              "First Aid", "Diagnostics & Monitoring", "Baby Skin Care & Accessories",
+            ];
+
+            foreach ($categories as $category) {
+              if (!isset($_SESSION['brandName'])) {
+              ?>
+                <a class="dropdown-item" href="OfferPage.php?Category=<?php echo $category ?>"><?php echo $category; ?></a>
+              <?php
+              } else {
+                $brandName = $_SESSION['brandName'];
+              ?>
+                <a class="dropdown-item" href="OfferPage.php?Category=<?php echo $category; ?>&Brand=<?php echo $brandName ?>"><?php echo $category; ?></a>
+            <?php
+              }
+            }
+            ?>
+          </ul>
+        </div>
+
+        <h5>Brands</h5>
+        <div class=" dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php
+            if (isset($_SESSION['brandName'])) {
+              $selectedBrand = $_SESSION['brandName'];
+              echo $selectedBrand;
+            } else {
+              echo 'All Brands';
+            }
+            ?>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+            <?php
+            if (isset($_SESSION['categoryName'])) {
+              $categoryName = $_SESSION['categoryName'];
+            ?>
+              <a class="dropdown-item" href="OfferPage.php?Category=<?php echo $categoryName ?>">All Brands</a>
+            <?php
+            } else {
+            ?>
+              <a class="dropdown-item" href="OfferPage.php">All Brands</a>
+              <?php
+            }
+
+            $brandData = $db->prepare("SELECT DISTINCT Brand FROM `product data`");
+            $brandData->execute();
+            while ($brands = $brandData->fetch()) {
+              $brand = $brands["Brand"];
+              if (isset($_SESSION['categoryName'])) {
+                $categoryName = $_SESSION['categoryName'];
+              ?>
+                <a class="dropdown-item" href="OfferPage.php?Category=<?php echo $categoryName ?>&Brand=<?php echo $brand ?>"><?php echo $brand ?></a>
+              <?php
+              } else {
+              ?>
+                <a class="dropdown-item" href="OfferPage.php?Brand=<?php echo $brand ?>"><?php echo $brand ?></a>
+            <?php
+              }
+            }
+            ?>
+          </ul>
+        </div>
+        <?Php
+        //  retrieve minimum and maximum prices for current category
+        if (isset($_GET['Brand'])) {
+          // If a brand is selected, fetch min and max prices for that brand within the category
+          $selectedBrand = $_GET['Brand'];
+          $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Type = ? AND Brand = ?";
+          $minMaxData = $db->prepare($minMaxQuery);
+          $minMaxData->execute([$categoryName, $selectedBrand]);
+        } else {
+          // If no specific brand is selected, fetch min and max prices for the entire category
+          $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Type = ?";
+          $minMaxData = $db->prepare($minMaxQuery);
+          $minMaxData->execute([$categoryName]);
+        }
+
+        $minMaxResult = $minMaxData->fetch(PDO::FETCH_ASSOC);
+        $minPrice = $minMaxResult['MinPrice'];
+        $maxPrice = $minMaxResult['MaxPrice'];
+        ?>
+        <div>
+          <form action="OfferPage.php" method="GET">
+            <h5>Price Range</h5>
+            <div>
+              <div>
+                Min: <input type="number" name="minPrice" id="minPrice" style="width: 70px;" min="<?php echo $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['minPrice']) ? $_GET['minPrice'] : $minPrice ?>">
+                -
+                Max: <input type="number" name="maxPrice" id="maxPrice" style="width: 70px;" min="<?php echo $minPrice ?>" max="<?php echo $maxPrice ?>" value="<?php echo isset($_GET['maxPrice']) ? $_GET['maxPrice'] : $maxPrice ?>">
+              </div>
+              <div style="margin-top: 5px;">
+                <input type="hidden" name="Category" value="<?php echo $categoryName; ?>">
+                <?php
+                if (isset($_GET['Brand'])) {
+                  echo '<input type="hidden" name="Brand" value="' . $_GET['Brand'] . '">';
+                }
+                ?>
+                <input type="submit" class="btn btn-primary" value="Apply">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div style="margin: 20px 0;">
+          <form action="OfferPage.php" method="GET">
+            <input type="hidden" name="ResetAll" value="true">
+            <input type="hidden" name="Category" value="<?php echo $categoryName; ?>">
+            <?php
+            if (isset($_GET['Brand'])) {
+              echo '<input type="hidden" name="Brand" value="' . $_GET['Brand'] . '">';
+            }
+            ?>
+            <button type="submit" class="btn btn-outline-primary mx-auto d-block" style="width: 50%;">Reset All</button>
+          </form>
+        </div>
+      </div>
 
       <?php
 
@@ -63,8 +305,25 @@ try {
               </span>
             </span>
           </div>
+          <div class="headerContainer">
+            <p class="title" style="width: fit-content;">
+              <?php
+              if (isset($categoryName) && isset($brandName)) {
+                echo "Category: " . $categoryName . "<br>";
+                echo "Brand: " . $brandName;
+              } elseif (isset($categoryName)) {
+                echo "Category: " . $categoryName;
+              } elseif (isset($brandName)) {
+                echo "Brand: " . $brandName;
+              } else {
+              }
+              ?>
+            </p>
+            <i class="fa-solid fa-sliders" id="filterIcon"></i>
+          </div>
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <?php
+            $isFound = false;
             while ($row = $data->fetch()) {
               $productID = $row["ProductID"];
               $Quantity = $row["Quantity"];
@@ -85,7 +344,9 @@ try {
               $price = $row["Price"];
               $Photo = $row["Photo"];
               $Availability = $row["Availability"];
+
               if ($countOffer > 0) {
+                $isFound = true;
 
             ?>
                 <div class="col">
@@ -216,8 +477,13 @@ try {
                     </div>
                   </div>
                 </div>
-            <?php
+              <?php
               }
+            }
+            if (!$isFound) {
+              ?>
+              <h3 style="width: 100%; margin: 10px">Not Found Products</h3>
+            <?php
             }
             ?>
           </div>
