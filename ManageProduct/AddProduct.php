@@ -2,7 +2,6 @@
 session_start();
 
 include '../Connection/init.php'; // Replace with your own database configuration file
-include "../header.php";
 // Handle the form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the form data
@@ -66,17 +65,18 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 </head>
 <body>
     <header>
-
+    <?php include "../header.php"; ?>
         <h1>Add Product</h1>
     </header>
 <div class="container">
     <div class="form">
     <section>
         <form action="" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" class="form-control" required>
-    </div>
+        <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" />
+    <span id="product-validation"></span>
+</div>
 
     <div class="form-group">
         <label for="type">Type:</label>
@@ -148,13 +148,64 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
 
     <div class="form-group">
         <label for="alternate">Alternate:</label>
-        <input type="text" id="alternate" name="alternate" class="form-control" required>
+        <input type="text" id="alternate" name="alternate" class="form-control">
+        <select id="alternate" name="alternate" class="form-control">
+    <?php
+    try {
+        $stmt = $db->prepare("SELECT * FROM `product data`");
+        $stmt->execute();
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($products) {
+            foreach ($products as $product) {
+                $productName = $product['Name'];
+                $ProductID = $product['ProductID'];
+                echo '<option value="'. $productName .'">' . $ProductID . ' - ' . $productName . '</option>';
+            }
+        } else {
+            echo '<option value="">No products found</option>';
+        }
+    } catch (PDOException $e) {
+        echo '<option value="">Error retrieving data: ' . $e->getMessage() . '</option>';
+    }
+    ?>
+</select>
     </div>
     <div class="Add">
     <button type="submit">Add Product</button>
     </div>
 </form>
     </section>
+
+    
+<script>
+    const productNameInput = document.getElementById('name');
+    const productValidationSpan = document.getElementById('product-validation');
+
+    productNameInput.addEventListener('input', () => {
+        const productName = productNameInput.value.trim();
+        if (productName !== '') {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '../ManageProduct/check_product.php'); // Replace with the URL to the server-side PHP script
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.addEventListener('readystatechange', () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const response = xhr.responseText;
+                        productValidationSpan.textContent = response;
+                    } else {
+                        productValidationSpan.textContent = 'Error occurred.';
+                    }
+                }
+            });
+            const formData = new FormData();
+            formData.append('name', productName);
+            xhr.send(formData);
+        } else {
+            productValidationSpan.textContent = '';
+        }
+    });
+</script>
 </body>
 </html>
 </div>
