@@ -66,31 +66,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $errors['phoneErr'] = "Please enter a valid phone number with country code.";
     }
         // Validate Area
-        if (empty($area)) {
-          $errors[] = "Area is required";
+        if ($user_type === 'Staff' && $user_type === 'Customer') {
+        if (empty($Area)){
+          $errors['AreaRequired'] = "Area is required";
+          } else if (!preg_match("/^[a-zA-Z-' ]*$/", $Area)) {
+          $errors['AreaErr'] = "Please enter a valid Area with only letters, spaces, hyphens, and apostrophes.";
+          }
         }
-      
         // Validate House
-        if (empty($house)) {
+        if ($user_type === 'Staff' && $user_type === 'Customer') {
+        if (empty($House)) {
           $errors[] = "House is required";
         }
-      
-        // Validate Street
-        if (empty($street)) {
-          $errors[] = "Street is required";
         }
+
+        // Validate Street
+        if ($user_type === 'Staff' && $user_type === 'Customer') {
+        if (empty($Street)) {
+          $errors[] = "Street is required";
+        } }
       
         // Validate Block
-        if (empty($block)) {
+        if ($user_type === 'Staff' && $user_type === 'Customer') {
+        if (empty($Block)) {
           $errors[] = "Block is required";
         }
-      
-        // Validate Gender
-        if (empty($gender)) {
-          $errors[] = "Gender is required";
         }
+        // Validate Gender
+        if ($user_type === 'Staff' && $user_type === 'Customer') {
+        if ((isset($_POST['gender']) && !empty($_POST['gender']) ) || (!empty($_POST['gender']) && isset($_POST['gender']) )) {
+          $Gender = test_input($_POST['gender']);
+      } else {
+          $errors['genderRequired'] = "Gender is required";
+      } }
       
         // Validate DOB
+        if ($user_type === 'Staff' && $user_type === 'Customer') {
         if (empty($DOB)) {
             $errors[] = "Date of Birth is required";
         } elseif ($user_type === 'Staff' && strtotime($DOB) > strtotime('2006-12-31')) {
@@ -98,8 +109,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } elseif ($user_type === 'Customer' && strtotime($DOB) > strtotime('2012-12-31')) {
             $errors[] = "Customers cannot be born after 2012";
         }
+      }
       
         // Validate CPR
+        if ($user_type === 'Staff') {
         if (empty($CPR)) {
           $errors[] = "CPR is required";
       } elseif (!preg_match('/^\d{9}$/', $CPR)) {
@@ -107,16 +120,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       } elseif ($user_type === 'Staff' && (!preg_match('/^([4-9][0-9]|0[0-6])(0[1-9]|1[0-2])\d{5}$/', $CPR))) {
           $errors[] = "Invalid CPR for staff";
       }
+    }
       
         // Validate Academic Degree
-        if (empty($academicDegree)) {
+        if ($user_type === 'Staff') {
+        if (empty($ADegree)) {
           $errors[] = "Academic Degree is required";
         }
+      }
       
         // Validate Staff Position
-        if (empty($staffPosition)) {
+        if ($user_type === 'Staff') {
+        if (empty($SPosition)) {
           $errors[] = "Staff Position is required";
         }
+      }
       #for duplicated email & username 
       $stmt = $db->prepare("SELECT `Username`, `Email` FROM `user data` WHERE `Username` = ? OR `Email` = ?");
       $stmt->execute([$user, $email]);
@@ -231,11 +249,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="col-lg-12 col-md-8 col-sm-10 col-12">
       <form id="Signup" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
       <h1>Add User:</h1>  
+                    <!-- Display the validation errors -->
+<?php if (count($errors) > 0) : ?>
+    <div class="alert alert-danger">
+        <?php foreach ($errors as $error) : ?>
+            <p><?php echo $error; ?></p>
+            <?php endforeach; ?>
+    </div>
+<?php endif; ?>
       <fieldset class="fieldset-xl">
         <div class="form-group">
         <label for="user_type">User Type:</label>
         <select name="user_type" id="user_type" title="Select the user you want to add!">
-        <option value="Admin">Admin</option>
         <option value="Staff" selected>Staff</option>
         <option value="Customer">Customer</option>
         <option value="Supplier">Supplier</option>

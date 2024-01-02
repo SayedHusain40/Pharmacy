@@ -26,13 +26,12 @@ try {
 
   $query = "SELECT * FROM `product data` WHERE Brand = ?";
 
-  // Use session variables if they exist
+  // use session variables if they exist
   $brandName = isset($_SESSION['brandName']) ? $_SESSION['brandName'] : null;
   $sortingOrder = isset($_SESSION['sortingOrder']) ? $_SESSION['sortingOrder'] : "ProductID";
 
   $exc = [$brandName];
 
-  // Add conditions based on the filters
   if (isset($_GET['Category'])) {
     $selectedCategory = $_GET['Category'];
     $query .= " AND Type = ?";

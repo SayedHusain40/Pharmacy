@@ -1,19 +1,31 @@
 <?php
+<<<<<<< HEAD
 session_start();
 include '../Connection/init.php';
 $errors = [];
 $fname = $lname = $user = $password = $Cpassword = $email = $phone_code = $phone_number ='';
+=======
+ session_start();
+if (isset($_SESSION['username']))
+  {
+      header("location:Login.php");
+  }
+  elseif($_SESSION['Type']=='Admin')
+  {
+    header("location:Login.php");
+  }
+>>>>>>> af65ba8d6e5fac49d53370a374bcecfe0139ec5b
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fname = test_input($_POST['fn']);
-    $lname = test_input($_POST['ln']);
-    $user = test_input($_POST['un']);
-    $password = test_input($_POST['ps']);
-    $Cpassword = test_input($_POST['cps']);
-    $email = test_input($_POST['e']);
-    $phone_code = test_input($_POST['phc']);
-    $phone_number = test_input($_POST['phn']);
+$host="localhost" ;
+$user-"root"; $password="";
+$db="pharmacy";
+$data=mysqli_connect ($host, $user, $password,$db);
+$name=$_SESSION['username'] ;
+$sql="SELECT * FROM 'customer data'WHERE username='$name'";
+$result=mysqli_quere($data,$sql);
+$info=mysqli_fetch_assoc($result);
 
+<<<<<<< HEAD
     $phone = $phone_code . $phone_number;
  
     //validation
@@ -96,7 +108,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Error: " . $e->getMessage());
         }
     }
+=======
+if(isset($_POST['Updatebtn']))
+{
+$s_fn=$_POST['fn']; 
+$s_ln=$_POST['ln'];  
+$s_email=$_POST['email'];
+$s_phc=$_POST['phc'];
+$s_phn=$_POST['phn'];
+$_gender=$POST['gender'] 
+$sql2="UPDATE 'user data' SET fn='$s_fn' ln='$s_ln' email='$s_email', phn= '$s_phn' ,phc='$s_phc' gender='$s_gender' WHERE username='$name' ";
+$result2 mysqli_query($data,$sql2);
+>>>>>>> af65ba8d6e5fac49d53370a374bcecfe0139ec5b
 
+if($result2)
+  {
+    echo"update Success";
+  }
 }
 
 ?>
@@ -113,9 +141,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <link rel="stylesheet" href="../css/Account.css" />
 </head>
 <body>
-<?php 
-  # include '../header.php';
-  ?>
     <header>
     <div class="logo-container">
       <img class="logo" src="../Images/logo.png" alt="Pharmacy Logo">
@@ -124,16 +149,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-lg-12 col-md-8 col-sm-10 col-12">
+<<<<<<< HEAD
     <h1>Sign up</h1>
+=======
+    <h1>Update Profile</h1>
+>>>>>>> af65ba8d6e5fac49d53370a374bcecfe0139ec5b
       <form id="Signup" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
         <fieldset class="fieldset-xl">
-          <!-- Display the validation errors -->
-<?php if (count($errors) > 0) : ?>
-    <div class="alert alert-danger">
-        <?php foreach ($errors as $error) : ?>
-            <p><?php echo $error; ?></p>
-        <?php endforeach; ?>
     </div>
+<<<<<<< HEAD
 <?php endif; ?>
           <div class="form-group">
             <label for="fname">First Name:</label> <br>
@@ -163,16 +187,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <label for="phone_number">Phone Number:</label> <br>
           <input type="text" class="form-control" id="phone_code" name="phc" placeholder="Enter code" title="Enter country code" value="<?php echo $phone_code; ?>">
           <input type="text" class="form-control" id="phone_number" name="phn" placeholder="Enter phone number" title="Enter phone number" value="<?php echo $phone_number; ?>">
+=======
+    <div class="form-group">
+            <label for="lname">First Name:</label> <br>
+            <input type="text" class="form-control" id="lname" name="fn"  value="<?php echo {$info['FirstName']} ?>">
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name:</label> <br>
+            <input type="text" class="form-control" id="lname" name="ln"  value="<?php echo {$info['LastName']} ?>">
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label> <br>
+            <input type="text" class="form-control" id="email" name="e"  value="<?php echo {$info['Email']} ?>">
+          </div>
+          <div class="form-group">
+          <label for="phone_number">Phone Number:</label> <br>                      
+          <input type="text" class="form-control" id="phone_code" name="phc"  value="<?php echo {$info['phone_code']}; ?>">
+          <input type="text" class="form-control" id="phone_number" name="phn"  value="<?php echo {$info['phone_number']}; ?>">
+>>>>>>> af65ba8d6e5fac49d53370a374bcecfe0139ec5b
           </div>
           <div class="G form-group">
           <label for="gender">Gender:</label> <br>
-          <input type="radio" id="male" name="gender" value="male">
+          <input type="radio" id="male" name="gender" value="<?php echo {$info['Gender']} ?>">
           <label id="male" for="male">Male</label>
-          <input type="radio" id="female" name="gender" value="female">
+          <input type="radio" id="female" name="gender" value="<?php echo {$info['Gender']} ?>">
           <label id="female" for="female">Female</label> 
           </div>
           <div class="form-group">
           <label for="dob">Date of Birth:</label> <br>
+<<<<<<< HEAD
           <input type="date" class="form-control" id="dob" name="dob" placeholder="Enter your date of birth" title="Enter your date of birth">
           </div>
           <div class="login-container">
@@ -180,6 +223,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="form-button-wrapper1">
           <input type="submit" name="Signupbtn" value="Signup"/>
+=======
+          <input type="date" class="form-control" id="dob" name="dob" value="<?php echo {$info['DOB']} ?>">
+          </div>
+        <div class="form-button-wrapper1">
+          <input type="submit" name="Updatebtn" value="Update"/>
+>>>>>>> af65ba8d6e5fac49d53370a374bcecfe0139ec5b
         </div>
         </fieldset>
       </form>

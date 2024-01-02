@@ -27,7 +27,6 @@ html{
     margin: 0 auto;
   }
   #login fieldset {
-    background-color: #7C2582;
     color: rgb(255, 255, 255);
     margin: 0px auto;
     border-radius: 10px;
@@ -40,9 +39,6 @@ html{
     column-count: 2;
     column-gap: 40px;
   }
-  #login a {
-    color: #FFB700;
-}
 h1{
   color: white;
   margin: 0px 30px -25px 30px;
@@ -91,6 +87,15 @@ label{
 .form-group input {
     display: inline-block;
     margin-right: 5px;
+  }
+  .form-group {
+    
+    position: relative;
+  }
+  .form-group label {
+  
+    display: block;
+
   }
   #phone_code {
     width: 19%;
@@ -166,4 +171,12 @@ footer{
         margin-left: 60px;
         margin-top: 20px;
         color: white;
+      }
+
+      .form-group small {
+        margin-top: 0px;
+        position: absolute;
+        font-weight: bold;
+        margin-left: 60px;
+        color: #E51A92;
       }
