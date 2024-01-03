@@ -3,9 +3,15 @@ session_start();
 include '../header.php';
 include '../Connection/init.php';
 
+// Retrieve data from the "Order" table for "Pending" status
+$pendingData = [];
+$stmt = $db->query("SELECT * FROM `order data` WHERE Status = 'Pending' ORDER BY OrderDate DESC");
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $pendingData[] = $row;
+}
 // Retrieve data from the "Order" table for "Processing" status
 // Define the desired statuses
-$statuses = ['Pending','Processing', 'Confirmed', 'Ready to Pickup', 'Out for Delivery'];
+$statuses = ['Processing', 'Confirmed', 'Ready to Pickup', 'Out for Delivery'];
 // Build the placeholders for the IN clause
 $statusPlaceholders = implode(',', array_fill(0, count($statuses), '?'));
 // Prepare the statement
@@ -75,6 +81,17 @@ function getStatusOptions($selectedStatus) {
       display: inline-block;
       margin-right: 10px; /* Adjust the margin as needed */
     }
+    button.Edit-icon {
+      background: none;
+  border: none;
+  padding: 0;
+    }
+    button.Edit-icon i {
+  color: #2E97A7;
+}
+button.Edit-icon i:hover {
+  color: #2E97;
+}
     button.details-icon {
       background: none;
   border: none;
@@ -136,11 +153,52 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
     <?php endforeach; ?>
 </select>
 <br> <br>
+<!-- Displaying "Pending" table data -->
+<h1 class="inline-elements" id="pendingHeading">+ Pending</h1>
+      <table id="pendingTable" class="hidden" style="border-bottom: 2px solid #2E97A7;">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Order ID</th>
+            <th>Order Details</th>
+            <th>Total Price</th>
+            <th>Payment Method</th>
+            <th>Status</th>
+            <th>Update</th>
+            <th>Order Date</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody id="PTbody">
+            <tr>
+            <?php 
+            foreach ($pendingData as $order): ?>
+                <td><a href="../ManageOrders/EditOrder.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="Edit-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class='fas fa-edit'></i> </button></a> </td>
+                <td><?php echo $order['OrderID']; ?></td>
+                <td><?php echo $order['OrderDetails']; ?></td>
+                <td><?php echo $order['TotalPrice']; ?></td>
+                <td><?php echo $order['PaymentMethod']; ?></td>
+                <td>
+                    <select name="status">
+                        <?php echo getStatusOptions($order['Status']); ?>
+                    </select>
+                </td>
+                <td>       <button class="update-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>" onclick="updateStatus(this)">
+  <i class="fas fa-sync"></i>
+</button></td>
+                <td><?php echo $order['OrderDate']; ?></td>
+                <td> <a href="../ManageOrders/ViewOrder.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class="fas fa-info-circle"></i> </button>      </a></td>
+                <td> <a href="../Function/TrackOrder.php?OrderID=<?php echo $order['OrderID']; ?>" name="TrackOrder"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"><i class="fas fa-shipping-fast"></i> Track Order  </button> </a> </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 <!-- Displaying "Processing" table data -->
 <h1 class="inline-elements" id="processingHeading">+ Processing</h1>
       <table id="processingTable" class="hidden" style="border-bottom: 2px solid #2E97A7;">
     <thead>
         <tr>
+            <th></th>
             <th>Order ID</th>
             <th>Order Details</th>
             <th>Total Price</th>
@@ -155,6 +213,7 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
             <tr>
             <?php 
             foreach ($processingData as $order): ?>
+                <td><a href="../ManageOrders/EditOrder.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="Edit-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class='fas fa-edit'></i> </button></a> </td>
                 <td><?php echo $order['OrderID']; ?></td>
                 <td><?php echo $order['OrderDetails']; ?></td>
                 <td><?php echo $order['TotalPrice']; ?></td>
@@ -179,6 +238,7 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
       <table id="completedTable" class="hidden" style="border-bottom: 2px solid #2E97A7;">
     <thead>
         <tr>
+            <th></th>
             <th>Order ID</th>
             <th>Order Details</th>
             <th>Total Price</th>
@@ -190,8 +250,9 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
         </tr>
     </thead>
     <tbody>
+    <tr>
         <?php foreach ($completedData as $order): ?>
-            <a href="../ManageOrders/ViewOrderDetails.php">  <tr>
+                <td><a href="../ManageOrders/EditOrder.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="Edit-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class='fas fa-edit'></i> </button></a> </td>
                 <td><?php echo $order['OrderID']; ?></td>
                 <td><?php echo $order['OrderDetails']; ?></td>
                 <td><?php echo $order['TotalPrice']; ?></td>
@@ -207,7 +268,7 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
                 <td><?php echo $order['OrderDate']; ?></td>
                 <td> <a href="../ManageOrders/ViewOrder.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class="fas fa-info-circle"></i> </button>      </a></td>
                 <td> <a href="../Function/TrackOrder.php?OrderID=<?php echo $order['OrderID']; ?>" name="TrackOrder"> <button class="details-icon" name="OrderID[]" ><i class="fas fa-shipping-fast"></i> Track Order  </button> </a> </td>
-            </tr> </a>
+            </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
@@ -239,7 +300,6 @@ function toggleTable(processingData) {
   var sorting = document.getElementById("Sorting").value;
 
   if (
-    sorting === "Pending" ||
     sorting === "Processing" ||
     sorting === "Confirmed" ||
     sorting === "Ready to Pickup" ||
@@ -247,15 +307,30 @@ function toggleTable(processingData) {
   ) {
     document.getElementById("completedTable").classList.add("hidden");
     document.getElementById("completedHeading").classList.add("hidden");
+    document.getElementById("pendingTable").classList.add("hidden");
+    document.getElementById("pendingHeading").classList.add("hidden");
     document.getElementById("processingTable").classList.remove("hidden");
     document.getElementById("processingHeading").classList.remove("hidden");
+    document.getElementById("originalTbody").classList.remove("hidden");
   } else if (sorting === "Completed") {
     document.getElementById("processingTable").classList.add("hidden");
     document.getElementById("processingHeading").classList.add("hidden");
+    document.getElementById("pendingTable").classList.add("hidden");
+    document.getElementById("pendingHeading").classList.add("hidden");
     document.getElementById("completedTable").classList.remove("hidden");
     document.getElementById("completedHeading").classList.remove("hidden");
     document.getElementById("originalTbody").classList.remove("hidden");
+  } else if (sorting === "Pending") {
+    document.getElementById("processingTable").classList.add("hidden");
+    document.getElementById("processingHeading").classList.add("hidden");
+    document.getElementById("pendingTable").classList.remove("hidden");
+    document.getElementById("pendingHeading").classList.remove("hidden");
+    document.getElementById("completedTable").classList.add("hidden");
+    document.getElementById("completedHeading").classList.add("hidden");
+    document.getElementById("originalTbody").classList.add("hidden");
   } else if (sorting === "All") {
+    document.getElementById("pendingTable").classList.remove("hidden");
+    document.getElementById("pendingHeading").classList.remove("hidden");
     document.getElementById("processingTable").classList.remove("hidden");
     document.getElementById("processingHeading").classList.remove("hidden");
     document.getElementById("completedTable").classList.remove("hidden");
@@ -265,6 +340,8 @@ function toggleTable(processingData) {
 }
 
 // Show both tables initially
+document.getElementById("pendingTable").classList.remove("hidden");
+document.getElementById("pendingHeading").classList.remove("hidden");
 document.getElementById("processingTable").classList.remove("hidden");
 document.getElementById("processingHeading").classList.remove("hidden");
 document.getElementById("completedTable").classList.remove("hidden");
