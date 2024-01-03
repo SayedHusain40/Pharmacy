@@ -5,7 +5,7 @@ include '../Connection/init.php';
 
 // Retrieve data from the "Order" table for "Processing" status
 // Define the desired statuses
-$statuses = ['Processing', 'Confirmed', 'Ready to Pickup', 'Out for Delivery'];
+$statuses = ['Pending','Processing', 'Confirmed', 'Ready to Pickup', 'Out for Delivery'];
 // Build the placeholders for the IN clause
 $statusPlaceholders = implode(',', array_fill(0, count($statuses), '?'));
 // Prepare the statement
@@ -25,7 +25,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 // Function to generate the status select dropdown options
 function getStatusOptions($selectedStatus) {
     $statusOptions = array(
-        'Confirmed', 'Processing', 'Ready to Pickup', 'Out for Delivery', 'Completed'
+        'Pending', 'Confirmed', 'Processing', 'Ready to Pickup', 'Out for Delivery', 'Completed'
     );
     $options = '';
     foreach ($statusOptions as $status) {
@@ -113,7 +113,7 @@ button.update-icon span {
     <div class="col-xl-12">
 
     <?php
-$Allstatuses = ['Processing', 'Confirmed', 'Ready to Pickup', 'Out for Delivery', 'Completed'];
+$Allstatuses = ['Pending', 'Processing', 'Confirmed', 'Ready to Pickup', 'Out for Delivery', 'Completed'];
 
 // Check if a status is selected
 if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
@@ -168,7 +168,7 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
   <i class="fas fa-sync"></i>
 </button></td>
                 <td><?php echo $order['OrderDate']; ?></td>
-                <td> <a href="../ManageOrders/ViewOrderDetails.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class="fas fa-info-circle"></i> </button>      </a></td>
+                <td> <a href="../ManageOrders/ViewOrder.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class="fas fa-info-circle"></i> </button>      </a></td>
                 <td> <a href="../Function/TrackOrder.php?OrderID=<?php echo $order['OrderID']; ?>" name="TrackOrder"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"><i class="fas fa-shipping-fast"></i> Track Order  </button> </a> </td>
             </tr>
         <?php endforeach; ?>
@@ -205,7 +205,7 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
   <i class="fas fa-sync"></i>
 </button></td>
                 <td><?php echo $order['OrderDate']; ?></td>
-                <td> <a href="../ManageOrders/ViewOrderDetails.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class="fas fa-info-circle"></i> </button>      </a></td>
+                <td> <a href="../ManageOrders/ViewOrder.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class="fas fa-info-circle"></i> </button>      </a></td>
                 <td> <a href="../Function/TrackOrder.php?OrderID=<?php echo $order['OrderID']; ?>" name="TrackOrder"> <button class="details-icon" name="OrderID[]" ><i class="fas fa-shipping-fast"></i> Track Order  </button> </a> </td>
             </tr> </a>
         <?php endforeach; ?>
@@ -225,7 +225,7 @@ function updateStatus(button) {
 
   // Send an AJAX request to update the status
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "../ManageOrders/Tupdate_order.php", true);
+  xhr.open("POST", "../ManageOrders/update_order.php", true);
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
@@ -239,6 +239,7 @@ function toggleTable(processingData) {
   var sorting = document.getElementById("Sorting").value;
 
   if (
+    sorting === "Pending" ||
     sorting === "Processing" ||
     sorting === "Confirmed" ||
     sorting === "Ready to Pickup" ||
