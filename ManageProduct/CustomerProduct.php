@@ -74,7 +74,7 @@ if (isset($_GET['ProductID'])) {
                 <li>Points: ' . $points . ' </li>
 			</ul>
 		</div>
-		<button class="buy--btn">ADD TO CART</button>
+		<button type="button" class="buy--btn">ADD TO CART</button>
 	</div>
     </section>
         
