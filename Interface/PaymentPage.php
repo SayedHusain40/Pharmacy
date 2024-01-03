@@ -1,9 +1,6 @@
 <?php
 session_start();
 ob_start();
-/*
-  include ""; 
-*/
 
 try {
   include "../header.php";

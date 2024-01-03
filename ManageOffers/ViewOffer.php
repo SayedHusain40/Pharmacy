@@ -116,7 +116,7 @@
       const offerID = this.getAttribute('offer-ID');
       console.log(offerID);
 
-      // Display confirmation dialog before deleting
+      // Display confirmation message before deleting
       const confirmation = confirm("Are you sure you want to delete this offer?");
       if (confirmation) {
         const xhttp = new XMLHttpRequest();

@@ -26,7 +26,7 @@ try {
 
   $query = "SELECT * FROM `product data` WHERE Brand = ?";
 
-  // use session variables if they exist
+  // store in session if they exist
   $brandName = isset($_SESSION['brandName']) ? $_SESSION['brandName'] : null;
   $sortingOrder = isset($_SESSION['sortingOrder']) ? $_SESSION['sortingOrder'] : "ProductID";
 
@@ -39,7 +39,7 @@ try {
   }
 
   if (isset($_GET['minPrice']) && isset($_GET['maxPrice'])) {
-    // Retrieve the min and max prices from the submitted form
+    //the min and max prices 
     $minPriceFilter = $_GET['minPrice'];
     $maxPriceFilter = $_GET['maxPrice'];
     $query .= " AND Price BETWEEN ? AND ?";
@@ -167,7 +167,7 @@ try {
         <?Php
         //  retrieve minimum and maximum prices for current Brand
         if (isset($_GET['Category'])) {
-          // If a brand is selected, fetch min and max prices for that brand within the category
+          // If a brand is selected => min and max prices for that brand within the category
           $selectedCategory = $_GET['Category'];
           $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Brand = ? AND Type = ?";
           $minMaxData = $db->prepare($minMaxQuery);
@@ -251,6 +251,7 @@ try {
               $price = $row["Price"];
               $Photo = $row["Photo"];
               $Availability = $row["Availability"];
+              $ExpireDate = $row["ExpireDate"];
             ?>
               <div class="col">
                 <div class="card card-color:red">
@@ -342,11 +343,20 @@ try {
 
                     if (isset($_SESSION['user_id'])) {
                       if ($Availability === 1) {
+                        if ($ExpireDate <= $currentDate) {
                     ?>
-                        <button type="button" onclick="addToCart(<?php echo $productID ?>)" class="btn btn-outline-primary w-100 d-block mx-auto">Add to Cart</button>
-                      <?php
+                          <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" style="pointer-events: none; filter: none; background-color:#eee;
+                          border-color:#ddd; color:#333;">
+                            Product Has Expired
+                          </button>
+                        <?php
+                        } else {
+                        ?>
+                          <button type="button" onclick="addToCart(<?php echo $productID ?>)" class="btn btn-outline-primary w-100 d-block mx-auto">Add to Cart</button>
+                        <?php
+                        }
                       } else {
-                      ?>
+                        ?>
                         <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" style="pointer-events: none; filter: none; background-color:#eee;
                       border-color:#ddd; color:#333;">
                           Out Of Stock
@@ -509,7 +519,7 @@ try {
     <script>
       //for Search
       const searchInput = document.getElementById('searchInput');
-      const cols = document.querySelectorAll('.col'); // Select elements with class name 'col'
+      const cols = document.querySelectorAll('.col'); 
 
       searchInput.addEventListener('input', function(event) {
         const searchQuery = event.target.value.trim().toLowerCase(); // Get the input value in lowercase
@@ -517,7 +527,7 @@ try {
         cols.forEach(col => {
           const productName = col.querySelector('.card-title').textContent.toLowerCase();
 
-          // Check if the product name includes the search query
+          // Check if the product name includes the search input
           if (productName.includes(searchQuery)) {
             col.style.display = 'block';
           } else {
