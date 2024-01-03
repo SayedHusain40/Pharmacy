@@ -49,7 +49,7 @@ try {
                 <th>Status</th>
                 <th>OrderDate</th>
             </tr>";
-
+            if (!empty($query)){
     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
 
         echo "<tr>
@@ -63,8 +63,11 @@ try {
               </tr>";
     }
 
-    echo "</table>
-    </div>
+    echo "</table>";
+  } else {
+    echo '<p>No order data found.</p>';
+  }
+    echo "</div>
     </div>
     </div>";
 

@@ -35,7 +35,10 @@ try {
     $query = $db->query($sql);
 
     // Fetch and display the data
-    echo "<table>
+    echo "<div class='Container'>
+    <div class='row'>
+    <div class='col-xl-12'>
+    <table>
             <tr>
                 <th>OrderID</th>
                 <th>UserID</th>
@@ -46,7 +49,7 @@ try {
                 <th>OrderDate</th>
                 <th>Transaction</th>
             </tr>";
-
+      if (!empty($query)){
     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
         // Retrieve transaction details based on the order's TotalPrice
         $transaction = "No transaction";
@@ -65,9 +68,14 @@ try {
                 <td>$transaction</td>
               </tr>";
     }
-
+   
     echo "</table>";
-
+  } else {
+    echo '<p>No order data found.</p>';
+  }
+  echo "</div>
+    </div>
+    </div>";
 } catch (PDOException $e) {
     echo "Error:" . $e->getMessage();
 }
