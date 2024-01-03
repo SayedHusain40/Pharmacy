@@ -159,7 +159,7 @@
         <a class="nav-link" href="#">My Orders</a>
         </li>
         <li class="nav-item">   
-        <a class="nav-link" href="OfferPage.php">Offers</a>
+        <a class="nav-link" href="../Interface/OfferPage.php">Offers</a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="../Interface/AboutUs.php">About Us</a>
