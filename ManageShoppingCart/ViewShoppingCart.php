@@ -18,7 +18,6 @@ try {
     `view cart`.Qty,
     `view cart`.cartID,
     `view cart`.ProductID
-    -- (`product data`.Price * `view cart`.Qty) AS TotalPrice
     FROM 
         `view cart`
     JOIN 

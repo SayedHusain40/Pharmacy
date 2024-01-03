@@ -41,7 +41,7 @@ try {
   }
 
   if (isset($_GET['minPrice']) && isset($_GET['maxPrice'])) {
-    // Retrieve the min and max prices from the submitted form
+    // Retrieve the min and max prices 
     $minPriceFilter = $_GET['minPrice'];
     $maxPriceFilter = $_GET['maxPrice'];
     $query .= " AND Price BETWEEN ? AND ?";
@@ -169,13 +169,13 @@ try {
         <?Php
         //  retrieve minimum and maximum prices for current category
         if (isset($_GET['Brand'])) {
-          // If a brand is selected, fetch min and max prices for that brand within the category
+          // If a brand is selected => min and max prices for that brand within the category
           $selectedBrand = $_GET['Brand'];
           $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Type = ? AND Brand = ?";
           $minMaxData = $db->prepare($minMaxQuery);
           $minMaxData->execute([$categoryName, $selectedBrand]);
         } else {
-          // If no specific brand is selected, fetch min and max prices for the entire category
+          // If no specific brand is selected => min and max prices for the entire category
           $minMaxQuery = "SELECT MIN(Price) AS MinPrice, MAX(Price) AS MaxPrice FROM `product data` WHERE Type = ?";
           $minMaxData = $db->prepare($minMaxQuery);
           $minMaxData->execute([$categoryName]);
