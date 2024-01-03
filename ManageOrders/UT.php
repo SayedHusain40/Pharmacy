@@ -169,7 +169,7 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
 </button></td>
                 <td><?php echo $order['OrderDate']; ?></td>
                 <td> <a href="../ManageOrders/ViewOrderDetails.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class="fas fa-info-circle"></i> </button>      </a></td>
-                <td> <a href="../Function/Te.php?OrderID=<?php echo $order['OrderID']; ?>" name="TrackOrder"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"><i class="fas fa-shipping-fast"></i> Track Order  </button> </a> </td>
+                <td> <a href="../Function/TrackOrder.php?OrderID=<?php echo $order['OrderID']; ?>" name="TrackOrder"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"><i class="fas fa-shipping-fast"></i> Track Order  </button> </a> </td>
             </tr>
         <?php endforeach; ?>
     </tbody>
@@ -206,7 +206,7 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
 </button></td>
                 <td><?php echo $order['OrderDate']; ?></td>
                 <td> <a href="../ManageOrders/ViewOrderDetails.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class="fas fa-info-circle"></i> </button>      </a></td>
-                <td> <a href="../Function/Te.php?OrderID=<?php echo $order['OrderID']; ?>" name="TrackOrder"> <button class="details-icon" name="OrderID[]" ><i class="fas fa-shipping-fast"></i> Track Order  </button> </a> </td>
+                <td> <a href="../Function/TrackOrder.php?OrderID=<?php echo $order['OrderID']; ?>" name="TrackOrder"> <button class="details-icon" name="OrderID[]" ><i class="fas fa-shipping-fast"></i> Track Order  </button> </a> </td>
             </tr> </a>
         <?php endforeach; ?>
     </tbody>
