@@ -114,3 +114,12 @@ $selectedProductIds = isset($_POST['ProductID']) ? $_POST['ProductID'] : [];
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
+
+
+      <?php if (isset($_SESSION['un'])) {
+                      if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Staff') {
+                        echo '<button type="submit" name="Vbtn">View Details</button>
+                        <button type="submit" name="delaccbtn" class="btn">Delete Product</button>
+                        <a href="../ManageProduct/AddProduct.php" ><button type="submit" name="addbtn" class="btn">Add Product</button> </a>';
+                      } }
+                    ?>

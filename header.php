@@ -23,6 +23,20 @@
       padding: 5px;
       background-color: rgba(255, 255, 255, 0.5);
     }
+    .Logout-button {
+  border: none;
+  background-color: transparent;
+  margin-left: 10px;
+  padding: 0;
+  cursor: pointer;
+}
+.Profile-button {
+  border: none;
+  background-color: transparent;
+  margin-left: 10px;
+  padding: 0;
+  cursor: pointer;
+}
   </style>
 </head>
 
@@ -84,15 +98,14 @@
           <div class="dropdown-menu">
           <a class="dropdown-item" href="../ManageUsers/ViewUsers.php">View Users</a>
           <a class="dropdown-item" href="../ManageUsers/AddUser.php">Add User</a>
-          <a class="dropdown-item" href="../ManageUsers/EditUser.php">Edit User</a>
           <a class="dropdown-item" href="../ManageUsers/AddCustomer.php">Add Customer</a>
-          <a class="dropdown-item" href="../ManageUsers/EditCustomer.php">Edit Customer</a>';
+          ';
                 if ($_SESSION['user_role'] == 'Admin') {
                   echo '<a class="dropdown-item" href="../ManageUsers/AddStaff.php">Add Staff</a>
             <a class="dropdown-item" href="../ManageUsers/EditStaff.php">Edit Staff</a>';
                 }
                 echo '<a class="dropdown-item" href="../ManageUsers/AddSupplier.php">Add Supplier</a>
-          <a class="dropdown-item" href="../ManageUsers/EditSupplier.php">Edit Supplier</a>
+          
           </div>
           </li>
           <li class="nav-item dropdown mr-5">
@@ -105,15 +118,8 @@
           <a class="dropdown-item" href="../ManageOffers/EditOffer.php">Edit Offer</a>
           </div>
           </li>
-          <li class="nav-item dropdown mr-5">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-              Account
-            </a>
-            <div class="dropdown-menu">
-            <a class="dropdown-item" href="profile.php">profile</a>
-            <a class="dropdown-item" href="../Account/Logout.php">logout</a>
-            </div>
-            </li>
+          <button class="Profile-button"><a href="../Account/Profile.php?id="> <i class="fas fa-user"></i> </a> </button>
+          <button class="Logout-button"><a href="../Account/logout.php"> <i class="fas fa-sign-out-alt"></i></a> </button>
           ';
               } else if ($_SESSION['user_role'] == 'Customer') {
                 echo '
@@ -164,6 +170,8 @@
         </li>
         <button class="favorite-button"> <a href="../ManageWishList/ViewWishList.php"><i class="far fa-heart"></i></a> </button>
         <button class="shopping-cart-button"><a href="../ManageShoppingCart/ViewShoppingCart.php"> <i class="fas fa-shopping-cart"></i> </a> </button>
+        <button class="Profile-button"><a href="../Account/Profile.php?id="> <i class="fas fa-user"></i> </a> </button>
+        <button class="Logout-button"><a href="../Account/logout.php"> <i class="fas fa-sign-out-alt"></i></a> </button>
         ';
               } else if ($_SESSION['user_role'] == 'Supplier') {
                 echo '
@@ -246,6 +254,8 @@
               </li>
               <button class="favorite-button"> <a href="../ManageWishList/ViewWishList.php"><i class="far fa-heart"></i></a> </button>
               <button class="shopping-cart-button"><a href="../ManageShoppingCart/ViewShoppingCart.php"> <i class="fas fa-shopping-cart"></i> </a> </button>
+              <button class="Profile-button"><a href="../Account/Profile.php?id="> <i class="fas fa-user"></i> </a> </button>
+              <button class="Logout-button"><a href="../Account/logout.php"> <i class="fas fa-sign-out-alt"></i></a> </button>
               ';
               }
             } else {

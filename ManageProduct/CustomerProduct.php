@@ -78,12 +78,12 @@
         BD <span>' . $price . '</span>
     </div>
         <div class="description">
-			<h2>Detals</h2>
+			<h2>Details</h2>
 			<ul>
 				<li>Name: ' . $productName . '</li>
 				<li>Type: ' . $productType . ' </li>
 				<li>Expiration Date: ' . $expireDate .  '</li>
-				<li>Quantity: ' . $quantity . '</li>    
+				<li>On Stock: ' . $quantity . '</li>    
                 <li>Points: ' . $points . ' </li>
 			</ul>
 		</div>
@@ -106,7 +106,7 @@
           } else {
             if (isset($_SESSION['user_id'])) {
             ?>
-              <button type="button" onclick="addToCart(<?php echo $productId ?>)" qty=<?php echo $quantity ?> class="buy--btn addToCart">Add to Cart</button>
+              <button type="button" onclick="addToCart(<?php echo $productId ?>)" qty=<?php echo $quantity / $quantity ?> class="buy--btn addToCart">Add to Cart</button>
             <?php
             } else {
             ?>
