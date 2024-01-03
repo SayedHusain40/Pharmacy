@@ -26,7 +26,7 @@ if (isset($_GET['OrderID'])) {
 <head>
     <title>Document</title>
     <link rel="stylesheet" href="../css/all.min.css" />
-    <link rel="stylesheet" href="../css/Te.css">
+    <link rel="stylesheet" href="../css/TrackOrder.css">
     <style>
     .center {
         text-align: center;
