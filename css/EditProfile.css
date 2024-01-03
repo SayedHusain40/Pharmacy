@@ -108,15 +108,8 @@ label{
     padding: 5px;
     border-radius: 10px;
   }
-#username, #password, #fname, #lname, #email, #confirm-password, #dob{
-  width : 70%;
-  padding: 5px;
-  border-radius: 10px;
-  margin-left: 60px;
-  margin-bottom: 10px;
-}
-#Email, #Phonenumber{
 
+#Email #Username{
     width : 70%;
     padding: 5px;
     border-radius: 10px;

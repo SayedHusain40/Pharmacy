@@ -110,7 +110,7 @@
               Account
             </a>
             <div class="dropdown-menu">
-            <a class="dropdown-item" href="profile.php">profile</a>
+            <a class="dropdown-item" href="../Account/EditAdmin.php">profile</a>
             <a class="dropdown-item" href="../Account/Logout.php">logout</a>
             </div>
             </li>
