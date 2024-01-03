@@ -47,16 +47,14 @@
             Reports
           </a>
           <div class="dropdown-menu">
-          <a class="dropdown-item" href="../.php">Medicine Report</a>
-          <a class="dropdown-item" href="../.php">Current Inventory Report</a>
-          <a class="dropdown-item" href="../.php">Users Report</a>
-          <a class="dropdown-item" href="../.php">Customer Information Report</a> 
-          <a class="dropdown-item" href="../.php">Staff Information Report</a> 
-          <a class="dropdown-item" href="../.php">Customer Order Details Report</a> 
-          <a class="dropdown-item" href="../.php">Top Selling Medicines Report</a> 
-          <a class="dropdown-item" href="../.php">Supplier Report</a>
-          <a class="dropdown-item" href="../.php">Order Report</a>
-          <a class="dropdown-item" href="../.php">Offers Report</a>
+          <a class="dropdown-item" href="../Reports/CurrentInventoryReport.php">Current Inventory Report</a>
+          <a class="dropdown-item" href="../Reports/UsersReport.php">Users Report</a>
+          <a class="dropdown-item" href="../Reports/CustomerInformationReport.php">Customer Information Report</a> 
+          <a class="dropdown-item" href="../Reports/StaffInformationReport.php">Staff Information Report</a> 
+          <a class="dropdown-item" href="../Reports/TopSellingMedicinesReport.php">Top Selling Medicines Report</a> 
+          <a class="dropdown-item" href="../Reports/SupplierReport.php">Supplier Report</a>
+          <a class="dropdown-item" href="../Reports/OrderReport.php">Order Report</a>
+          <a class="dropdown-item" href="../Reports/OfferReport.php">Offers Report</a>
           </div>
           </li>
           <li class="nav-item dropdown mr-5">
