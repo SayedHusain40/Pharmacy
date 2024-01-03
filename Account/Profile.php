@@ -6,20 +6,21 @@ try {
 
   //assume
   $userID = $_SESSION["user_id"];
-  $stmt = $db->prepare("SELECT * FROM `customer data` WHERE UserID = '$userID'");
+  $stmt = $db->prepare("SELECT * FROM `customer data`  WHERE UserID = '$userID'");
 $stmt->execute();
 $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 //update form 
 if (isset($_POST['Update'])){
     
     $FirstName = $_POST['FirstName'];
     $LastName = $_POST['LastName'];
-    //$MobileNumber = $_POST['MobileNumber'];
+    $MobileNumber = $_POST['MobileNumber'];
     $Email = $_POST['Email'];
-    //$DOB = $_POST['DOB'];
+    $DOB = $_POST['DOB'];
 
-    $up = $db->prepare("UPDATE `customer data`SET FirstName='$FirstName' , LastName='$LastName' , Email='$Email' WHERE UserID = '$userID'");
+    $up = $db->prepare("UPDATE `customer data`SET FirstName='$FirstName' , LastName='$LastName' , Email='$Email' , MobileNumber='$MobileNumber' ,  DOB='$DOB' WHERE UserID = '$userID'");
     $up->execute();
     $update = $up->fetchAll(PDO::FETCH_ASSOC);
 
@@ -42,8 +43,8 @@ catch (PDOException $e) {
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" 
         crossorigin="anonymous">
         <script src="https://kit.fontawesome.com/76f78292cc.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="../css/Account.css" />
-    <title>Document</title>
+        <link rel="stylesheet" href="../css/EditProfile.css" />
+    <title>Update Profile</title>
 </head>
 <body>
 <?php 
@@ -55,12 +56,13 @@ $LastName = $user['LastName'];
 $MobileNumber = $user['MobileNumber'];
 $Email = $user['Email'];
 $DOB = $user['DOB'];
+$Gender = $user['Gender'];
 ?>
   <header>
     <div class="container">
   <div class="row">
     <div class="col-lg-6 col-md-8 col-sm-10 col-12">
-      <h1>Sign up</h1>
+    <h1>Update Profile</h1>
     <form action="#" method="POST">
 <div class="form-group">
             <label for="fname">First Name:</label> <br>
@@ -70,28 +72,19 @@ $DOB = $user['DOB'];
             <label for="lname">Last Name:</label> <br>
             <input type="text" class="form-control" id="lname" name="LastName" placeholder="Enter your last name" title="Enter your last name!" value="<?php echo $LastName; ?>">
           </div>
+          <div class="edit">
           <div class="form-group">
             <label for="email">Email:</label> <br>
             <input type="text" class="form-control" id="Email" name="Email" placeholder="Enter an email" title="Enter an email!" value="<?php echo $Email; ?>">
-          </div>
-          <div class="form-group">
-            <label for="username">Username:</label> <br>
-            <input type="text" class="form-control" id="username" name="un" placeholder="Enter an username" title="Enter an username!" value="<?php echo $user; ?>">
-          </div>
+        </div>
           <div class="form-group">
           <label for="phone_number">Phone Number:</label> <br>
-          <input type="text" class="form-control" id="phone_number" name="phn" placeholder="Enter phone number" title="Enter phone number" value="<?php echo $MobileNumber; ?>">
+          <input type="text" class="form-control" id="Phonenumber" name="MobileNumber" placeholder="Enter phone number" title="Enter phone number" value="<?php echo $MobileNumber; ?>">
           </div>
-          <div class="G form-group">
-          <label for="gender">Gender:</label> <br>
-          <input type="radio" id="male" name="gender" value="male">
-          <label id="male" for="male">Male</label>
-          <input type="radio" id="female" name="gender" value="female">
-          <label id="female" for="female">Female</label> 
-          </div>
+</div>
           <div class="form-group">
           <label for="dob">Date of Birth:</label> <br>
-          <input type="date" class="form-control" id="dob" name="dob" placeholder="Enter your date of birth" title="Enter your date of birth" value="<?php echo $DOB; ?>">
+          <input type="date" class="form-control" id="dob" name="DOB" placeholder="Enter your date of birth" title="Enter your date of birth" value="<?php echo $DOB; ?>">
           </div>
         <div class="form-button-wrapper1">
           <input type="submit" name="Update" value="Update"/>

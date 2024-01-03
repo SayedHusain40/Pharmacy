@@ -335,3 +335,7 @@ try {
   echo "Error: " . $e->getMessage();
 }
 ?>
+
+<?php 
+  include "../footer.php";
+?>

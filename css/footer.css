@@ -1,0 +1,17 @@
+footer {
+    width: 100%;
+    border-top: solid lightslategrey 1px;
+    background-color: lightslategray;
+    padding: 1rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  footer a {
+    display: inline-block;
+    padding: 1%;
+    text-decoration: none;
+    color: whitesmoke;
+    font-size: 0.8rem;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }

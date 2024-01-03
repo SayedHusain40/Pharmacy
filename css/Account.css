@@ -180,3 +180,6 @@ footer{
         margin-left: 60px;
         color: #E51A92;
       }
+      .edit{
+        column-span: all;
+      }
