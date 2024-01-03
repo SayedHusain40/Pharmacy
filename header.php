@@ -156,7 +156,7 @@
     <a class="nav-link" href="../Interface/ShopByBrand.php">Shop by Brand</a>
     </li>
         <li class="nav-item">
-        <a class="nav-link" href="#">My Orders</a>
+        <a class="nav-link" href="../Interface/OfferPage.php">Offers</a>        
         </li>
         <li class="nav-item">   
         <a class="nav-link" href="../Interface/OfferPage.php">Offers</a>
