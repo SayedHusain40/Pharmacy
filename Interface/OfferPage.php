@@ -367,6 +367,7 @@ try {
               $price = $row["Price"];
               $Photo = $row["Photo"];
               $Availability = $row["Availability"];
+              $ExpireDate = $row["ExpireDate"];
 
               if ($countOffer > 0) {
                 $isFound = true;
@@ -462,11 +463,20 @@ try {
 
                       if (isset($_SESSION['user_id'])) {
                         if ($Availability === 1) {
+                          if ($ExpireDate <= $currentDate) {
                       ?>
-                          <button type="button" onclick="addToCart(<?php echo $productID ?>)" class="btn btn-outline-primary w-100 d-block mx-auto">Add to Cart</button>
-                        <?php
+                            <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" style="pointer-events: none; filter: none; background-color:#eee;
+                          border-color:#ddd; color:#333;">
+                              Out Of Stock
+                            </button>
+                          <?php
+                          } else {
+                          ?>
+                            <button type="button" onclick="addToCart(<?php echo $productID ?>)" class="btn btn-outline-primary w-100 d-block mx-auto">Add to Cart</button>
+                          <?php
+                          }
                         } else {
-                        ?>
+                          ?>
                           <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" style="pointer-events: none; filter: none; background-color:#eee;
                       border-color:#ddd; color:#333;">
                             Out Of Stock

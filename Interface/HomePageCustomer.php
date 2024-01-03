@@ -60,20 +60,21 @@ try {
               $price = $row["Price"];
               $Photo = $row["Photo"];
               $Availability = $row["Availability"];
+              $ExpireDate = $row["ExpireDate"];
             ?>
-            
+
               <div class="col">
                 <?php
-              if (isset($_SESSION['un'])) {
-              if ($_SESSION['user_role'] == 'Customer') {
-                  echo '<a href="../ManageProduct/CustomerProduct.php?ProductID=' . $productID . '" name="ProductID[]">';
-              } else if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Staff') {
-                  echo '<a href="../ManageProduct/ProductDetails.php?ProductID=' . $productID . '" name="ProductID[]">';
-              }
-          } ?>
+                if (isset($_SESSION['un'])) {
+                  if ($_SESSION['user_role'] == 'Customer') {
+                    echo '<a href="../ManageProduct/CustomerProduct.php?ProductID=' . $productID . '" name="ProductID[]">';
+                  } else if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Staff') {
+                    echo '<a href="../ManageProduct/ProductDetails.php?ProductID=' . $productID . '" name="ProductID[]">';
+                  }
+                } ?>
                 <div class="card card-color:red">
                   <div class="cartImag">
-                  <a href="../ManageProduct/CustomerProduct.php?ProductID=<?php echo $productID; ?>" name="ProductID[]"> <img src="../images/<?php echo $Photo ?>" class="card-img-top w-50 mx-auto d-block"></a>
+                    <a href="../ManageProduct/CustomerProduct.php?ProductID=<?php echo $productID; ?>" name="ProductID[]"> <img src="../images/<?php echo $Photo ?>" class="card-img-top w-50 mx-auto d-block"></a>
                   </div>
                   <div class="card-body">
                     <?php
@@ -104,8 +105,8 @@ try {
                       </div>
                       <?php
                       if (isset($_SESSION['un'])) {
-              echo '</a>';
-          } ?>
+                        echo '</a>';
+                      } ?>
                       <!-- Modal -->
                       <div class="modal" id="alertModal" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
@@ -161,42 +162,50 @@ try {
 
                     <?php
 
-                    if (isset($_SESSION['user_id'])) {
-                      if ($Availability === 1) {
+                    if ($Availability === 1) {
+                      if ($ExpireDate <= $currentDate) {
                     ?>
-                        <button type="button" onclick="addToCart(<?php echo $productID ?>)" class="btn btn-outline-primary w-100 d-block mx-auto">Add to Cart</button>
-                      <?php
-                      } else {
-                      ?>
                         <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" style="pointer-events: none; filter: none; background-color:#eee;
-                      border-color:#ddd; color:#333;">
+                        border-color:#ddd; color:#333;">
                           Out Of Stock
                         </button>
+                        <?php
+                      } else {
+                        if (isset($_SESSION['user_id'])) {
+                        ?>
+                          <button type="button" onclick="addToCart(<?php echo $productID ?>)" class="btn btn-outline-primary w-100 d-block mx-auto">Add to Cart</button>
+                        <?php
+                        } else {
+                        ?>
+                          <button type="button" class="btn btn-outline-primary w-100 d-block mx-auto" data-bs-toggle="modal" data-bs-target="#cartModal">
+                            Add to Cart
+                          </button>
+
+                          <!-- Modal -->
+                          <div class="modal" id="cartModal" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" style="color: #0288d1;">Important!</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" style="font-size: large;">
+                                  "Please Log In to add this product to your Shopping Cart."
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                       <?php
+                        }
                       }
                     } else {
                       ?>
-                      <button type="button" class="btn btn-outline-primary w-100 d-block mx-auto" data-bs-toggle="modal" data-bs-target="#cartModal">
-                        Add to Cart
+                      <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" style="pointer-events: none; filter: none; background-color:#eee;
+                      border-color:#ddd; color:#333;">
+                        Out Of Stock
                       </button>
-
-                      <!-- Modal -->
-                      <div class="modal" id="cartModal" tabindex="-1">
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" style="color: #0288d1;">Important!</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" style="font-size: large;">
-                              "Please Log In to add this product to your Shopping Cart."
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     <?php
                     }
-
                     ?>
                   </div>
                 </div>
@@ -207,7 +216,7 @@ try {
           </div>
         </div>
       </div>
-      
+
     <?php
     } else {
     ?>
@@ -326,6 +335,6 @@ try {
 }
 ?>
 
-<?php 
-  include "../footer.php";
+<?php
+include "../footer.php";
 ?>

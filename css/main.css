@@ -32,6 +32,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  padding-right: 10px;
 }
 .cartContainer > div:first-child {
   width: 65%;
@@ -51,7 +52,7 @@
   font-size: 17px;
   border-radius: 6px;
   padding: 15px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 }
 .cartContainer .itemsBox .itemsBoxContent {
   margin-left: 10px;

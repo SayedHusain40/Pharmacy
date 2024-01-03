@@ -1,0 +1,63 @@
+
+img {
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+  }
+
+    input[type=text],input[type=number],input[type=date], input[type=file], select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 14px;
+      box-sizing: border-box;
+    }
+    
+    button{
+      background-color: #045daa;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 15px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 7px;
+    }
+    
+    .form {
+      border-radius: 15px;
+      background-color: #f2f2f2;
+      padding: 20px;
+      font-family: sans-serif;
+    }
+    .form-group {
+      border-radius: 15px;
+      background-color: transparent;
+      padding: 20px;
+      font-family: sans-serif;
+      font-weight: bold;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: sans-serif;
+    }
+
+    .check{
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
+

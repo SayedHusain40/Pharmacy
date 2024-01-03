@@ -156,7 +156,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["AddOffer"])) {
         event.preventDefault();
       }
 
-      // Check if a product other than the default option is selected
       if (productSelect.selectedIndex === 0) {
         errorSelectProduct.innerHTML = 'Please select a product.';
         event.preventDefault();
@@ -172,7 +171,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["AddOffer"])) {
         event.preventDefault();
       }
 
-      // Check for the start and end offer dates
       const today = new Date().toLocaleDateString('en-CA', {
         year: 'numeric',
         month: '2-digit',
