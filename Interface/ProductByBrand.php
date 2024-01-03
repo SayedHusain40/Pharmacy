@@ -347,7 +347,7 @@ try {
                     ?>
                           <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" style="pointer-events: none; filter: none; background-color:#eee;
                           border-color:#ddd; color:#333;">
-                            Product Has Expired
+                            Out Of Stock
                           </button>
                         <?php
                         } else {
@@ -519,7 +519,7 @@ try {
     <script>
       //for Search
       const searchInput = document.getElementById('searchInput');
-      const cols = document.querySelectorAll('.col'); 
+      const cols = document.querySelectorAll('.col');
 
       searchInput.addEventListener('input', function(event) {
         const searchQuery = event.target.value.trim().toLowerCase(); // Get the input value in lowercase
