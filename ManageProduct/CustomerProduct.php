@@ -65,7 +65,7 @@ if (isset($_GET['ProductID'])) {
         BD <span>' . $price . '</span>
     </div>
         <div class="description">
-			<h3>Detals</h3>
+			<h2>Detals</h2>
 			<ul>
 				<li>Name: ' .$productName. '</li>
 				<li>Type: ' .$productType. ' </li>

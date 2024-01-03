@@ -10,11 +10,11 @@ body {
 	display: grid;
 	grid-template-rows: 1fr;
 	font-family: "Raleway", sans-serif;
-	background-color: #03677e;
+	background-color: #40b2cb;
 }
 
-h3 {
-	font-size: 0.7em;
+h2 {
+	
 	letter-spacing: 1.2px;
 	color: #a6a6a6;
 }
@@ -48,7 +48,7 @@ img {
 	width: 100%;
 	height: 100%;
 	border-radius: 6px;
-	box-shadow: 4px 4px 25px -2px rgba(0, 0, 0, 0.3);
+	
 }
 
 .photo-main {
@@ -83,7 +83,7 @@ img {
 	h1 {
 		margin-bottom: 0.1em;
 		color: #4c4c4c;
-		font-size: 1.5em;
+		font-size: 2em;
 		font-weight: 900;
 	}
 
@@ -95,7 +95,7 @@ img {
 
 .price {
 	margin: 1.5em 0;
-	color: #ff3f40;
+	color: #2a9fe3;
 	font-size: 1.2em;
 
 	span {
@@ -103,7 +103,7 @@ img {
 		font-size: 2.9em;
 	}
 }
-h3 {
+h2 {
     margin-bottom: 1.1em;
 }
 .buy--btn {
@@ -114,7 +114,7 @@ font-size: 0.8em;
 font-weight: 700;
 letter-spacing: 1.3px;
 color: #fff;
-background-color: #ff3f40;
+background-color: #2a9fe3;
 box-shadow: 2px 2px 25px -7px #4c4c4c;
 cursor: pointer;
 
@@ -122,3 +122,23 @@ cursor: pointer;
     transform: scale(0.97);
 }
 }
+@media (max-width: 768px) {
+	h1 {
+	  font-size: 1.5rem;
+	}
+	.product {
+	  font-size: 0.8rem;
+	  padding: 0.5rem;
+	}
+  }
+  
+  @media (max-width: 576px) {
+	 h1 {
+	  font-size: 1.2rem;
+	}
+	.product {
+	  font-size: 0.7rem;
+	  padding: 0.3rem;
+	}
+  }
+  
