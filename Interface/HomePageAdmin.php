@@ -63,7 +63,5 @@ foreach ($products as $product) {
     <p>Integer number</p>
     <h1>Month Best Seller</h1>
     <p>x(25)</p>
-
-   
 </body>
 </html>
