@@ -75,6 +75,17 @@ function getStatusOptions($selectedStatus) {
       display: inline-block;
       margin-right: 10px; /* Adjust the margin as needed */
     }
+    button.details-icon {
+      background: none;
+  border: none;
+  padding: 0;
+    }
+    button.details-icon i {
+  color: #2E97A7;
+}
+button.details-icon i:hover {
+  color: #2E97;
+}
     button.update-icon {
   background: none;
   border: none;
@@ -157,7 +168,8 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
   <i class="fas fa-sync"></i>
 </button></td>
                 <td><?php echo $order['OrderDate']; ?></td>
-                <td><i class="fas fa-info-circle"></i></td>
+                <td> <a href="../ManageOrders/ViewOrderDetails.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class="fas fa-info-circle"></i> </button>      </a></td>
+                <td> <a href="../Function/TrackOrder.php?OrderID=<?php echo $order['OrderID']; ?>" name="TrackOrder"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"><i class="fas fa-shipping-fast"></i> Track Order  </button> </a> </td>
             </tr>
         <?php endforeach; ?>
     </tbody>
@@ -194,6 +206,7 @@ if (isset($_GET['Sorting']) && in_array($_GET['Sorting'], $Allstatuses)) {
 </button></td>
                 <td><?php echo $order['OrderDate']; ?></td>
                 <td> <a href="../ManageOrders/ViewOrderDetails.php?OrderID=<?php echo $order['OrderID']; ?>"> <button class="details-icon" name="OrderID[]" data-order-id="<?php echo $order['OrderID']; ?>"> <i class="fas fa-info-circle"></i> </button>      </a></td>
+                <td> <a href="../Function/TrackOrder.php?OrderID=<?php echo $order['OrderID']; ?>" name="TrackOrder"> <button class="details-icon" name="OrderID[]" ><i class="fas fa-shipping-fast"></i> Track Order  </button> </a> </td>
             </tr> </a>
         <?php endforeach; ?>
     </tbody>
