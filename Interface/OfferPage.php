@@ -467,7 +467,7 @@ try {
                       ?>
                             <button id="outOfStock" type="button" class="btn btn-outline-primary w-100 d-block mx-auto" style="pointer-events: none; filter: none; background-color:#eee;
                           border-color:#ddd; color:#333;">
-                              Product Has Expired
+                              Out Of Stock
                             </button>
                           <?php
                           } else {
