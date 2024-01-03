@@ -84,15 +84,14 @@
           <div class="dropdown-menu">
           <a class="dropdown-item" href="../ManageUsers/ViewUsers.php">View Users</a>
           <a class="dropdown-item" href="../ManageUsers/AddUser.php">Add User</a>
-          <a class="dropdown-item" href="../ManageUsers/EditUser.php">Edit User</a>
           <a class="dropdown-item" href="../ManageUsers/AddCustomer.php">Add Customer</a>
-          <a class="dropdown-item" href="../ManageUsers/EditCustomer.php">Edit Customer</a>';
+          ';
                 if ($_SESSION['user_role'] == 'Admin') {
                   echo '<a class="dropdown-item" href="../ManageUsers/AddStaff.php">Add Staff</a>
             <a class="dropdown-item" href="../ManageUsers/EditStaff.php">Edit Staff</a>';
                 }
                 echo '<a class="dropdown-item" href="../ManageUsers/AddSupplier.php">Add Supplier</a>
-          <a class="dropdown-item" href="../ManageUsers/EditSupplier.php">Edit Supplier</a>
+          
           </div>
           </li>
           <li class="nav-item dropdown mr-5">
