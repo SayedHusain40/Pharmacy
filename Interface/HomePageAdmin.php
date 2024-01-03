@@ -64,6 +64,6 @@ foreach ($products as $product) {
     <h1>Month Best Seller</h1>
     <p>x(25)</p>
 
-   
+   <?php include '../ManageOrders/viewItems.php'; ?>
 </body>
 </html>
