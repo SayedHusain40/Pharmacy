@@ -118,7 +118,9 @@ if (isset($_SESSION["user_id"])) {
               </thead>
               <tbody>
                 <?php
+                $count = 0;
                 while ($row = $data->fetch(PDO::FETCH_ASSOC)) {
+
                   $offerData = $db->prepare("SELECT DiscountedPrice FROM `offers data` WHERE ProductID = ?");
                   $offerData->execute([$row['ProductID']]);
                   $offerPrice = $offerData->fetch();
@@ -131,6 +133,8 @@ if (isset($_SESSION["user_id"])) {
                     $percentage = round((($row['Price'] - $offerPrice["DiscountedPrice"]) / $row['Price']) * 100, 1) . "%";
                     $currentPice = $offerPrice["DiscountedPrice"];
                   }
+                  $count += $currentPice;
+
                 ?>
                   <tr>
                     <td><?php echo $row['ProductID']; ?></td>
@@ -143,6 +147,16 @@ if (isset($_SESSION["user_id"])) {
                     <td><?php echo $percentage ?></td>
                     <td><?php echo $row['PaymentMethod']; ?></td>
                     <td><?php echo "BHD " . $currentPice; ?></td>
+                  </tr>
+                <?php
+                }
+                if ($count !== $totalPrice) {
+                ?>
+                  <tr >
+                    <td colspan="9" class="text-end"><strong>Delivery:</strong></td>
+                    <td>
+                      <?php echo "BHD 1.5"; ?>
+                    </td>
                   </tr>
                 <?php
                 }
