@@ -22,19 +22,21 @@
 <?php
 session_start();
 include '../header.php';
-include '../Connection/init.php';
-$sql = "SELECT od.OrderID, od.UserID, od.TotalPrice, GROUP_CONCAT(CONCAT(pd.Name, ' - ', oi.Qty, ' qty BD [', oi.TotalPrice, '] <br>')) AS Products, od.PaymentMethod, od.Status, od.OrderDate
-          FROM `order data` AS od
-          INNER JOIN `ordered item` AS oi ON od.OrderID = oi.OrderID
-          INNER JOIN `product data` AS pd ON oi.ProductID = pd.ProductID
-          GROUP BY od.OrderID
-          ORDER BY od.OrderID";
+if (isset($_GET['OrderID'])) {
+  $orderId = $_GET['OrderID'];
+  try {
+    include '../Connection/init.php';
+  
+    $sql = "SELECT od.OrderID, od.UserID, od.TotalPrice, GROUP_CONCAT(CONCAT(pd.Name, ' - ', oi.Qty, ' qty BD [', oi.TotalPrice, '] <br>')) AS Products, od.PaymentMethod, od.Status, od.OrderDate
+            FROM `order data` AS od
+            INNER JOIN `ordered item` AS oi ON od.OrderID = oi.OrderID
+            INNER JOIN `product data` AS pd ON oi.ProductID = pd.ProductID WHERE od.OrderID = ?
+            GROUP BY od.OrderID
+            ORDER BY od.OrderID";
+  
+    $stmt = $db->prepare($sql);
+    $stmt->execute([$orderId]);
 
-try {
-    // Execute the modified query
-    $query = $db->query($sql);
-
-    // Fetch and display the data
     echo "
     <div class='Container'>
     <div class='row'>
@@ -49,9 +51,8 @@ try {
                 <th>Status</th>
                 <th>OrderDate</th>
             </tr>";
-            if (!empty($query)){
-    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-
+    if ($stmt->rowCount() > 0) {
+      while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         echo "<tr>
                 <td>{$row['OrderID']}</td>
                 <td>{$row['UserID']}</td>
@@ -61,20 +62,21 @@ try {
                 <td>{$row['Status']}</td>
                 <td>{$row['OrderDate']}</td>
               </tr>";
+      }
+    } else {
+      echo '<p>No order data found.</p>';
     }
-
     echo "</table>";
-  } else {
-    echo '<p>No order data found.</p>';
-  }
     echo "</div>
     </div>
     </div>";
 
-} catch (PDOException $e) {
+  } catch (PDOException $e) {
     echo "Error:" . $e->getMessage();
-}
+  }
 
-// Close the database connection
-$db = null;
+  // Close the database connection
+  $db = null;
+}
 ?>
+
