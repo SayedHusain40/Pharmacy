@@ -146,7 +146,6 @@ try {
     header("Location: ReceiptPage.php");
     ob_end_flush();
     exit();
-
   } else {
 
     $totalPrice = $_SESSION['TotalPrice'];
