@@ -122,6 +122,7 @@ try {
 
     // Get the last inserted PaymentID
     $PaymentID = $db->lastInsertId();
+    $_SESSION['PaymentID'] = $PaymentID;
 
 
     // Update (order data table)
@@ -141,8 +142,8 @@ try {
     $stmt = $db->prepare($deleteQuery);
     $stmt->execute([$userID]);
 
-    $_SESSION['payment_success'] = "true";
-    header("Location: HomePageCustomer.php");
+    // $_SESSION['payment_success'] = "true";
+    header("Location: ReceiptPage.php");
     ob_end_flush();
     exit();
 

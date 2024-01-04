@@ -25,12 +25,12 @@ try {
   <body>
     <?php
     //for display Successfully messages
-    if (isset($_SESSION['payment_success'])) {
-      echo '<div class="success-box" id="successBox">';
-      echo '<div> <i class= "success-icon fa-solid fa-circle-check" id="iconX"></i>"Payment successful! 🎉 Thank you for your payment!</div>';
-      echo '</div>';
-      unset($_SESSION['payment_success']);
-    }
+    // if (isset($_SESSION['payment_success'])) {
+    //   echo '<div class="success-box" id="successBox">';
+    //   echo '<div> <i class= "success-icon fa-solid fa-circle-check" id="iconX"></i>"Payment successful! 🎉 Thank you for your payment!</div>';
+    //   echo '</div>';
+    //   unset($_SESSION['payment_success']);
+    // }
 
     if ($count > 0) {
     ?>
