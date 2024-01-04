@@ -122,6 +122,9 @@
         <li class="nav-item">
         <a class="nav-link" href="../Account/Profile.php?id=">My Profile</a>
         </li>
+        <li class="nav-item">
+        <a class="nav-link" href="../ManageOrders/CViewOrder.php">My Orders</a>
+        </li>
         <li class="nav-item dropdown mr-5">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           Products
@@ -203,7 +206,7 @@
           <a class="nav-link" href="../Interface/ShopByBrand.php">Shop by Brand</a>
           </li>
               <li class="nav-item">
-              <a class="nav-link" href="#">My Orders</a>
+              <a class="nav-link" href="../ManageOrders/CViewOrder.php">My Orders</a>
               </li>
               <li class="nav-item">
               <a class="nav-link" href="OfferPage.php"> Offers</a>
