@@ -184,6 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            
     
             if ($sql->rowCount() === 1) {
+              $_SESSION['Add User'] = true;
                 header('Location: ../Account/Login.php');
                 exit();
             } else {
@@ -243,7 +244,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <header>
 <?php include '../header.php'; ?>
   </header>
-
+  <?php
+    if (isset($_SESSION['Add User'])) {
+    echo '<div class="success-box" id="successBox">';
+    echo '<div> <i class= "success-icon fa-solid fa-circle-check" id="iconX"></i>"User Added successfully! 🎉!</div>';
+    echo '</div>';
+    unset($_SESSION['Add User']);
+    }  ?>
 <div class="container">
 <div class="row justify-content-center">
     <div class="col-lg-12 col-md-8 col-sm-10 col-12">
@@ -261,7 +268,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="form-group">
         <label for="user_type">User Type:</label>
         <select name="user_type" id="user_type" title="Select the user you want to add!">
-        <option value="Staff" selected>Staff</option>
+        <?php if (isset($_SESSION['un'])) {
+              if ($_SESSION['user_role'] == 'Admin') {
+        echo '<option value="Staff" selected>Staff</option>';
+              } } ?>
         <option value="Customer">Customer</option>
         <option value="Supplier">Supplier</option>
         </select>

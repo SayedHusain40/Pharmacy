@@ -60,8 +60,9 @@ if (count($errors) === 0) {
 
    
     if ($stmt->rowCount() === 1) {
+        $_SESSION['AddProduct'] = true;
          // Redirect to a success page or perform any other necessary actions
-    header("Location: ../ManageProduct/ViewProduct.php");
+    header("Location: ../ManageProduct/viewItems.php");
     exit();
     } else {
         $errors['Err'] = "Something went wrong while inserting data";
@@ -202,7 +203,7 @@ if (count($errors) === 0) {
 </select>
     </div>
     <div class="Add">
-    <button type="submit">Add Product</button>
+    <button type="submit" class="AddProduct">Add Product</button>
     </div>
 </form>
     </section>

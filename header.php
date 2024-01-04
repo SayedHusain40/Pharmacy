@@ -76,7 +76,7 @@
             Manage Items
           </a>
           <div class="dropdown-menu">
-          <a class="dropdown-item" href="../ManageProduct/ViewProduct.php">View Products</a>
+          <a class="dropdown-item" href="../ManageProduct/ViewItems.php">View Products</a>
           <a class="dropdown-item" href="../ManageProduct/AddProduct.php">Add Product</a>
           <a class="dropdown-item" href="../ManageProduct/EditProduct.php">Edit Product</a>
           </div>
@@ -86,7 +86,7 @@
             Manage Orders
           </a>
           <div class="dropdown-menu">
-          <a class="dropdown-item" href="../ManageOrders/ViewOrder.php">View Order</a>
+          <a class="dropdown-item" href="../ManageOrders/ViewOrdersDetails.php">View Order</a>
           <a class="dropdown-item" href="../ManageOrders/AddOrder.php">Add Order</a>
           <a class="dropdown-item" href="../ManageOrders/EditOrder.php">Edit Order</a>
           </div>
@@ -97,15 +97,8 @@
           </a>
           <div class="dropdown-menu">
           <a class="dropdown-item" href="../ManageUsers/ViewUsers.php">View Users</a>
-          <a class="dropdown-item" href="../ManageUsers/AddUser.php">Add User</a>
-          <a class="dropdown-item" href="../ManageUsers/AddCustomer.php">Add Customer</a>
-          ';
-                if ($_SESSION['user_role'] == 'Admin') {
-                  echo '<a class="dropdown-item" href="../ManageUsers/AddStaff.php">Add Staff</a>
-            <a class="dropdown-item" href="../ManageUsers/EditStaff.php">Edit Staff</a>';
-                }
-                echo '<a class="dropdown-item" href="../ManageUsers/AddSupplier.php">Add Supplier</a>
-          
+          <a class="dropdown-item" href="../ManageUsers/AddUsers.php">Add Users</a>
+          <a class="dropdown-item" href="../ManageUsers/EditUsers.php">Edit Users</a>
           </div>
           </li>
           <li class="nav-item dropdown mr-5">
@@ -181,38 +174,6 @@
               <li class="nav-item">
               <a class="nav-link" href="../Account/Profile.php">My Profile</a>
               </li>
-              <li class="nav-item dropdown mr-5">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-            Reports
-          </a>
-          <div class="dropdown-menu">
-          <a class="dropdown-item" href="../.php">Medicine Report</a>
-          <a class="dropdown-item" href="../.php">Current Inventory Report</a>
-          <a class="dropdown-item" href="../.php">Customer Order Details Report</a> 
-          <a class="dropdown-item" href="../.php">Top Selling Medicines Report</a> 
-          <a class="dropdown-item" href="../.php">Order Report</a>
-          </div>
-          </li>
-          <li class="nav-item dropdown mr-5">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-            Manage Items
-          </a>
-          <div class="dropdown-menu">
-          <a class="dropdown-item" href="../ManageProduct/SViewProductList.php">View Products</a>
-          <a class="dropdown-item" href="../ManageProduct/SAddProduct.php">Add Product</a>
-          <a class="dropdown-item" href="../ManageProduct/SEditProduct.php">Edit Product</a>
-          </div>
-          </li>
-          <li class="nav-item dropdown mr-5">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-            Manage Orders
-          </a>
-          <div class="dropdown-menu">
-          <a class="dropdown-item" href="../ManageOrders/SViewOrder.php">View Order</a>
-          <a class="dropdown-item" href="../ManageOrders/SAddOrder.php">Add Order</a>
-          <a class="dropdown-item" href="../ManageOrders/SEditOrder.php">Edit Order</a>
-          </div>
-</li>
               <li class="nav-item dropdown mr-5">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
                 Products

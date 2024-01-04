@@ -3,6 +3,13 @@ session_start();
 
 include '../Connection/init.php';
 
+// Retrieve the products from the database
+$stmt = $db->prepare("SELECT * FROM `product data`");
+$stmt->execute();
+$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Check if the selected product IDs array is set
+$selectedProductIds = isset($_POST['ProductID']) ? $_POST['ProductID'] : [];
 // Check if the "Delete Product" button is clicked
 if (isset($_POST['delaccbtn'])) {
     // Check if any products are selected for deletion
@@ -30,13 +37,7 @@ if (isset($_POST['Vbtn'])) {
       exit();
   }
 }
-// Retrieve the products from the database
-$stmt = $db->prepare("SELECT * FROM `product data`");
-$stmt->execute();
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Check if the selected product IDs array is set
-$selectedProductIds = isset($_POST['ProductID']) ? $_POST['ProductID'] : [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
