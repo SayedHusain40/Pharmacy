@@ -26,7 +26,7 @@ if (isset($_POST['Vbtn'])) {
   if (isset($_POST['ProductID']) && is_array($_POST['ProductID'])) {
       $productIds = $_POST['ProductID'];
       $urlParams = implode(',', $productIds);
-      header("Location: ../ManageProduct/ProductDetails.php?ProductID=". $urlParams);
+      header("Location: ../ManageProduct/ProductDetails.php?ProductID=<?php echo $productID; ?>");
       exit();
   }
 }
@@ -78,13 +78,13 @@ $selectedProductIds = isset($_POST['ProductID']) ? $_POST['ProductID'] : [];
               if ($_SESSION['user_role'] == 'Customer') {
                   echo '<a href="../ManageProduct/CProductDetails.php?ProductID=' . $productId . '" name="ProductID[]">';
               } else if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Staff') {
-                  echo '<a href="../ManageProduct/ProductDetails.php?ProductID=' . $productId . '" name="ProductID[]">';
+                  echo '<a href="../ManageProduct/CustomerProduct.php?ProductID=<?php echo $productID; ?>" name="ProductID[]">';
               }
           }
           
           echo '<div class="card h-100">
-              <div class="product-card" data-product-id="1">
-                  <input type="checkbox" name="ProductID[]" value="<?php echo $productId; ?>" />
+          <div class="product-card" data-product-id="1" onclick="selectProduct(event)">
+          <input type="checkbox" name="ProductID[]" value="<?php echo $productId; ?>" />
                   <div class="card-image">
                       <img src="../images/<?php echo $photo; ?>" alt="Product Image" class="product-image" id="product-image">
                   </div>
@@ -106,11 +106,19 @@ $selectedProductIds = isset($_POST['ProductID']) ? $_POST['ProductID'] : [];
       </div>
       <br> <br>
       <button type="submit" name="Vbtn" class="btn">View Details</button>
-      <button type="submit" name="delaccbtn" class="btn">Delete Product</button>
+<button type="submit" name="delaccbtn" class="btn">Delete Product</button>
       <a href="../ManageProduct/AddProduct.php" ><button type="submit" name="addbtn" class="btn">Add Product</button> </a> <br>
      
     </form>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    function selectProduct(event) {
+    if (!event.target.classList.contains('add-to-cart-button')) {
+        const checkbox = event.currentTarget.querySelector('input[type="checkbox"]');
+        checkbox.checked = !checkbox.checked;
+    }
+}
+  </script>
 </body>
 </html>
