@@ -135,6 +135,12 @@ try {
     $update = $db->prepare("UPDATE `customer data` SET CreditCardInfo = ?,ShippingInfo = ?, MembershipPoints = ? WHERE UserID = ?");
     $update->execute([$CardInfoArray, $shippingInfoArray, $newMembershipPoints, $userID]);
 
+
+    // delete all product from view cart after payment
+    $deleteQuery = "DELETE FROM `view cart` WHERE userID = ?";
+    $stmt = $db->prepare($deleteQuery);
+    $stmt->execute([$userID]);
+
     $_SESSION['payment_success'] = "true";
     header("Location: HomePageCustomer.php");
     ob_end_flush();

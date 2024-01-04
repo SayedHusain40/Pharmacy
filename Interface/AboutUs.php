@@ -13,7 +13,7 @@
 
 <div class="responsive-container-block bigContainer">
   <div class="responsive-container-block Container">
-    <img class="mainImg" src="../images/P1.jpg">
+  <img class="mainImg" src="../images/logo.png">
     <div class="allText aboveText">
       <p class="text-blk headingText">
         Our Mission
@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="responsive-container-block Container bottomContainer">
-    <img class="mainImg" src="../images/p1.jpg">
+    <img class="mainImg" src="../images/logo.png">
     <div class="allText bottomText">
       <p class="text-blk headingText">
         Our Team
