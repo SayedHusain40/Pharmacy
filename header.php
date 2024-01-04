@@ -88,7 +88,6 @@
           <a class="dropdown-item" href="../ManageOrders/OrderStatus.php">Manage Orders</a>
           <a class="dropdown-item" href="../ManageOrders/ViewOrdersDetails.php">View Order</a>
           <a class="dropdown-item" href="../ManageOrders/AddOrder.php">Add Order</a>
-          <a class="dropdown-item" href="../ManageOrders/EditOrder.php">Edit Order</a>
           </div>
           </li>
           <li class="nav-item dropdown mr-5">
