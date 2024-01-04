@@ -111,7 +111,7 @@
           <a class="dropdown-item" href="../ManageOffers/EditOffer.php">Edit Offer</a>
           </div>
           </li>
-          <button class="Profile-button"><a href="../Account/Profile.php?id="> <i class="fas fa-user"></i> </a> </button>
+          <button class="Profile-button"><a href="../Account/EditAdmin.php?id="> <i class="fas fa-user"></i> </a> </button>
           <button class="Logout-button"><a href="../Account/logout.php"> <i class="fas fa-sign-out-alt"></i></a> </button>
           ';
               } else if ($_SESSION['user_role'] == 'Customer') {
