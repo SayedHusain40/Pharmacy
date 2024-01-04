@@ -53,8 +53,8 @@ if (isset($_GET['OrderID'])) {
     <?php } ?>
 
     <div class="progress-bar">
-    <div class="step <?php echo (is_array($orderData) && isset($orderData['Status']) && $orderData['Status'] === 'Pending') ? 'active' : ''; ?>">
-        <div class="bullet <?php echo (is_array($orderData) && isset($orderData['Status']) && $orderData['Status'] === 'Pending') ? 'green' : ''; ?>">1</div>
+    <div class="step <?php echo (is_array($orderData) && isset($orderData['Status']) && $orderData['Status'] === $orderData['Status']) ? 'active' : ''; ?>">
+        <div class="bullet <?php echo (is_array($orderData) && isset($orderData['Status']) && $orderData['Status'] === $orderData['Status']) ? 'green' : ''; ?>">1</div>
         <div class="check fa fa-check"></div>
     </div>  <p>Order received </p>
     <div class="step <?php echo (is_array($trackData) && isset($trackData['ConfirmedDate']) && $trackData['ConfirmedDate'] !== null) ? 'active' : ''; ?>">
