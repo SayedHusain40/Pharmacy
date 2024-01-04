@@ -78,7 +78,6 @@
           <div class="dropdown-menu">
           <a class="dropdown-item" href="../ManageProduct/ViewItems.php">View Products</a>
           <a class="dropdown-item" href="../ManageProduct/AddProduct.php">Add Product</a>
-          <a class="dropdown-item" href="../ManageProduct/EditProduct.php">Edit Product</a>
           </div>
           </li>
           <li class="nav-item dropdown mr-5">
