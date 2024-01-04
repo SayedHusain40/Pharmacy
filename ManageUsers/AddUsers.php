@@ -185,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
             if ($sql->rowCount() === 1) {
               $_SESSION['Add User'] = true;
-                header('Location: ../Account/Login.php');
+                header('Location: ../ManageUsers/AddUsers.php');
                 exit();
             } else {
                 $errors['Err'] = "Something went wrong while inserting data";
