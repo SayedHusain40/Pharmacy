@@ -47,21 +47,20 @@ try {
   <body>
     <?php
     include "../header.php";
-
+  //for display Successfully messages
+  if (isset($_SESSION['updateQty_success'])) {
+    echo '<div class="success-box" id="successBox">';
+    echo '<div><i class="success-icon fa-solid fa-xmark" id="iconX"></i>Successfully Updated Qty!</div>';
+    echo '</div>';
+    unset($_SESSION['updateQty_success']);
+  }
+  if (isset($_SESSION['deleteProduct_success'])) {
+    echo '<div class="success-box" id="successBox">';
+    echo '<div><i class="success-icon fa-solid fa-xmark" id="iconX"></i>Successfully Delete Product!</div>';
+    echo '</div>';
+    unset($_SESSION['deleteProduct_success']);
+  }
     if ($count > 0) {
-      //for display Successfully messages
-      if (isset($_SESSION['updateQty_success'])) {
-        echo '<div class="success-box" id="successBox">';
-        echo '<div><i class="success-icon fa-solid fa-xmark" id="iconX"></i>Successfully Updated Qty!</div>';
-        echo '</div>';
-        unset($_SESSION['updateQty_success']);
-      }
-      if (isset($_SESSION['deleteProduct_success'])) {
-        echo '<div class="success-box" id="successBox">';
-        echo '<div><i class="success-icon fa-solid fa-xmark" id="iconX"></i>Successfully Delete Product!</div>';
-        echo '</div>';
-        unset($_SESSION['deleteProduct_success']);
-      }
     ?>
 
       <div class="HeaderTitle">
