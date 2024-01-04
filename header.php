@@ -86,6 +86,7 @@
             Manage Orders
           </a>
           <div class="dropdown-menu">
+          <a class="dropdown-item" href="../ManageOrders/OrderStatus.php">Manage Orders</a>
           <a class="dropdown-item" href="../ManageOrders/ViewOrdersDetails.php">View Order</a>
           <a class="dropdown-item" href="../ManageOrders/AddOrder.php">Add Order</a>
           <a class="dropdown-item" href="../ManageOrders/EditOrder.php">Edit Order</a>
@@ -117,7 +118,7 @@
               } else if ($_SESSION['user_role'] == 'Customer') {
                 echo '
           <li class="nav-item active">
-          <a class="nav-link" href="../Interface/HomePageCustomer' . $_SESSION['user_role'] . '.php">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="../Interface/HomePage' . $_SESSION['user_role'] . '.php">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="../Account/Profile.php?id=">My Profile</a>
