@@ -117,7 +117,7 @@
               } else if ($_SESSION['user_role'] == 'Customer') {
                 echo '
           <li class="nav-item active">
-          <a class="nav-link" href="../Interface/HomePage' . $_SESSION['user_role'] . '.php">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="../Interface/HomePageCustomer' . $_SESSION['user_role'] . '.php">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
         <a class="nav-link" href="../Account/Profile.php?id=">My Profile</a>
@@ -221,7 +221,7 @@
               }
             } else {
               echo '<li class="nav-item active">
-      <a class="nav-link" href="../Interface/HomePage.php">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-link" href="../Interface/HomePageCustomer.php">Home <span class="sr-only">(current)</span></a>
     </li>
     <li class="nav-item dropdown mr-5">
     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">

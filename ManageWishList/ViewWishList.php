@@ -41,6 +41,7 @@ try {
   <body>
     <?php
 
+
     if ($count > 0) {
     ?>
       <div class="HeaderTitle">
