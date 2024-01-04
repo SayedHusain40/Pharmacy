@@ -285,7 +285,8 @@ $selectedProductIds = isset($_POST['ProductID']) ? $_POST['ProductID'] : [];
                       if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Staff') {
                         echo '<button type="submit" name="Vbtn" class="btn">View Details</button>
                         <button type="submit" name="delaccbtn" class="btn">Delete Product</button>
-                        <a href="../ManageProduct/AddProduct.php" ><button type="submit" name="addbtn" class="btn">Add Product</button> </a>';
+                        <a href="../ManageProduct/AddProduct.php" ><button type="submit" name="addbtn" class="btn">Add Product</button> </a>
+                        <br>';
                       } }
                     ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
