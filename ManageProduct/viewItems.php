@@ -2,11 +2,57 @@
 session_start();
 try {
   require("../Connection/init.php");
+  include "../header.php";
+  $stmt = $db->prepare("
+  SELECT DISTINCT ud.UserID, ud.Username, cd.FirstName, cd.LastName
+  FROM `user data` ud
+  LEFT JOIN `Customer data` cd ON ud.UserID = cd.UserID
+  UNION
+  SELECT DISTINCT ud.UserID, ud.Username, sd.FirstName, sd.LastName
+  FROM `user data` ud
+  LEFT JOIN `Staff data` sd ON ud.UserID = sd.UserID
+  UNION
+  SELECT DISTINCT ud.UserID, ud.Username, sd.FirstName, sd.LastName
+  FROM `user data` ud
+  LEFT JOIN `Supplier data` sd ON ud.UserID = sd.UserID
+");
+$stmt->execute();
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  //query for view products
-  $data = $db->prepare("SELECT * FROM `product data`");
-  $data->execute();
-  $count = $data->rowCount();
+// Check if the "Delete Product" button is clicked
+if (isset($_POST['delaccbtn'])) {
+    // Check if any products are selected for deletion
+    if (isset($_POST['ProductID']) && is_array($_POST['ProductID'])) {
+        $productIds = $_POST['ProductID'];
+
+        // Prepare the placeholder string for the IN clause
+        $placeholder = str_repeat('?,', count($productIds) - 1) . '?';
+
+        // Delete the selected products from the database
+        $deleteStmt = $db->prepare("DELETE FROM `product data` WHERE ProductID IN ($placeholder)");
+        $deleteStmt->execute($productIds);
+
+        // Redirect to the same page to see the updated product list
+        header("Location: ".$_SERVER['PHP_SELF']);
+        exit();
+    }
+}
+if (isset($_POST['Vbtn'])) {
+  // Check if any products are selected for viewing details
+  if (isset($_POST['ProductID']) && is_array($_POST['ProductID'])) {
+      $productIds = $_POST['ProductID'];
+      $urlParams = implode(',', $productIds);
+      header("Location: ../ManageProduct/ProductDetails.php?ProductID=" . $urlParams);
+      exit();
+  }
+}
+// Retrieve the products from the database
+$data = $db->prepare("SELECT * FROM `product data`");
+$data->execute();
+$count = $data->rowCount();
+
+// Check if the selected product IDs array is set
+$selectedProductIds = isset($_POST['ProductID']) ? $_POST['ProductID'] : [];
 ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -29,8 +75,15 @@ try {
       echo '</div>';
       unset($_SESSION['payment_success']);
     }
-
     if ($count > 0) {
+    
+        echo '<select name="users">';
+    foreach ($users as $user) {
+      echo '<option value="' . $user['UserID'] . '">';
+      echo $user['UserID'] . ' - ' . $user['Username'] . ' - ' . $user['FirstName'] . ' ' . $user['LastName'];
+      echo '</option>';
+    }
+    echo '</select> <br> <br>';
     ?>
       <div class="containerProducts">
 
@@ -230,7 +283,7 @@ try {
  
  <?php if (isset($_SESSION['un'])) {
                       if ($_SESSION['user_role'] == 'Admin' || $_SESSION['user_role'] == 'Staff') {
-                        echo '<button type="submit" name="Vbtn">View Details</button>
+                        echo '<button type="submit" name="Vbtn" class="btn">View Details</button>
                         <button type="submit" name="delaccbtn" class="btn">Delete Product</button>
                         <a href="../ManageProduct/AddProduct.php" ><button type="submit" name="addbtn" class="btn">Add Product</button> </a>';
                       } }

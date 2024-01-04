@@ -37,7 +37,7 @@ try {
                 $updateStatusStmt->bindParam(':orderId', $orderId);
                 $updateStatusStmt->execute();
 
-                header("Location: ../ManageOrders/UT.php");
+                header("Location: ../ManageOrders/OrderStatus.php");
                 exit;
             } else if ($status === 'Out for Delivery') { 
                 // Check if the order exists in the `trackorder` table
@@ -63,7 +63,7 @@ try {
                 $updateStatusStmt->bindParam(':orderId', $orderId);
                 $updateStatusStmt->execute();
 
-                header("Location: ../ManageOrders/UT.php");
+                header("Location: ../ManageOrders/OrderStatus.php");
                 exit;
             } else if ($status === 'Processing') { 
       // Check if the order exists in the `trackorder` table
@@ -89,7 +89,7 @@ try {
       $updateStatusStmt->bindParam(':orderId', $orderId);
       $updateStatusStmt->execute();
 
-      header("Location: ../ManageOrders/UT.php");
+      header("Location: ../ManageOrders/OrderStatus.php");
       exit;
             } else if ($status === 'Confirmed') { 
                    // Check if the order exists in the `trackorder` table
@@ -115,7 +115,7 @@ try {
       $updateStatusStmt->bindParam(':orderId', $orderId);
       $updateStatusStmt->execute();
 
-      header("Location: ../ManageOrders/UT.php");
+      header("Location: ../ManageOrders/OrderStatus.php");
       exit;
             } else if ($status === 'Ready to Pickup') { 
                                  // Check if the order exists in the `trackorder` table
@@ -141,7 +141,7 @@ try {
       $updateStatusStmt->bindParam(':orderId', $orderId);
       $updateStatusStmt->execute();
 
-      header("Location: ../ManageOrders/UT.php");
+      header("Location: ../ManageOrders/OrderStatus.php");
       exit;
             }
         } else {

@@ -5,7 +5,7 @@ try {
   require("../Connection/init.php");
 
   //assume
-  $userID = $_SESSION["user_id"];
+  $userID = $_GET["user_id"];
   $productID = $_POST["productID"];
   $QTY = $_POST["quantity"];
 
