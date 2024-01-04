@@ -20,14 +20,6 @@
   session_start();
   include '../Connection/init.php';
 
-  //for display Successfully messages
-  if (isset($_SESSION['payment_success'])) {
-    echo '<div class="success-box" id="successBox">';
-    echo '<div> <i class= "success-icon fa-solid fa-circle-check" id="iconX"></i>"Payment successful! 🎉 Thank you for your payment!</div>';
-    echo '</div>';
-    unset($_SESSION['payment_success']);
-  }
-
   // Check if the productid parameter exists in the URL
   if (isset($_GET['ProductID'])) {
     $productIds = $_GET['ProductID'];
