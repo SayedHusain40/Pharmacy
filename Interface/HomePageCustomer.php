@@ -19,11 +19,59 @@ try {
     <title></title>
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/all.min.css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   </head>
 
   <body>
+  <!-- carousel -->
+  <div id="carouselExampleCaptions" class="container carousel slide mt-1 backg d-none d-md-block" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
+      </ol>
+      <div class="carousel-inner">
+      <div class="carousel-item active">
+          <img src="../images/slider1.jpg" class="d-block w-100 h-400" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>We believe your free time should be spent on things that matter.</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="../images/slider0.jpg" class="d-block w-100 h-400" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Quality Pharmacy Services at Your Fingertips</h1>
+            <h5>Keep your health in check with our wide range of pharmaceutical products and services.</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="../images/slider2.jpg" class="d-block w-100 h-400" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Your Trusted Partner in Healthcare</h1>
+            <h5>Find reliable healthcare solutions and expert advice to meet your medical needs.</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="../images/slider3.jpg" class="d-block w-100 h-400" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>Convenient Online Pharmacy Services</h1>
+            <h5>Get your medications delivered right to your doorstep with our hassle-free online pharmacy.</h5>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-target="#carouselExampleCaptions" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-target="#carouselExampleCaptions" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </button>
+    </div>
+    <br>
     <?php
+    
     //for display Successfully messages
     // if (isset($_SESSION['payment_success'])) {
     //   echo '<div class="success-box" id="successBox">';
@@ -177,7 +225,7 @@ try {
                         <?php
                         } else {
                         ?>
-                          <button type="button" class="btn btn-outline-primary w-100 d-block mx-auto" data-bs-toggle="modal" data-bs-target="#cartModal">
+                          <button type="button" id="AddToCart" class="btn btn-outline-primary w-100 d-block mx-auto" data-bs-toggle="modal" data-bs-target="#cartModal">
                             Add to Cart
                           </button>
 

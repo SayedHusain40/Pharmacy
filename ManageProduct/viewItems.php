@@ -67,14 +67,15 @@ $selectedProductIds = isset($_POST['ProductID']) ? $_POST['ProductID'] : [];
   </head>
 
   <body>
+    
     <?php
-    //for display Successfully messages
-    if (isset($_SESSION['payment_success'])) {
-      echo '<div class="success-box" id="successBox">';
-      echo '<div> <i class= "success-icon fa-solid fa-circle-check" id="iconX"></i>"Payment successful! 🎉 Thank you for your payment!</div>';
-      echo '</div>';
-      unset($_SESSION['payment_success']);
-    }
+    if (isset($_SESSION['AddProduct'])) {
+    echo '<div class="success-box" id="successBox">';
+    echo '<div> <i class= "success-icon fa-solid fa-circle-check" id="iconX"></i>"Product Added successfully! 🎉!</div>';
+    echo '</div>';
+    unset($_SESSION['AddProduct']);
+    } //for display Successfully messages
+
     if ($count > 0) {
     
         echo '<select name="users">';
